@@ -1,14 +1,17 @@
 import { Route, Routes } from "react-router-dom";
-import SplashScreenPage from "./Pages/SplashScreenPage";
+import SplashScreen from "./components/SplashScreen"
+
+// pages
+import HomePage from "./pages/HomePage";
 
 function App(): React.JSX.Element {
 	return (
 		<main>
 			<Routes>
-				<Route path="/" element={<SplashScreenPage />} />
+				<Route path="/" element={<HomePage />} />
 			</Routes>
 		</main>
 	);
 }
 
-export default App;
+export default SplashScreen(App);

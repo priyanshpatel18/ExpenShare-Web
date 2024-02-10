@@ -17,9 +17,34 @@
 	background-color: var(--clr-01-primary);
 }
 
+@keyframes splashScreenOne {
+    0% {
+        transform: scale(0.2);
+    }
+    50% {
+        transform: scale(1);
+    }
+}
+
+@keyframes splashScreenTwo {
+	0% {
+		transform: translateY(0);
+	}
+	100% {
+		transform: translateY(20px);
+	}
+}
+
 .splashScreenPage .img {
-	width: 130px;
-	aspect-ratio: 1;
+    width: 130px;
+    aspect-ratio: 1;
+    animation-name: splashScreenOne, splashScreenTwo;
+    animation-duration: 1s, 650ms;
+    animation-timing-function: ease-in-out, ease-in-out;
+	animation-delay: 0s, 0.5s;
+    animation-fill-mode: forwards, none;
+    animation-iteration-count: 1, infinite;
+    animation-direction: normal, alternate;
 }
 
 .splashScreenPage img {
