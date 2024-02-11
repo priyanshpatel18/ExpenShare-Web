@@ -3,7 +3,7 @@ import SplashScreen from "./components/SplashScreen"
 import RegistrationPage from "./pages/RegistrationPage"
 
 // pages
-import HomePage from "./pages/HomePage";
+// import HomePage from "./pages/HomePage";
 
 function App(): React.JSX.Element {
 	return (
