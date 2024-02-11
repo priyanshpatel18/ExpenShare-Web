@@ -9,7 +9,8 @@ function App(): React.JSX.Element {
 	return (
 		<main>
 			<Routes>
-				<Route path="/" element={<HomePage />} />
+				{/* <Route path="/" element={<HomePage />} /> */}
+				<Route path="/" element={<RegistrationPage />} />
 				<Route path="/registration" element={<RegistrationPage />} />
 			</Routes>
 		</main>
