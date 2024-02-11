@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 * {
 	margin: 0;
 	padding: 0;
@@ -6,11 +7,18 @@
 
 :root {
 	--clr-01-primary: rgb(255, 255, 255);
+	--clr-background: rgb(230, 230, 230);
+
+	--gradient--btn: linear-gradient(120deg, #2faae3 0%, #c968ff 35%, #e680b1 75%, #fb9475 100%);
+}
+
+body {
+	font-family: "Montserrat", sans-serif;
 }
 
 /* Splash Screen Style */
 .splashScreenPage {
-  height: 100vh;
+	height: 100vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -18,12 +26,12 @@
 }
 
 @keyframes splashScreenOne {
-    0% {
-        transform: scale(0.2);
-    }
-    50% {
-        transform: scale(1);
-    }
+	0% {
+		transform: scale(0.2);
+	}
+	50% {
+		transform: scale(1);
+	}
 }
 
 @keyframes splashScreenTwo {
@@ -36,17 +44,186 @@
 }
 
 .splashScreenPage .img {
-    width: 130px;
-    aspect-ratio: 1;
-    animation-name: splashScreenOne, splashScreenTwo;
-    animation-duration: 1s, 650ms;
-    animation-timing-function: ease-in-out, ease-in-out;
+	width: 130px;
+	aspect-ratio: 1;
+	animation-name: splashScreenOne, splashScreenTwo;
+	animation-duration: 1s, 650ms;
+	animation-timing-function: ease-in-out, ease-in-out;
 	animation-delay: 0s, 0.5s;
-    animation-fill-mode: forwards, none;
-    animation-iteration-count: 1, infinite;
-    animation-direction: normal, alternate;
+	animation-fill-mode: forwards, none;
+	animation-iteration-count: 1, infinite;
+	animation-direction: normal, alternate;
 }
 
 .splashScreenPage img {
 	width: 100%;
+}
+
+/* registration/login basic page styles */
+.RegistrationPage {
+	min-height: 100vh;
+	width: 100%;
+	background-color: var(--clr-background);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.RegistrationPage .logo {
+	width: 7rem;
+	margin: 10px;
+}
+
+.RegistrationPage .logo img {
+	width: 100%;
+}
+
+.RegistrationPage .pageTitle {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 10px;
+}
+
+/* registration/login form styles */
+.RegistrationPage .formContainer {
+	width: 500px;
+	border: 1px solid black;
+	padding: 20px 40px;
+	border-radius: 5px;
+	margin-top: 80px;
+	margin-bottom: 80px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.RegisterForm {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 30px 0;
+}
+
+.RegisterForm .inputs {
+	display: flex;
+	flex-direction: column;
+	margin: 10px;
+}
+
+.RegisterForm .inputs input {
+	width: 350px;
+	padding: 15px 30px;
+	margin: 5px 0px;
+	border: none;
+	font-size: 1.2rem;
+	border-radius: 1.4rem;
+}
+
+.RegisterForm .inputs input:focus {
+	outline: 3px solid #ca68ff79;
+}
+
+.RegisterForm .inputCheckbox {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 10px;
+	padding: 0px 10px;
+}
+
+.RegisterForm .inputCheckbox input {
+	width: 15px;
+	height: 15px;
+	margin: 0;
+	outline: none;
+}
+
+.RegisterForm .inputCheckbox label {
+	margin-left: 3px;
+	line-height: 1;
+}
+
+.btn {
+	width: 350px;
+	padding: 15px 30px;
+	margin: 30px 0px;
+	border: none;
+	font-size: 1.8rem;
+	border-radius: 1.8rem;
+	text-transform: uppercase;
+	color: #ffffff;
+	font-weight: 700;
+	letter-spacing: 4px;
+	background: var(--gradient--btn);
+}
+
+/* profile style */
+.profile {
+	width: 7rem;
+	position: relative;
+}
+
+.profile img {
+	width: 100%;
+	border-radius: 50%;
+	aspect-ratio: 1;
+}
+
+.profile [type="file"] {
+	display: none;
+}
+
+.RegistrationPage .profile::before {
+	content: "+";
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	background-color: #ff0000;
+	width: 36px;
+	height: 36px;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 3rem;
+	font-weight: 500;
+	color: #ffffff;
+}
+
+.link {
+	text-decoration: none;
+	color: #c968ff;
+}
+
+.link:active {
+	color: #ff0000;
+}
+
+@media screen and (max-width: 600px) {
+	.RegistrationPage .formContainer {
+		border: none;
+		padding: 20px 0px;
+		margin-top: 0px;
+		margin-bottom: 0px;
+		width: 100vw;
+		height: 100vh;
+	}
+
+	.RegisterForm {
+		width: 90vw;
+	}
+
+	.RegisterForm .inputs input {
+		width: 100%;
+		padding: 20px 30px;
+		margin: 10px 0px;
+		font-size: 1.4rem;
+	}
+
+	.RegisterForm button {
+		width: 90%;
+	}
 }
