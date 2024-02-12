@@ -1,52 +1,208 @@
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
-	--clr-01-primary: rgb(255, 255, 255);
+  --clr-01-primary: rgb(255, 255, 255);
+}
+
+main {
+  min-height: 100%;
+  min-width: 100%;
 }
 
 /* Splash Screen Style */
 .splashScreenPage {
   height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: var(--clr-01-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--clr-01-primary);
 }
 
 @keyframes splashScreenOne {
-    0% {
-        transform: scale(0.2);
-    }
-    50% {
-        transform: scale(1);
-    }
+  0% {
+    transform: scale(0.2);
+  }
+  50% {
+    transform: scale(1);
+  }
 }
 
 @keyframes splashScreenTwo {
-	0% {
-		transform: translateY(0);
-	}
-	100% {
-		transform: translateY(20px);
-	}
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(20px);
+  }
 }
 
 .splashScreenPage .img {
-    width: 130px;
-    aspect-ratio: 1;
-    animation-name: splashScreenOne, splashScreenTwo;
-    animation-duration: 1s, 650ms;
-    animation-timing-function: ease-in-out, ease-in-out;
-	animation-delay: 0s, 0.5s;
-    animation-fill-mode: forwards, none;
-    animation-iteration-count: 1, infinite;
-    animation-direction: normal, alternate;
+  width: 130px;
+  aspect-ratio: 1;
+  animation-name: splashScreenOne, splashScreenTwo;
+  animation-duration: 1s, 650ms;
+  animation-timing-function: ease-in-out, ease-in-out;
+  animation-delay: 0s, 0.5s;
+  animation-fill-mode: forwards, none;
+  animation-iteration-count: 1, infinite;
+  animation-direction: normal, alternate;
 }
 
 .splashScreenPage img {
-	width: 100%;
+  width: 100%;
 }
+
+/*groups page style*/
+.GroupPage {
+  display: flex;
+}
+.right {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/*Home page style*/
+.homePage {
+  display: flex;
+}
+
+.right {
+  /* background-color: aqua; */
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+
+/*Profile page style*/
+
+.Profilepage {
+  display: flex;
+}
+.right {
+  /* background-color: aqua; */
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+
+/*Transaction page style*/
+.transactionpage {
+  display: flex;
+}
+.right {
+  /* background-color: aqua; */
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+
+/*sidebar  style*/
+.container {
+  width: 30%;
+  height: 100vh;
+  position: fixed;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+}
+.left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  height: 100%;
+  background-color: #ffffff;
+  flex-direction: column;
+}
+.right {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+
+.home {
+  display: flex;
+  align-items: center;
+  /* background-color: aqua; */
+  justify-content: space-between;
+}
+.home .tg {
+  width: 70%;
+  /* background-color: blue; */
+}
+.transaction .tg {
+  /* background-color: blue; */
+  width: 70%;
+  /* background-color: blue; */
+}
+.group .tg {
+  /* background-color: blue; */
+  width: 70%;
+  /* background-color: blue; */
+}
+.personal .tg {
+  /* background-color: blue; */
+  width: 70%;
+  /* background-color: blue; */
+}
+.home p {
+  padding: 24px;
+  /* color: ; */
+}
+.transaction p {
+  padding: 24px;
+}
+.group p {
+  padding: 24px;
+}
+.personal p {
+  padding: 24px;
+}
+
+.transaction {
+  display: flex;
+  align-items: center;
+  /* background-color: aqua; */
+  justify-content: space-between;
+}
+.group {
+  display: flex;
+  align-items: center;
+  /* background-color: aqua; */
+  justify-content: space-between;
+}
+.personal {
+  display: flex;
+  align-items: center;
+  /* background-color: aqua; */
+  justify-content: space-between;
+}
+.upper {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.line {
+  width: 4px;
+  background-color: aliceblue;
+  height: 90%;
+  border-radius: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: #d1d1d1;
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+/*groups page style*/
+
+/*groups page style*/
