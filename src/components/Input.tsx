@@ -1,29 +1,36 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 
 interface InputProps {
+	icon: string;
 	type: string;
-	value: string;
 	placeholder: string;
-	setFunction: (value: string) => void;
 	required?: boolean;
+	field: {
+		value: string;
+		onChange: (e: React.ChangeEvent<any>) => void;
+		onBlur: (e: React.FocusEvent<any>) => void;
+	};	
 }
 
-const Input: React.FC<InputProps> = ({ type, value, placeholder, setFunction, required = false }) => {
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setFunction(e.target.value);
-	};
+function Input({
+	icon,
+	type,
+	placeholder,
+	field,
+	required = false,
+}: InputProps): React.JSX.Element {
 
 	return (
 		<div className="inputContainer">
+			<img src={icon} alt="" className="icon" />
 			<input
 				type={type}
-				value={value}
 				placeholder={placeholder}
-				onChange={handleChange}
 				required={required}
+				{...field}
 			/>
 		</div>
 	);
-};
+}
 
 export default Input;

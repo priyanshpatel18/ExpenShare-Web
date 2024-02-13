@@ -1,11 +1,15 @@
 import React from "react";
 
-interface ButtonProps {
+interface buttonProps {
 	value: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ value }) => {
-	return <button type="submit" className="btn">{value}</button>;
-};
+function Button({ value }: buttonProps): React.JSX.Element {
+	return (
+		<button type="submit" className="btn">
+			{value}
+		</button>
+	);
+}
 
 export default Button;

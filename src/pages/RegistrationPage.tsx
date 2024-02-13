@@ -1,19 +1,67 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import logo from "../assets/APP-LOGO-LIGHT-THEME.png";
+import { Link, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+// components
 import Input from "../components/Input";
-import FormSubmitButton from "../components/FormSubmitButton";
+// images
+import welcoemImage from "../assets/welcomePageImage.jpg";
+import logo from "../assets/APP-LOGO-LIGHT-THEME.png";
+// icons
+import email from "../assets/icons/email.svg";
+import password from "../assets/icons/password.svg";
+import user from "../assets/icons/user.svg";
 import profile from "../assets/profile.png";
+import usersStore from "../stores/usersStore"
 
-interface RegistrationPageProps {}
+interface FormValues {
+	email: string;
+	userName: string;
+	password: string;
+	profilePicture: File | null;
+}
 
-const RegistrationPage: React.FC<RegistrationPageProps> = () => {
-	const handleRegistration = () => {
-		// Implement your registration logic here
+function RegistrationPage(): React.JSX.Element {
+	const navigate = useNavigate()
+	const store = usersStore()
+
+	const formik = useFormik<FormValues>({
+		initialValues: {
+			email: "",
+			userName: "",
+			password: "",
+			profilePicture: null,
+		},
+		// validate: registerFormValidation,
+		validateOnBlur: false,
+		validateOnChange: false,
+		onSubmit: async (values) => {
+			// console.log(values);
+			const formData = new FormData();
+			formData.append("email", values.email);	
+			formData.append("userName", values.userName);
+			formData.append("password", values.password);
+			formData.append("profilePicture", values.profilePicture || "");
+			store.sendEmailVerificationMail(formData, navigate);
+		},
+	});
+
+	const onUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		formik.setValues({ ...formik.values, profilePicture: e.target.files ? e.target.files[0] : null });
 	};
 
 	return (
 		<div className="RegistrationPage">
+			<div className="welcome">
+				<div className="welcomeImg">
+					<img src={welcoemImage} alt="welcome image" />
+				</div>
+				<div className="welcomeText">
+					<h2>Know where your money goes</h2>
+					<p>
+						Track your transaction easily with <br /> categories and financial report
+					</p>
+				</div>
+			</div>
 			<div className="formContainer">
 				<div className="pageTitle">
 					<div className="logo">
@@ -21,33 +69,41 @@ const RegistrationPage: React.FC<RegistrationPageProps> = () => {
 					</div>
 					<h2>REGISTER</h2>
 				</div>
-				<form className="RegisterForm" onSubmit={handleRegistration}>
+				<form className="RegisterForm" onSubmit={formik.handleSubmit}>
 					<div className="profile">
 						<label htmlFor="profile">
-							<img src={profile} alt="avatar" className="profileImg" />
-							<input type="file" name="profile" id="profile" />
+							<img
+								src={
+									formik.values.profilePicture
+										? URL.createObjectURL(formik.values.profilePicture)
+										: profile
+								}
+								alt="avatar"
+								className="profileImg"
+							/>
+							<input type="file" name="profile" id="profile" onChange={onUpload} />
 						</label>
 					</div>
 					<div className="inputs">
 						<Input
+							icon={user}
 							type="text"
-							value=""
+							field={formik.getFieldProps("userName")}
 							placeholder="Username"
-							setFunction={(value) => console.log(value)} // Replace with your logic
 							required
 						/>
 						<Input
+							icon={email}
 							type="email"
-							value=""
 							placeholder="Email"
-							setFunction={(value) => console.log(value)} // Replace with your logic
+							field={formik.getFieldProps("email")}
 							required
 						/>
 						<Input
+							icon={password}
 							type="password"
-							value=""
+							field={formik.getFieldProps("password")}
 							placeholder="Password"
-							setFunction={(value) => console.log(value)} // Replace with your logic
 						/>
 					</div>
 					<div className="inputCheckbox">
@@ -58,11 +114,15 @@ const RegistrationPage: React.FC<RegistrationPageProps> = () => {
 							value="termsAndConditions"
 							required
 						/>
-						<label htmlFor="termsAndConditions">Terms & Conditions</label>
+						<label htmlFor="termsAndConditions" className="termsAndConditions">
+							Terms & Conditions
+						</label>
 					</div>
-					<FormSubmitButton value="Register" />
+					<button type="submit" className="btn">
+						REGISTER
+					</button>
 				</form>
-				<p>
+				<p className="navigationText">
 					Already have an Account?{" "}
 					<Link to="/login" className="link">
 						Login Now
@@ -71,6 +131,6 @@ const RegistrationPage: React.FC<RegistrationPageProps> = () => {
 			</div>
 		</div>
 	);
-};
+}
 
 export default RegistrationPage;
