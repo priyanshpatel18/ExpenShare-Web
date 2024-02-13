@@ -57,7 +57,7 @@ export default function OtpVerificationPage() {
 
 				<form className="OtpForm" onSubmit={formik.handleSubmit}>
 					<div className="inputs">
-						{formik.values.OTP.map((box, index) => (
+						{formik.values.OTP.map((_, index) => (
 							<input
 								key={index}
 								type="text"
