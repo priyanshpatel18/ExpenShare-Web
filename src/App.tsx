@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen";
 
-import HomePage from "./pages/HomePagepart/HomePage";
-import Transaction from "./pages/Transaction/Transaction";
-import Groups from "./pages/Groups/Groups";
-import Profile from "./pages/Profile/Profile";
+import HomePage from "./pages/HomePage";
+import Transaction from "./pages/Transaction";
+import Groups from "./pages/Groups";
+import Profile from "./pages/Profile";
 
 // eslint-disable-next-line react-refresh/only-export-components
 function App(): React.JSX.Element {

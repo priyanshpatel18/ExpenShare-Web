@@ -1,6 +1,5 @@
-import React from "react";
-import CommenScreen from "../../components/SideBar";
-import "./Groups.css";
+import CommenScreen from "../components/SideBar";
+
 // import GroupFrame from "./GroupFrame";
 // import { useLocation } from "react-router-dom";
 const Groups = () => {
@@ -9,7 +8,7 @@ const Groups = () => {
   return (
     <div className="GroupPage">
       <CommenScreen></CommenScreen>
-      <div className="right">
+      <div className="d">
         <p>Groups</p>
       </div>
     </div>

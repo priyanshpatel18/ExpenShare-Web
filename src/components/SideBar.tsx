@@ -2,12 +2,22 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/LOGO3.png";
 import Group from "../assets/group.png";
-import Home from "../assets/home.png";
+// import homeactive from "../assets/home-active.png";
 import personal from "../assets/personal.png";
 import transaction from "../assets/transaction.png";
-import "./Common.css";
+import add from "../assets/add.png";
+import plus from "../assets/plus.png";
+import Groupsactive from "../assets/group-active.png";
+import { useLocation } from "react-router-dom";
+import transactive from "../assets/transaction-active.png";
+import homeactive from "../assets/home-active.png";
+import personalactive from "../assets/person-active.png";
+import home from "../assets/home.png";
 
 const CommenScreen = () => {
+  const location = useLocation();
+  const { pathname } = location;
+  console.log(pathname);
   //   let route = ["Home", "transaction", "Groups", "Profile"];
   return (
     <div className="container">
@@ -19,46 +29,89 @@ const CommenScreen = () => {
         </div>
         <div className="lower">
           <div className="home">
-            <div className="im">
-              <img src={Home} alt="" />
-            </div>
-            <div className="tg">
-              <Link to={`/`}>
-                <p className="transaction-link">Home</p>
-              </Link>
-            </div>
+            <Link to={`/`}>
+              <div className="im">
+                {pathname == "/" ? (
+                  <img src={homeactive} alt="" />
+                ) : (
+                  <img src={home} alt="" />
+                )}
+              </div>
+              <div className="tg">
+                <p className={`${pathname == "/" ? "isactive" : ""}`}>
+                  <span className={`${pathname == "/" ? "hlink" : ""}`}>H</span>
+                  ome
+                </p>
+              </div>
+            </Link>
           </div>
           <div className="transaction">
-            <div className="im">
-              {" "}
-              <img src={transaction} alt="" />
-            </div>
-            <div className="tg">
-              <Link to={`/Transaction`}>
-                <p className="transaction-link">Transactions</p>
-              </Link>
-            </div>
+            <Link to={`/Transaction`}>
+              <div className="im">
+                {pathname == "/Transaction" ? (
+                  <img src={transactive} alt="" />
+                ) : (
+                  <img src={transaction} alt="" />
+                )}
+              </div>
+              <div className="tg">
+                <p
+                  className={`${pathname == "/Transaction" ? "isactive" : ""}`}
+                >
+                  <span
+                    className={`${pathname == "/Transaction" ? "tlink" : ""}`}
+                  >
+                    T
+                  </span>
+                  ransactions
+                </p>
+              </div>
+            </Link>
           </div>
+
+          <div className="add">
+            <img src={add} alt="" className="ad" />
+            <img src={plus} alt="" className="plus" />
+          </div>
+
           <div className="group">
-            <div className="im">
-              {" "}
-              <img src={Group} alt="" />
-            </div>
-            <div className="tg">
-              <Link to={`/Groups`}>
-                <p className="transaction-link">Groups</p>
-              </Link>
-            </div>
+            <Link to={`/Groups`}>
+              <div className="im">
+                {" "}
+                {pathname == "/Groups" ? (
+                  <img src={Groupsactive} alt="" />
+                ) : (
+                  <img src={Group} alt="" />
+                )}
+              </div>
+              <div className="tg">
+                <p className={`${pathname == "/Groups" ? "isactive" : ""}`}>
+                  <span className={`${pathname == "/Groups" ? "glink" : ""}`}>
+                    G
+                  </span>
+                  roups
+                </p>
+              </div>
+            </Link>
           </div>
           <div className="personal">
-            <div className="im">
-              <img src={personal} alt="" />
-            </div>
-            <div className="tg">
-              <Link to={`/Profile`}>
-                <p className="transaction-link">Profile</p>
-              </Link>
-            </div>
+            <Link to={`/Profile`}>
+              <div className="im">
+                {pathname == "/Profile" ? (
+                  <img src={personalactive} alt="" />
+                ) : (
+                  <img src={personal} alt="" />
+                )}
+              </div>
+              <div className="tg">
+                <p className={`${pathname == "/Profile" ? "isactive" : ""}`}>
+                  <span className={`${pathname == "/Profile" ? "plink" : ""}`}>
+                    P
+                  </span>
+                  rofile
+                </p>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
