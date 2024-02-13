@@ -33,7 +33,7 @@ const usersStore = create<UsersStore>((set) => ({
 		}
 
 		try {
-			await toast.promise(axios.post("/user/sendVerificationMail", registerFormData), {
+			await toast.promise(axios.post("/user/verifyEmail", registerFormData), {
 				pending: "Processing...",
 				success: "Email sent",
 			});
@@ -53,7 +53,7 @@ const usersStore = create<UsersStore>((set) => ({
 		const OTP = values.OTP.reduce((otp: any, digit: any) => otp + digit, "");
 
 		try {
-			await toast.promise(axios.post("/user/verifyOtp", { inputOtp: OTP }), {
+			await toast.promise(axios.post("/user/verifyOtp", { userOtp : OTP }), {
 				// pending: "Processing...",
 				// success: "OTP Verified",
 			});
