@@ -1,19 +1,23 @@
 import React, { useEffect, useRef } from "react";
-import FormSubmitButton from "../components/FormSubmitButton";
 import { Link, useNavigate } from "react-router-dom";
 import usersStore from "../stores/usersStore";
 import { useFormik } from "formik";
+import { verifyOTPValidation } from "../helper/inputValidation";
 
-export default function OtpVerificationPage() {
+interface FormValues {
+	OTP: string[];
+}
+
+export default function OtpVerificationPage(): React.JSX.Element {
 	const store = usersStore();
 	const navigate = useNavigate();
 	const inputRef = useRef<HTMLInputElement[]>([]);
 
-	const formik = useFormik({
+	const formik = useFormik<FormValues>({
 		initialValues: {
 			OTP: new Array(6).fill(""),
 		},
-		// validate: verifyOTPValidation,
+		validate: verifyOTPValidation,
 		validateOnBlur: false,
 		validateOnChange: false,
 		onSubmit: (values) => {
@@ -74,7 +78,7 @@ export default function OtpVerificationPage() {
 						{/* <button onClick={() => store.sendEmailVerificationMail({}, navigate)}>Resend OTP</button> */}
 					</div>
 
-					<FormSubmitButton value="VERIFY" />
+					<button className="btn">VERIFY</button>
 				</form>
 
 				<p className="navigationText">

@@ -6,14 +6,17 @@ import "./index.css";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from "react-hot-toast";
 axios.defaults.baseURL = "https://expen-share-web-server.vercel.app";
+// axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<App />
-			<ToastContainer position="bottom-left" autoClose={2000} theme="dark"/>
+			<Toaster />
+			<ToastContainer position="bottom-left" autoClose={2000} theme="dark" />
 		</BrowserRouter>
 	</React.StrictMode>,
 );

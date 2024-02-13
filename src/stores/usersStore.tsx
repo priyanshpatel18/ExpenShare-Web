@@ -7,7 +7,12 @@ interface UsersStore {
 	verifyOtp: (values: Object, navigate: (path: string) => void) => Promise<void>;
 	register: (navigate: (path: string) => void) => Promise<void>;
 	login: (formData: Object, navigate: (path: string) => void) => Promise<void>;
-	registerFormData: Object;
+	registerFormData: {
+		email: string;
+		userName: string;
+		password: string;
+		profilePicture: File | null;
+	};
 }
 
 const usersStore = create<UsersStore>((set) => ({
@@ -72,8 +77,16 @@ const usersStore = create<UsersStore>((set) => ({
 	register: async (navigate: any) => {
 		const { registerFormData } = usersStore.getState();
 
+		console.log(registerFormData);
+
+		const formData = new FormData();
+		formData.append("email", registerFormData.email);
+		formData.append("userName", registerFormData.userName);
+		formData.append("password", registerFormData.password);
+		formData.append("profilePicture", registerFormData.profilePicture || "");
+		
 		try {
-			await toast.promise(axios.post("/user/register", registerFormData), {
+			await toast.promise(axios.post("/user/register", formData), {
 				pending: "Processing...",
 				success: "Sucessfully Registerd",
 			});

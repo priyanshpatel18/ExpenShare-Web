@@ -25,7 +25,6 @@ function LoginPage(): React.JSX.Element {
 			userNameOrEmail: "",
 			password: "",
 		},
-		// validate: registerFormValidation,
 		validateOnBlur: false,
 		validateOnChange: false,
 		onSubmit: async (values) => {
@@ -67,10 +66,11 @@ function LoginPage(): React.JSX.Element {
 							type="password"
 							placeholder="Password"
 							field={formik.getFieldProps("password")}
+							required
 						/>
 					</div>
 					<div className="forgotPassword navigationText">
-						<Link to="/registration" className="link">
+						<Link to="/forgotPasswordPage" className="link">
 							Forgot password ?
 						</Link>
 					</div>

@@ -12,6 +12,7 @@ import password from "../assets/icons/password.svg";
 import user from "../assets/icons/user.svg";
 import profile from "../assets/profile.png";
 import usersStore from "../stores/usersStore"
+import { registerFormValidation } from "../helper/inputValidation";
 
 interface FormValues {
 	email: string;
@@ -31,7 +32,7 @@ function RegistrationPage(): React.JSX.Element {
 			password: "",
 			profilePicture: null,
 		},
-		// validate: registerFormValidation,
+		validate: registerFormValidation,
 		validateOnBlur: false,
 		validateOnChange: false,
 		onSubmit: async (values) => {
