@@ -19,8 +19,6 @@ const usersStore = create<UsersStore>((set) => ({
 	},
 
 	sendEmailVerificationMail: async (formData: any = {}, navigate: any) => {
-		const { registerFormData } = usersStore.getState();
-
 		if (formData) {
 			set({
 				registerFormData: {
@@ -31,6 +29,8 @@ const usersStore = create<UsersStore>((set) => ({
 				},
 			});
 		}
+
+		const { registerFormData } = usersStore.getState();
 
 		try {
 			await toast.promise(axios.post("/user/verifyEmail", registerFormData), {
@@ -53,7 +53,7 @@ const usersStore = create<UsersStore>((set) => ({
 		const OTP = values.OTP.reduce((otp: any, digit: any) => otp + digit, "");
 
 		try {
-			await toast.promise(axios.post("/user/verifyOtp", { userOtp : OTP }), {
+			await toast.promise(axios.post("/user/verifyOtp", { userOtp: OTP }), {
 				// pending: "Processing...",
 				// success: "OTP Verified",
 			});
