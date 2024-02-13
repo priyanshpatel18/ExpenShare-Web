@@ -7,7 +7,7 @@ import expense from "../assets/expense.png";
 import CommenScreen from "../components/SideBar";
 function HomePage(): React.JSX.Element {
   return (
-    <div className="homePage">
+    <div className="HomePage">
       <CommenScreen />
       <div className="right">
         <div className="up">

@@ -6,7 +6,6 @@ import Transaction from "./pages/Transaction";
 import Groups from "./pages/Groups";
 import Profile from "./pages/Profile";
 
-// eslint-disable-next-line react-refresh/only-export-components
 function App(): React.JSX.Element {
   return (
     <main>
@@ -20,5 +19,4 @@ function App(): React.JSX.Element {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export default SplashScreen(App);
