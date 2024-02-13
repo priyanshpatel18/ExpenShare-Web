@@ -7,7 +7,8 @@ import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // axios.defaults.baseURL = "http://localhost:8080";
-axios.defaults.baseURL = "https://expen-share-web-server.vercel.app";
+// axios.defaults.baseURL = "https://expen-share-web-server.vercel.app";
+axios.defaults.baseURL = "https://expen-share-web-server-seven.vercel.app";
 axios.defaults.withCredentials = true;
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
