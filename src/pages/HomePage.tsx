@@ -1,6 +1,6 @@
 import React from "react";
 
-function HomePage(): React.ReactElement {
+function HomePage(): React.JSX.Element {
 	return (
 		<div className="HomePage">HomePage</div>
 	);

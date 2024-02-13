@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 * {
 	margin: 0;
 	padding: 0;
@@ -6,11 +7,48 @@
 
 :root {
 	--clr-01-primary: rgb(255, 255, 255);
+	--clr-formbackground: rgb(230, 230, 230);
+
+	--gradient--btn: linear-gradient(120deg, #2faae3 0%, #c968ff 35%, #e680b1 75%, #fb9475 100%);
+	--shdow-primary: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
 
-/* Splash Screen Style */
+body {
+	font-family: "Montserrat", sans-serif;
+}
+
+/* Global elements styles */
+.btn {
+	width: 350px;
+	padding: 10px 30px;
+	margin: 20px 0px;
+	border: none;
+	font-size: 1.5rem;
+	border-radius: 1.8rem;
+	text-transform: uppercase;
+	color: #ffffff;
+	font-weight: 700;
+	letter-spacing: 4px;
+	background: var(--gradient--btn);
+	box-shadow: var(--shdow-primary);
+}
+
+.navigationText {
+	font-size: 0.9rem;
+}
+
+.link {
+	text-decoration: none;
+	color: #c968ff;
+}
+
+.link:active {
+	color: #ff0000;
+}
+
+/* # - Splash Screen Style */
 .splashScreenPage {
-  height: 100vh;
+	height: 100vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -18,12 +56,12 @@
 }
 
 @keyframes splashScreenOne {
-    0% {
-        transform: scale(0.2);
-    }
-    50% {
-        transform: scale(1);
-    }
+	0% {
+		transform: scale(0.2);
+	}
+	50% {
+		transform: scale(1);
+	}
 }
 
 @keyframes splashScreenTwo {
@@ -36,17 +74,303 @@
 }
 
 .splashScreenPage .img {
-    width: 130px;
-    aspect-ratio: 1;
-    animation-name: splashScreenOne, splashScreenTwo;
-    animation-duration: 1s, 650ms;
-    animation-timing-function: ease-in-out, ease-in-out;
+	width: 130px;
+	aspect-ratio: 1;
+	animation-name: splashScreenOne, splashScreenTwo;
+	animation-duration: 1s, 650ms;
+	animation-timing-function: ease-in-out, ease-in-out;
 	animation-delay: 0s, 0.5s;
-    animation-fill-mode: forwards, none;
-    animation-iteration-count: 1, infinite;
-    animation-direction: normal, alternate;
+	animation-fill-mode: forwards, none;
+	animation-iteration-count: 1, infinite;
+	animation-direction: normal, alternate;
 }
 
 .splashScreenPage img {
 	width: 100%;
+}
+
+/* # - registration/login page styles */
+.RegistrationPage,
+.LoginPage,
+.OtpVerificationPage {
+	min-height: 100vh;
+	width: 100%;
+	background-color: var(--clr-01-primary);
+	display: flex;
+	align-items: center;
+	/* justify-content: center; */
+}
+
+/* welcome text and img style */
+.LoginPage .welcome,
+.RegistrationPage .welcome {
+	flex-basis: 50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.LoginPage .welcomeText,
+.RegistrationPage .welcomeText {
+	padding: 10px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.LoginPage .welcomeText h2,
+.RegistrationPage .welcomeText h2 {
+	font-size: 1.8rem;
+}
+
+.LoginPage .welcomeImg,
+.RegistrationPage .welcomeImg {
+	width: 35vw;
+}
+
+.LoginPage .welcomeImg img,
+.RegistrationPage .welcomeImg img {
+	width: 100%;
+}
+
+.RegistrationPage .logo,
+.LoginPage .logo {
+	width: 5rem;
+	margin: 10px;
+}
+
+.RegistrationPage .logo img,
+.LoginPage .logo img {
+	width: 100%;
+}
+
+/* # - registration/login form styles */
+
+/* logo & page title */
+.RegistrationPage .pageTitle,
+.LoginPage .pageTitle,
+.OtpVerificationPage .pageTitle {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 10px;
+}
+
+.OtpVerificationPage h2 {
+	margin-bottom: 15px;
+}
+
+.OtpVerificationPage p {
+	text-align: center;
+}
+
+/* form and container styles */
+.RegistrationPage .formContainer,
+.LoginPage .formContainer,
+.OtpVerificationPage .formContainer {
+	flex-basis: 50%;
+	max-width: 500px;
+	padding: 30px 30px;
+	margin-inline: auto;
+	border-radius: 15px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--clr-formbackground);
+	border: 4px solid white;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.RegisterForm,
+.loginForm {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 15px 0;
+}
+
+/* form inputs style */
+.RegisterForm .inputs,
+.loginForm .inputs {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 10px;
+}
+
+.OtpForm .inputs {
+	display: flex;
+	justify-content: center;
+}
+
+.RegisterForm .inputs input,
+.loginForm .inputs input {
+	width: 350px;
+	padding: 13px 13px 13px 50px;
+	margin: 5px 0px;
+	border: none;
+	font-size: 1rem;
+	border-radius: 0.6rem;
+	box-shadow: var(--shdow-primary);
+}
+
+.RegisterForm .inputs input:focus,
+.loginForm .inputs input:focus,
+.OtpVerificationPage .inputs input:focus {
+	outline: 4px solid #ca68ff79;
+}
+
+.RegisterForm .inputContainer,
+.loginForm .inputContainer {
+	position: relative;
+}
+
+.RegisterForm .inputContainer .icon,
+.loginForm .inputContainer .icon {
+	position: absolute;
+	height: 100%;
+	margin: 0 18px;
+	width: 20px;
+	aspect-ratio: 1;
+	display: flex;
+	justify-content: center;
+}
+
+.OtpVerificationPage input {
+	width: 45px;
+	height: 45px;
+	margin: 20px 5px;
+	padding: 10px;
+	font-size: 1.5rem;
+	border: none;
+	border-radius: 5px;
+	text-align: center;
+	box-shadow: var(--shdow-primary);
+}
+
+.RegisterForm .inputCheckbox,
+.loginForm .inputCheckbox {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 10px;
+	padding: 0px 10px;
+}
+
+.RegisterForm .inputCheckbox input,
+.loginForm .inputCheckbox input {
+	width: 15px;
+	height: 15px;
+	margin: 0;
+	outline: none;
+}
+
+.RegisterForm .inputCheckbox label,
+.loginForm .inputCheckbox label {
+	margin-left: 3px;
+	line-height: 1;
+}
+
+.forgotPassword {
+	width: 100%;
+	padding-left: 10px;
+	text-align: left;
+}
+
+.resedOTP {
+	text-align: right;
+	margin-right: 20px;
+}
+
+.termsAndConditions {
+	font-size: 0.8rem;
+}
+
+/* # - profile component style */
+.profile {
+	width: 7rem;
+	position: relative;
+}
+
+.profile img {
+	width: 100%;
+	border-radius: 50%;
+	aspect-ratio: 1;
+}
+
+.profile [type="file"] {
+	display: none;
+}
+
+.RegistrationPage .profile::before,
+.LoginPage .profile::before {
+	content: "+";
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	background-color: #ff0000;
+	width: 26px;
+	height: 26px;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 2rem;
+	font-weight: 500;
+	color: #ffffff;
+}
+
+@media screen and (max-width: 820px) {
+	.LoginPage .welcome,
+	.RegistrationPage .welcome {
+		display: none;
+		flex-basis: 0%;
+	}
+
+	.RegistrationPage .formContainer,
+	.LoginPage .formContainer,
+	.OtpVerificationPage .formContainer {
+		flex-basis: 100%;
+		max-width: none;
+		width: 100vw;
+		border: none;
+		padding: 20px 0px;
+		margin: 0;
+		margin-bottom: 0px;
+		height: 100vh;
+	}
+
+	.LoginPage .formContainer,
+	.RegistrationPage .formContainer {
+		justify-content: flex-start;
+		padding-top: 5vh;
+	}
+
+	.OtpVerificationPage .formContainer {
+		justify-content: flex-start;
+		padding-top: 15vh;
+	}
+
+	.RegisterForm,
+	.loginForm {
+		max-width: 90vw;
+	}
+
+	.RegisterForm .inputs input,
+	.loginForm .inputs input {
+		max-width: 90vw;
+		padding: 15px 15px 15px 50px;
+		margin: 8px 0px;
+		font-size: 1.3rem;
+	}
+
+	.RegisterForm button,
+	.loginForm button {
+		max-width: 90vw;
+	}
 }
