@@ -26,8 +26,7 @@ function ForgotPasswordPage(): React.JSX.Element {
 		validateOnBlur: false,
 		validateOnChange: false,
 		onSubmit: async (values) => {
-			console.log(values);
-			store.login(values, navigate);
+			store.sendPasswordRecoveryMail(values, navigate);
 		},
 	});
 
@@ -35,10 +34,11 @@ function ForgotPasswordPage(): React.JSX.Element {
 		<div className="ForgotPasswordPage">
 			<div className="formContainer">
 				<div className="pageTitle">
-					<div className="logo">
+					{/* <div className="logo">
 						<img src={logo} alt="" />
-					</div>
+					</div> */}
 					<h2>Reset Password</h2>
+					<p>If the account exists, we'll email you OTP to reset the password.</p>
 				</div>
 				<form className="ForgotPasswordForm" onSubmit={formik.handleSubmit}>
 					<div className="inputs">

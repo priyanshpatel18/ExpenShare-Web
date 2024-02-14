@@ -36,13 +36,12 @@ function RegistrationPage(): React.JSX.Element {
 		validateOnBlur: false,
 		validateOnChange: false,
 		onSubmit: async (values) => {
-			// console.log(values);
 			const formData = new FormData();
 			formData.append("email", values.email);	
 			formData.append("userName", values.userName);
 			formData.append("password", values.password);
 			formData.append("profilePicture", values.profilePicture || "");
-			store.sendEmailVerificationMail(formData, navigate);
+			store.sendRegisterVerificationMail(formData, navigate);
 		},
 	});
 
