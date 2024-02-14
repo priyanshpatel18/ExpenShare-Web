@@ -7,22 +7,9 @@ interface UsersStore {
 	verifyOtp: (values: Object, navigate: (path: string) => void) => Promise<void>;
 	register: (navigate: (path: string) => void) => Promise<void>;
 	login: (formData: Object, navigate: (path: string) => void) => Promise<void>;
-	registerFormData: {
-		email: string;
-		userName: string;
-		password: string;
-		profilePicture: File | null;
-	};
 }
 
 const usersStore = create<UsersStore>(() => ({
-	registerFormData: {
-		email: "aayush",
-		userName: "aayush",
-		password: "aayush",
-		profilePicture: null,
-	},
-
 	sendEmailVerificationMail: async (formData: FormData, navigate: any) => {
 		try {
 			await toast.promise(axios.post("/user/sendVerificationMail", formData), {
