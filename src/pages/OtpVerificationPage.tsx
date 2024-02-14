@@ -78,7 +78,7 @@ export default function OtpVerificationPage(): React.JSX.Element {
 						{/* <button onClick={() => store.sendEmailVerificationMail({}, navigate)}>Resend OTP</button> */}
 					</div>
 
-					<button className="btn">VERIFY</button>
+					<button className="btn" type="submit">VERIFY</button>
 				</form>
 
 				<p className="navigationText">
