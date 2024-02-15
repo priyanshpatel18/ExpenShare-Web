@@ -13,6 +13,7 @@ import logo from "../assets/LOGO3.png";
 // import { useState } from "react";
 
 import Addtransaction from "./Addtransaction";
+import { Link } from "react-router-dom";
 function HomePage(): React.JSX.Element {
   const universalsex: number = 0.5;
 
@@ -48,7 +49,7 @@ function HomePage(): React.JSX.Element {
     return animation.stop;
   }, []);
 
-  const myref = useRef<HTMLDivElement>();
+  const myref = useRef<HTMLDivElement>(null);
   // const myref2 = useRef<HTMLDivElement>();
   //   let route = ["Home", "transaction", "Groups", "Profile"];
   const [isclick, setisclick] = useState(false);

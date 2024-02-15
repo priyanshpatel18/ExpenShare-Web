@@ -4,7 +4,7 @@ import Addtransaction from "./Addtransaction";
 import add from "../assets/add.png";
 import { useRef, useState } from "react";
 const Transaction = () => {
-  const myref = useRef<HTMLDivElement>();
+  const myref = useRef<HTMLDivElement>(null);
   const [isclick, setisclick] = useState(false);
   const changepage = () => {
     if (myref.current) {

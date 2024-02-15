@@ -1,20 +1,21 @@
-import React, { useRef } from "react";
+import React, { LegacyRef, MutableRefObject, Ref, RefObject, useRef } from "react";
 import leftarrow from "../assets/arrow-left.png";
 import { motion } from "framer-motion";
 
 interface df {
-  myref: React.MutableRefObject<HTMLDivElement | undefined>;
+  myref: RefObject<HTMLDivElement>;
   changepage2: () => void;
 }
 
 const Addtransaction = (props: df) => {
   const { myref, changepage2 } = props;
-  const myref_left = useRef<HTMLDivElement>();
-  const myref_right = useRef<HTMLDivElement>();
-  const myref_in_btn = useRef<HTMLDivElement>();
-  const myref_ex_btn = useRef<HTMLDivElement>();
-  const tsp_down_input = useRef<HTMLDivElement>();
-  const myref_second_part = useRef<HTMLDivElement>();
+  const myref_left: MutableRefObject<HTMLDivElement | null> = useRef(null);
+  const myref_right: MutableRefObject<HTMLDivElement | null> = useRef(null);
+  const myref_in_btn: Ref<HTMLButtonElement> = useRef(null);
+  const myref_ex_btn: Ref<HTMLButtonElement> = useRef(null);
+  const tsp_down_input: LegacyRef<HTMLInputElement> = useRef(null);
+  const myref_second_part: MutableRefObject<HTMLDivElement | null> =
+    useRef(null);
 
   const income = {
     backround: "#2ABD42",
@@ -42,9 +43,7 @@ const Addtransaction = (props: df) => {
       tsp_down_input.current.style.backgroundColor = income.backround;
     }
   };
-  const swichtoexpense = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
-
+  const swichtoexpense = () => {
     if (
       myref_second_part.current &&
       myref_in_btn.current &&

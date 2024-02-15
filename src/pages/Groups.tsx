@@ -7,7 +7,7 @@ import add from "../assets/add.png";
 // import GroupFrame from "./GroupFrame";
 // import { useLocation } from "react-router-dom";
 const Groups = () => {
-  const myref = useRef<HTMLDivElement>();
+  const myref = useRef<HTMLDivElement>(null);
   const [isclick, setisclick] = useState(false);
   const changepage = () => {
     if (myref.current) {

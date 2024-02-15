@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 
 import Addtransaction from "./Addtransaction";
 const Profile = () => {
-  const myref = useRef<HTMLDivElement>();
+  const myref = useRef<HTMLDivElement>(null);
   const [isclick, setisclick] = useState(false);
   const changepage = () => {
     if (myref.current) {
