@@ -1,22 +1,28 @@
 import axios from "axios";
 import { create } from "zustand";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
+
 
 interface UsersStore {
-	sendEmailVerificationMail: (formData: FormData, navigate: (path: string) => void) => Promise<void>;
-	verifyOtp: (values: Object, navigate: (path: string) => void) => Promise<void>;
+	sendRegisterVerificationMail: (formData: FormData, navigate: (path: string) => void) => Promise<void>;
+	verifyRegisterOtp: (values: Object, navigate: (path: string) => void) => Promise<void>;
 	register: (navigate: (path: string) => void) => Promise<void>;
 	login: (formData: Object, navigate: (path: string) => void) => Promise<void>;
 }
 
 const usersStore = create<UsersStore>(() => ({
-	sendEmailVerificationMail: async (formData: FormData, navigate: any) => {
+	sendRegisterVerificationMail: async (formData: FormData, navigate: any) => {
 		try {
 			await toast.promise(axios.post("/user/sendVerificationMail", formData), {
 				pending: "Processing...",
 				success: "Email sent",
 			});
-			navigate("/OtpVerification");
+			const email = formData.get("email") as string | null;
+			if (email) {
+				Cookies.set("userEmail", email);
+			}
+			navigate("/registerOtpVerificationPage");
 		} catch (error: any) {
 			if (error.response) {
 				toast.error(error.response.data);
@@ -27,7 +33,7 @@ const usersStore = create<UsersStore>(() => ({
 		}
 	},
 
-	verifyOtp: async (values: any, navigate: any) => {
+	verifyRegisterOtp: async (values: any, navigate: any) => {
 		const { register } = usersStore.getState();
 		const OTP = values.OTP.reduce((otp: any, digit: any) => otp + digit, "");
 
@@ -36,9 +42,11 @@ const usersStore = create<UsersStore>(() => ({
 				// pending: "Processing...",
 				// success: "OTP Verified",
 			});
+			Cookies.remove("userEmail");
 			await register(navigate);
 			return;
 		} catch (error: any) {
+			Cookies.remove("userEmail");
 			if (error.response) {
 				toast.error(error.response.data);
 				return;

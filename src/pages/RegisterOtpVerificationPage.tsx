@@ -8,7 +8,7 @@ interface FormValues {
 	OTP: string[];
 }
 
-export default function OtpVerificationPage(): React.JSX.Element {
+export default function RegisterOtpVerificationPage(): React.JSX.Element {
 	const store = usersStore();
 	const navigate = useNavigate();
 	const inputRef = useRef<HTMLInputElement[]>([]);
@@ -21,7 +21,7 @@ export default function OtpVerificationPage(): React.JSX.Element {
 		validateOnBlur: false,
 		validateOnChange: false,
 		onSubmit: (values) => {
-			store.verifyOtp(values, navigate);
+			store.verifyRegisterOtp(values, navigate);
 		},
 	});
 
@@ -78,7 +78,9 @@ export default function OtpVerificationPage(): React.JSX.Element {
 						{/* <button onClick={() => store.sendEmailVerificationMail({}, navigate)}>Resend OTP</button> */}
 					</div>
 
-					<button className="btn" type="submit">VERIFY</button>
+					<button className="btn" type="submit">
+						VERIFY
+					</button>
 				</form>
 
 				<p className="navigationText">
