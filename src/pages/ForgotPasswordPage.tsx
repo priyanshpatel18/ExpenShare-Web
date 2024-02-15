@@ -1,11 +1,10 @@
+import { useFormik } from "formik";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
 import usersStore from "../stores/usersStore";
 // components
 import Input from "../components/Input";
 // images
-import logo from "../assets/APP-LOGO-LIGHT-THEME.png";
 // icons
 import email from "../assets/icons/email.svg";
 import { forgotPasswordValidation } from "../helper/inputValidation";

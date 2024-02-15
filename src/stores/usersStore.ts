@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { create } from "zustand";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
@@ -9,8 +9,15 @@ interface UsersStore {
 	verifyResetPasswordOtp: (values: Object, navigate: (path: string) => void) => Promise<void>;
 	register: (navigate: (path: string) => void) => Promise<void>;
 	login: (formData: Object, navigate: (path: string) => void) => Promise<void>;
-	sendPasswordRecoveryMail: (values: { email : string }, navigate: (path: string) => void) => Promise<void>;
+	sendPasswordRecoveryMail: (values: { email: string }, navigate: (path: string) => void) => Promise<void>;
 	resetPassword: (values: Object, navigate: (path: string) => void) => Promise<void>;
+	getUserData: (navigate: (path: string) => void) => Promise<{
+		email: string;
+		password: string;
+		profilePicture: string;
+		publicId: string;
+		userName: string;
+	} | undefined >;
 }
 
 const usersStore = create<UsersStore>(() => ({
@@ -26,9 +33,6 @@ const usersStore = create<UsersStore>(() => ({
 			}
 			navigate("/registerOtpVerificationPage");
 		} catch (error: any) {
-
-			console.log(error);
-			
 			if (error.response) {
 				toast.error(error.response.data);
 				return;
@@ -97,13 +101,13 @@ const usersStore = create<UsersStore>(() => ({
 		}
 	},
 
-	sendPasswordRecoveryMail: async (values: { email : string }, navigate: any) => {
+	sendPasswordRecoveryMail: async (values: { email: string }, navigate: any) => {
 		try {
 			await toast.promise(axios.post("/user/sendMail", values), {
 				pending: "Processing...",
 				success: "Email sent",
 			});
-			
+
 			if (values.email) {
 				Cookies.set("userEmail", values.email);
 			}
@@ -148,6 +152,28 @@ const usersStore = create<UsersStore>(() => ({
 			});
 			navigate("/login");
 		} catch (error: any) {
+			if (error.response) {
+				toast.error(error.response.data);
+				return;
+			}
+			toast.error("Internal server error");
+			return;
+		}
+	},
+
+	getUserData: async (navigate: any) => {
+		try {
+			const response = await axios.get("/user");
+			const data = response.data.user as {
+				email: string;
+				password: string;
+				profilePicture: string;
+				publicId: string;
+				userName: string;
+			};
+			return data;
+		} catch (error: any) {
+			navigate("/login")
 			if (error.response) {
 				toast.error(error.response.data);
 				return;
