@@ -8,19 +8,20 @@ import add from "../assets/add.png";
 import CommenScreen from "../components/SideBar";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import logo from "../assets/LOGO3.png";
-import { Link, useLocation } from "react-router-dom";
+
 // import { useRef, useState } from "react";
 // import { useState } from "react";
-import leftarrow from "../assets/arrow-left.png";
+
 import Addtransaction from "./Addtransaction";
 function HomePage(): React.JSX.Element {
   const universalsex: number = 0.5;
-  const location = useLocation();
 
-  const { pathname } = location;
-  const [credit, setcredit] = useState(50000);
-  const [incomee, setincome] = useState(4000);
-  const [expensee, setexpense] = useState(8000);
+  // const [credit, setcredit] = useState(50000);
+  // const [incomee, setincome] = useState(4000);
+  // const [expensee, setexpense] = useState(8000);
+  const credit = 50000;
+  const incomee = 4000;
+  const expensee = 8000;
   const count = useMotionValue(0);
   const count2 = useMotionValue(0);
   const count3 = useMotionValue(0);
