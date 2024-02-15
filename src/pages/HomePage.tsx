@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 // import "./Homepage.css";
-import income from "../assets/income.png";
-import noting from "../assets/nothing.png";
-import expense from "../assets/expense.png";
+import income from "../assets/upArrow.png";
+import noting from "../assets/wallet.png";
+import expense from "../assets/downArrow.png";
 import food from "../assets/food.png";
-import add from "../assets/add.png";
-import CommenScreen from "../components/SideBar";
+import add from "../assets/addButton.png";
+import Sidebar from "../components/SideBar";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import logo from "../assets/LOGO3.png";
 
@@ -73,7 +73,7 @@ function HomePage(): React.JSX.Element {
   const expenses = ["food", "entertainment", "petshop", "haircut"];
   return (
     <div className="HomePage">
-      <CommenScreen />
+      <Sidebar />
       <Addtransaction {...props}></Addtransaction>
       <div className="right">
         <motion.div className="add">
@@ -96,8 +96,10 @@ function HomePage(): React.JSX.Element {
               </div>
               <div className="c3">
                 <div className="income">
-                  <div>
-                    <img src={income} alt="" />
+                  <div className="incomelayer">
+                    <div>
+                      <img src={income} alt="" />
+                    </div>
                   </div>
                   <div className="incomevalue">
                     <div>
@@ -111,8 +113,10 @@ function HomePage(): React.JSX.Element {
                 </div>
 
                 <div className="expense">
-                  <div>
-                    <img src={expense} alt="" />
+                  <div className="expenselayer">
+                    <div>
+                      <img src={expense} alt="" />
+                    </div>
                   </div>
                   <div className="expensevalue">
                     <div>

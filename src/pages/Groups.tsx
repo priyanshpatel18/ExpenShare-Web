@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import CommenScreen from "../components/SideBar";
+import Sidebar from "../components/SideBar";
 import Addtransaction from "./Addtransaction";
 import { useRef, useState } from "react";
-import add from "../assets/add.png";
+import add from "../assets/addButton.png";
 
 // import GroupFrame from "./GroupFrame";
 // import { useLocation } from "react-router-dom";
@@ -27,7 +27,7 @@ const Groups = () => {
   };
   return (
     <div className="GroupPage">
-      <CommenScreen></CommenScreen>
+      <Sidebar></Sidebar>
       <Addtransaction {...props}></Addtransaction>
       <div className="d">
         <motion.div className="add">

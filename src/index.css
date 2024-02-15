@@ -852,7 +852,11 @@ body {
   display: flex;
   align-items: center;
 }
-
+.logo-cont img {
+  width: 130px;
+  border: 3px solid rgb(45, 45, 45);
+  border-radius: 50%;
+}
 .Transaction-circle img {
   width: 25px;
 }
@@ -1069,11 +1073,14 @@ body {
   .side2 {
     display: none;
   }
+
   .txt img {
     position: fixed;
     top: 21px;
     width: 59px;
     left: 37px;
+    border: 2px solid;
+    border-radius: 50%;
   }
   .down {
     width: 100%;

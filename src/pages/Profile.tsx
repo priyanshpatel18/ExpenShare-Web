@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import CommenScreen from "../components/SideBar";
-import add from "../assets/add.png";
+import Sidebar from "../components/SideBar";
+import add from "../assets/addButton.png";
 import { useRef, useState } from "react";
 
 import Addtransaction from "./Addtransaction";
@@ -25,7 +25,7 @@ const Profile = () => {
   };
   return (
     <div className="Profilepage">
-      <CommenScreen></CommenScreen>
+      <Sidebar></Sidebar>
       <Addtransaction {...props} />
       <div className="ProfileSide">
         <motion.div className="add">
