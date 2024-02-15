@@ -5,20 +5,20 @@ import Group from "../assets/group.png";
 // import homeactive from "../assets/home-active.png";
 import personal from "../assets/personal.png";
 import transaction from "../assets/transaction.png";
-import add from "../assets/add.png";
-import plus from "../assets/plus.png";
+
+// import plus from "../assets/plus.png";
 import Groupsactive from "../assets/group-active.png";
 import { useLocation } from "react-router-dom";
 import transactive from "../assets/transaction-active.png";
 import homeactive from "../assets/home-active.png";
-import personalactive from "../assets/person-active.png";
+import personalactive from "../assets/personal-active.png";
 import home from "../assets/home.png";
+import { motion } from "framer-motion";
 
 const CommenScreen = () => {
   const location = useLocation();
   const { pathname } = location;
-  console.log(pathname);
-  //   let route = ["Home", "transaction", "Groups", "Profile"];
+
   return (
     <div className="container">
       <div className="left">
@@ -28,91 +28,104 @@ const CommenScreen = () => {
           </div>
         </div>
         <div className="lower">
-          <div className="home">
-            <Link to={`/`}>
-              <div className="im">
+          <motion.div
+            className="home"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            <Link to={`/`} className="aa">
+              <motion.div className="im">
                 {pathname == "/" ? (
                   <img src={homeactive} alt="" />
                 ) : (
                   <img src={home} alt="" />
                 )}
-              </div>
-              <div className="tg">
+              </motion.div>
+              <motion.div className="tg">
                 <p className={`${pathname == "/" ? "isactive" : ""}`}>
-                  <span className={`${pathname == "/" ? "hlink" : ""}`}>H</span>
+                  <span className={`${pathname == "/" ? "" : ""}`}>H</span>
                   ome
                 </p>
-              </div>
+              </motion.div>
             </Link>
-          </div>
-          <div className="transaction">
-            <Link to={`/Transaction`}>
-              <div className="im">
+          </motion.div>
+          <motion.div
+            className="transaction"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            <Link className="aa" to={`/Transaction`}>
+              <motion.div className="im">
                 {pathname == "/Transaction" ? (
                   <img src={transactive} alt="" />
                 ) : (
                   <img src={transaction} alt="" />
                 )}
-              </div>
-              <div className="tg">
+              </motion.div>
+              <motion.div className="tg">
                 <p
                   className={`${pathname == "/Transaction" ? "isactive" : ""}`}
                 >
-                  <span
-                    className={`${pathname == "/Transaction" ? "tlink" : ""}`}
-                  >
+                  <span className={`${pathname == "/Transaction" ? "" : ""}`}>
                     T
                   </span>
                   ransactions
                 </p>
-              </div>
+              </motion.div>
             </Link>
-          </div>
+          </motion.div>
 
-          <div className="add">
-            <img src={add} alt="" className="ad" />
-            <img src={plus} alt="" className="plus" />
-          </div>
-
-          <div className="group">
-            <Link to={`/Groups`}>
-              <div className="im">
+          <motion.div
+            className="group"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            <Link to={`/Groups`} className="aa">
+              <motion.div className="im">
                 {" "}
                 {pathname == "/Groups" ? (
                   <img src={Groupsactive} alt="" />
                 ) : (
                   <img src={Group} alt="" />
                 )}
-              </div>
-              <div className="tg">
+              </motion.div>
+              <motion.div className="tg">
                 <p className={`${pathname == "/Groups" ? "isactive" : ""}`}>
-                  <span className={`${pathname == "/Groups" ? "glink" : ""}`}>
+                  <span className={`${pathname == "/Groups" ? "" : ""}`}>
                     G
                   </span>
                   roups
                 </p>
-              </div>
+              </motion.div>
             </Link>
-          </div>
-          <div className="personal">
-            <Link to={`/Profile`}>
-              <div className="im">
+          </motion.div>
+          <motion.div
+            className="personal"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            <Link to={`/Profile`} className="aa">
+              <motion.div className="im">
                 {pathname == "/Profile" ? (
                   <img src={personalactive} alt="" />
                 ) : (
                   <img src={personal} alt="" />
                 )}
-              </div>
-              <div className="tg">
+              </motion.div>
+              <motion.div className="tg">
                 <p className={`${pathname == "/Profile" ? "isactive" : ""}`}>
-                  <span className={`${pathname == "/Profile" ? "plink" : ""}`}>
+                  <span className={`${pathname == "/Profile" ? "" : ""}`}>
                     P
                   </span>
                   rofile
                 </p>
-              </div>
+              </motion.div>
             </Link>
-          </div>
+          </motion.div>
         </div>
       </div>
       <div className="line"></div>

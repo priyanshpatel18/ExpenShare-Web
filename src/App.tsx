@@ -16,8 +16,10 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 function App(): React.JSX.Element {
   return (
     <main>
+      {" "}
       <Routes>
         <Route path="/" element={<HomePage />} />
+
         <Route path="/registration" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/OtpVerification" element={<OtpVerificationPage />} />
