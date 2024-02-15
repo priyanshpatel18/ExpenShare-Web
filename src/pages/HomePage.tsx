@@ -76,12 +76,7 @@ function HomePage(): React.JSX.Element {
       <CommenScreen />
       <Addtransaction {...props}></Addtransaction>
       <div className="right">
-        <motion.div
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.8 }}
-          transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          className="add"
-        >
+        <motion.div className="add">
           <img src={add} alt="" className="ad" onClick={changepage} />
         </motion.div>
         <div className="up">

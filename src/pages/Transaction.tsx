@@ -27,12 +27,7 @@ const Transaction = () => {
       <CommenScreen />
       <Addtransaction {...props} />
       <div className="e">
-        <motion.div
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.8 }}
-          transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          className="add"
-        >
+        <motion.div className="add">
           <img src={add} alt="" className="ad" onClick={changepage} />
         </motion.div>
         <p>transaction </p>
