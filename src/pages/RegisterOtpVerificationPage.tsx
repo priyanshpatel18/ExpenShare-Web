@@ -1,14 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import usersStore from "../stores/usersStore";
 import { useFormik } from "formik";
 import { verifyOTPValidation } from "../helper/inputValidation";
+import Cookies from "js-cookie";
 
 interface FormValues {
 	OTP: string[];
 }
 
-export default function OtpVerificationPage(): React.JSX.Element {
+export default function RegisterOtpVerificationPage(): React.JSX.Element {
+	const [userEmail, setUserEmail] = useState("");
 	const store = usersStore();
 	const navigate = useNavigate();
 	const inputRef = useRef<HTMLInputElement[]>([]);
@@ -21,7 +23,7 @@ export default function OtpVerificationPage(): React.JSX.Element {
 		validateOnBlur: false,
 		validateOnChange: false,
 		onSubmit: (values) => {
-			store.verifyOtp(values, navigate);
+			store.verifyRegisterOtp(values, navigate);
 		},
 	});
 
@@ -31,6 +33,10 @@ export default function OtpVerificationPage(): React.JSX.Element {
 		if (firstInput && !firstInput.value) {
 			firstInput.focus();
 		}
+
+		// geting users email id from cookie
+		const userEmailcookie = Cookies.get("userEmail");
+		setUserEmail(userEmailcookie ?? "");
 	}, []);
 
 	function handleChange(e: React.ChangeEvent<HTMLInputElement>, index: number) {
@@ -56,7 +62,7 @@ export default function OtpVerificationPage(): React.JSX.Element {
 			<div className="formContainer">
 				<div className="pageTitle">
 					<h2>OTP Verification</h2>
-					<p>An email has been sent to {"var(email)"}. Enter below the 6 digit OTP</p>
+					<p>One Time Password (OTP) has been sent via Email to {userEmail}</p>
 				</div>
 
 				<form className="OtpForm" onSubmit={formik.handleSubmit}>
@@ -78,13 +84,15 @@ export default function OtpVerificationPage(): React.JSX.Element {
 						{/* <button onClick={() => store.sendEmailVerificationMail({}, navigate)}>Resend OTP</button> */}
 					</div>
 
-					<button className="btn" type="submit">VERIFY</button>
+					<button className="btn" type="submit">
+						VERIFY
+					</button>
 				</form>
 
 				<p className="navigationText">
-					Move to{" "}
-					<Link to="/login" className="link">
-						Login Page
+					Move to register ?{" "}
+					<Link to="/registration" className="link">
+						Registeraton Page
 					</Link>
 				</p>
 			</div>

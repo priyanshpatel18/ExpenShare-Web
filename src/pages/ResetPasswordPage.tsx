@@ -28,9 +28,7 @@ function ResetPasswordPage(): React.JSX.Element {
 		validateOnBlur: false,
 		validateOnChange: false,
 		onSubmit: async (values) => {
-			console.log(values);
-
-			store.login(values, navigate);
+			store.resetPassword(values, navigate);
 		},
 	});
 
@@ -65,7 +63,7 @@ function ResetPasswordPage(): React.JSX.Element {
 					</button>
 				</form>
 				<p className="navigationText">
-					Move to{" "}
+					Move to login page?{" "}
 					<Link to="/login" className="link">
 						Login Page
 					</Link>
