@@ -42,7 +42,7 @@ function RegistrationPage(): React.JSX.Element {
 			formData.append("userName", values.userName);
 			formData.append("password", values.password);
 			formData.append("profilePicture", values.profilePicture || "");
-			store.sendEmailVerificationMail(formData, navigate);
+			store.sendRegisterVerificationMail(formData, navigate);
 		},
 	});
 
