@@ -7,38 +7,12 @@ interface UsersStore {
 	verifyOtp: (values: Object, navigate: (path: string) => void) => Promise<void>;
 	register: (navigate: (path: string) => void) => Promise<void>;
 	login: (formData: Object, navigate: (path: string) => void) => Promise<void>;
-	registerFormData: {
-		email: string;
-		userName: string;
-		password: string;
-		profilePicture: File | null;
-	};
 }
 
-const usersStore = create<UsersStore>((set) => ({
-	registerFormData: {
-		email: "",
-		userName: "",
-		password: "",
-		profilePicture: null,
-	},
-
-	sendEmailVerificationMail: async (formData: any = {}, navigate: any) => {
-		if (formData) {
-			set({
-				registerFormData: {
-					email: formData.get("email"),
-					userName: formData.get("userName"),
-					password: formData.get("password"),
-					profilePicture: formData.get("profilePicture"),
-				},
-			});
-		}
-
-		const { registerFormData } = usersStore.getState();
-
+const usersStore = create<UsersStore>(() => ({
+	sendEmailVerificationMail: async (formData: FormData, navigate: any) => {
 		try {
-			await toast.promise(axios.post("/user/verifyEmail", registerFormData), {
+			await toast.promise(axios.post("/user/sendVerificationMail", formData), {
 				pending: "Processing...",
 				success: "Email sent",
 			});
@@ -75,22 +49,12 @@ const usersStore = create<UsersStore>((set) => ({
 	},
 
 	register: async (navigate: any) => {
-		const { registerFormData } = usersStore.getState();
-
-		console.log(registerFormData);
-
-		const formData = new FormData();
-		formData.append("email", registerFormData.email);
-		formData.append("userName", registerFormData.userName);
-		formData.append("password", registerFormData.password);
-		formData.append("profilePicture", registerFormData.profilePicture || "");
-		
 		try {
-			await toast.promise(axios.post("/user/register", formData), {
+			await toast.promise(axios.post("/user/register"), {
 				pending: "Processing...",
 				success: "Sucessfully Registerd",
 			});
-			await setTimeout(() => navigate("/login"), 1000);
+			setTimeout(() => navigate("/"), 1000);
 			return;
 		} catch (error: any) {
 			if (error.response) {
