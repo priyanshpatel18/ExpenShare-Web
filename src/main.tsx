@@ -1,12 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import App from "./App.js";
-import "./index.css";
 import axios from "axios";
+import ReactDOM from "react-dom/client";
+import { Toaster } from "react-hot-toast";
+import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Toaster } from "react-hot-toast";
+import App from "./App.js";
+import "./index.css";
 axios.defaults.baseURL = "https://expen-share-web-server.vercel.app";
 axios.defaults.withCredentials = true;
 
