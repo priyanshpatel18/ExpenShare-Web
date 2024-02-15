@@ -1,7 +1,7 @@
-import axios, { AxiosResponse } from "axios";
-import { create } from "zustand";
-import { toast } from "react-toastify";
+import axios from "axios";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import { create } from "zustand";
 
 interface UsersStore {
 	sendRegisterVerificationMail: (formData: FormData, navigate: (path: string) => void) => Promise<void>;
