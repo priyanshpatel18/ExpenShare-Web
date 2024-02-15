@@ -1,12 +1,12 @@
-// import React from "react";
+
 import { Link } from "react-router-dom";
 import logo from "../assets/LOGO3.png";
 import Group from "../assets/group.png";
-// import homeactive from "../assets/home-active.png";
+
 import personal from "../assets/user.png";
 import transaction from "../assets/transaction.png";
 
-// import plus from "../assets/plus.png";
+
 import Groupsactive from "../assets/groupSelected.png";
 import { useLocation } from "react-router-dom";
 import transactive from "../assets/transactionSelected.png";

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-// import "./Homepage.css";
+
 import income from "../assets/upArrow.png";
 import noting from "../assets/wallet.png";
 import expense from "../assets/downArrow.png";
@@ -9,17 +9,11 @@ import Sidebar from "../components/SideBar";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import logo from "../assets/LOGO3.png";
 
-// import { useRef, useState } from "react";
-// import { useState } from "react";
-
 import Addtransaction from "./Addtransaction";
 import { Link } from "react-router-dom";
 function HomePage(): React.JSX.Element {
   const universalsex: number = 0.5;
 
-  // const [credit, setcredit] = useState(50000);
-  // const [incomee, setincome] = useState(4000);
-  // const [expensee, setexpense] = useState(8000);
   const credit = 50000;
   const incomee = 4000;
   const expensee = 8000;
@@ -50,8 +44,7 @@ function HomePage(): React.JSX.Element {
   }, []);
 
   const myref = useRef<HTMLDivElement>(null);
-  // const myref2 = useRef<HTMLDivElement>();
-  //   let route = ["Home", "transaction", "Groups", "Profile"];
+
   const [isclick, setisclick] = useState(false);
   const changepage = () => {
     if (myref.current) {
