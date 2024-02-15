@@ -1,4 +1,4 @@
-import React, { LegacyRef, MutableRefObject, Ref, RefObject, useRef } from "react";
+import { LegacyRef, MutableRefObject, Ref, RefObject, useRef } from "react";
 import leftarrow from "../assets/arrow-left.png";
 import { motion } from "framer-motion";
 
