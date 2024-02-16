@@ -9,7 +9,7 @@ import logos from "../assets/APP-LOGO-LIGHT.png";
 // icons
 import email from "../assets/email.png";
 import password from "../assets/password.png";
-import user from "../assets/user.png";
+import user from "../assets/username.png";
 import profile from "../assets/profile.png";
 import usersStore from "../stores/usersStore";
 import { registerFormValidation } from "../helper/inputValidation";

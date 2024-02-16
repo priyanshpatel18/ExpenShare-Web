@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import leftarrow from "../assets/arrow-left.png";
+import leftArrow from "../assets/leftArrow.png";
 import { motion } from "framer-motion";
 
 interface df {
@@ -19,7 +19,7 @@ const Addtransaction = (props: df) => {
 
   const handleChange = (event: { target: { value: string } }) => {
     // Ensure only numeric values are entered
-    const inputValue = event.target.value.replace(/[^\d.]/g, "");
+    const inputValue = event.target.value.replace(/^[^.]*\.[^.]*$/, "");
     setValue(inputValue);
     console.log(value);
   };
@@ -85,7 +85,7 @@ const Addtransaction = (props: df) => {
           {" "}
           <div onClick={changepage2} className="img-layer-01">
             <div className="img-layer-02">
-              <img src={leftarrow} alt="" />
+              <img src={leftArrow} alt="" />
             </div>
           </div>
         </div>

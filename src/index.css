@@ -583,16 +583,6 @@ body {
   height: 40px;
 }
 
-/* .line {
-  width: 4px;
-  background-color: aliceblue;
-  height: 90%;
-  display: block;
-  border-radius: 20px;
-  position: fixed;
-  left: 20%;
-} */
-
 .aa {
   text-decoration: none;
   color: #888888;
@@ -606,7 +596,7 @@ body {
   width: 100%;
   height: 44%;
   position: absolute;
-  /* background-color: antiquewhite; */
+
   display: flex;
   flex-direction: row;
 }
@@ -614,11 +604,8 @@ body {
   width: 100%;
   top: 39%;
   height: 60%;
-  /* background-color: antiquewhite; */
   position: absolute;
   overflow: auto;
-
-  /* background-color: antiquewhite; */
 }
 
 .credit {
@@ -633,26 +620,8 @@ body {
     #fb9475
   );
 }
-/* .middle {
-  width: 95%;
-  background-color: aliceblue;
-  height: 4px;
-  border-radius: 20px;
-  position: fixed;
-  top: 38%;
-  z-index: -11;
-} */
-.up::before {
-  content: "";
-  /* border-bottom: 10px black; */
-  /* background-color: aliceblue;
-  position: fixed;
-  top: 37%;
-  width: 100%;
-  height: 4px; */
-}
+
 .side1 {
-  /* background-color: #c968ff; */
   width: 42%;
   height: 90%;
 
@@ -673,20 +642,19 @@ body {
 .txt {
   display: flex;
   justify-content: flex-start;
-  /* background-color: aqua; */
+
   width: 70%;
 }
 .side1 .txt p {
   padding-bottom: 40px;
 }
 .side2 {
-  /* background-color: #cfabe2; */
   width: 42%;
   height: 90%;
 }
 .detail {
   height: 6%;
-  /* background-color: burlywood; */
+
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -705,7 +673,6 @@ body {
   flex-direction: column;
   justify-content: center;
   overflow: auto;
-  /* color: #888888; */
 }
 .detail2 .err {
   align-items: center;
@@ -736,12 +703,29 @@ body {
 .incomelayer div {
   background-color: white;
   border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .expenselayer div {
   background-color: white;
   border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
+.expenselayer {
+  width: 36px;
+  height: 36px;
+}
+.incomelayer {
+  width: 36px;
+  height: 36px;
+}
 .expenselayer div img {
   width: 35px;
 }
@@ -808,7 +792,7 @@ body {
 }
 .c3 {
   width: 100%;
-  /* background-color: #fb9475; */
+
   height: 33%;
   font-family: "Montserrat", sans-serif;
   color: white;
@@ -849,7 +833,6 @@ body {
   width: 70%;
   height: 100%;
   display: flex;
-  /* justify-content: space-; */
 
   align-items: center;
 }
@@ -1004,6 +987,20 @@ body {
     padding: 0;
     position: unset;
     width: 100vw;
+  }
+  .expenselayer {
+    width: 25px;
+    height: 25px;
+  }
+  .incomelayer {
+    width: 25px;
+    height: 25px;
+  }
+  .expenselayer div img {
+    width: 25px;
+  }
+  .incomelayer div img {
+    width: 25px;
   }
   .user-name {
     left: 35%;
