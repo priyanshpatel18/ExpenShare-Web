@@ -35,9 +35,8 @@ const Transaction = () => {
     useEffect(() => {
 		    const UserData = async function () {
 			      const data = await store.getUserData(navigate);
-			      setUser(data ?? {});
+			      setUser(data ?? {});                  
 		    };
-        
 		    UserData();
 	  }, []);
 

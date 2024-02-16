@@ -1,31 +1,28 @@
-// import React from "react";
 import { Link } from "react-router-dom";
 import Group from "../assets/group.png";
-// import homeactive from "../assets/home-active.png";
-import transaction from "../assets/transaction.png";
 import personal from "../assets/user.png";
-
-// import plus from "../assets/plus.png";
-import { motion } from "framer-motion";
-import { useLocation } from "react-router-dom";
+import transaction from "../assets/transaction.png";
 import Groupsactive from "../assets/groupSelected.png";
-import home from "../assets/home.png";
-import homeactive from "../assets/homeSelected.png";
+import { useLocation } from "react-router-dom";
 import transactive from "../assets/transactionSelected.png";
+import homeactive from "../assets/homeSelected.png";
 import personalactive from "../assets/userSelected.png";
+import home from "../assets/home.png";
+import { motion } from "framer-motion";
+import logo from "../assets/profile.png"
 
 const CommenScreen = (props: any) => {
-  const location = useLocation();
-  const { pathname } = location;
+	const location = useLocation();
+	const { pathname } = location;
 
-  console.log(props.user);
-  
-  return (
+	console.log(props.user);
+
+	return (
 		<div className="container">
 			<div className="left">
 				<div className="upper">
 					<div className="logo-cont">
-						{/* <img src={props.user.profilePicture || logo} alt="" /> */}
+						<img src={props.user.profilePicture || logo} alt="" />
 					</div>
 				</div>
 				<div className="lower">
@@ -123,7 +120,7 @@ const CommenScreen = (props: any) => {
 			</div>
 			<div className="line"></div>
 		</div>
-  );
+	);
 };
 
 export default CommenScreen;
