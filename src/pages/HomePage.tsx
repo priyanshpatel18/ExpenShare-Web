@@ -78,8 +78,8 @@ function HomePage(): React.JSX.Element {
 	useEffect(() => {
 		const UserData = async function () {
 			const data = await store.getUserData(navigate);
-      setUser(data ?? {});
-			console.log(data);
+        setUser(data ?? {});
+			// console.log(data);
 		};
 		UserData();
 	}, []);

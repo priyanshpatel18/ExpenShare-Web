@@ -19,15 +19,14 @@ const CommenScreen = (props: any) => {
   const location = useLocation();
   const { pathname } = location;
 
-  console.log(props.user.profilePicture);
+  console.log(props.user);
   
-
   return (
 		<div className="container">
 			<div className="left">
 				<div className="upper">
 					<div className="logo-cont">
-						<img src={props.user.profilePicture || logo} alt="" />
+						{/* <img src={props.user.profilePicture || logo} alt="" /> */}
 					</div>
 				</div>
 				<div className="lower">
