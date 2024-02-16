@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import Sidebar from "../components/SideBar";
-import add from "../assets/addButton.png";
+import CommenScreen from "../components/SideBar";
+import add from "../assets/add.png";
 import { useRef, useState } from "react";
 
 import Addtransaction from "./Addtransaction";
@@ -25,10 +25,15 @@ const Profile = () => {
   };
   return (
     <div className="Profilepage">
-      <Sidebar></Sidebar>
+      <CommenScreen></CommenScreen>
       <Addtransaction {...props} />
       <div className="ProfileSide">
-        <motion.div className="add">
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.8 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          className="add"
+        >
           <img src={add} alt="" className="ad" onClick={changepage} />
         </motion.div>
         <p>Profile </p>

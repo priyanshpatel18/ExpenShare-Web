@@ -1,21 +1,21 @@
-
+// import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/profile.png";
+import logo from "../assets/LOGO3.png";
 import Group from "../assets/group.png";
-
-import personal from "../assets/profile.png";
+// import homeactive from "../assets/home-active.png";
+import personal from "../assets/personal.png";
 import transaction from "../assets/transaction.png";
 
-
-import Groupsactive from "../assets/groupSelected.png";
+// import plus from "../assets/plus.png";
+import Groupsactive from "../assets/group-active.png";
 import { useLocation } from "react-router-dom";
-import transactive from "../assets/transactionSelected.png";
-import homeactive from "../assets/homeSelected.png";
-import personalactive from "../assets/userSelected.png";
+import transactive from "../assets/transaction-active.png";
+import homeactive from "../assets/home-active.png";
+import personalactive from "../assets/personal-active.png";
 import home from "../assets/home.png";
 import { motion } from "framer-motion";
 
-const Sidebar = () => {
+const CommenScreen = () => {
   const location = useLocation();
   const { pathname } = location;
 
@@ -133,4 +133,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default CommenScreen;

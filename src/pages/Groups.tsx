@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import Sidebar from "../components/SideBar";
+import CommenScreen from "../components/SideBar";
 import Addtransaction from "./Addtransaction";
 import { useRef, useState } from "react";
-import add from "../assets/addButton.png";
+import add from "../assets/add.png";
 
 // import GroupFrame from "./GroupFrame";
 // import { useLocation } from "react-router-dom";
@@ -27,13 +27,18 @@ const Groups = () => {
   };
   return (
     <div className="GroupPage">
-      <Sidebar></Sidebar>
+      <CommenScreen></CommenScreen>
       <Addtransaction {...props}></Addtransaction>
       <div className="d">
-        <motion.div className="add">
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.8 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          className="add"
+        >
           <img src={add} alt="" className="ad" onClick={changepage} />
         </motion.div>
-       
+        <p>Groups</p>
       </div>
     </div>
   );
