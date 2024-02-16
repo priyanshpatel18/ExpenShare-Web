@@ -1,58 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
-
-import income from "../assets/upArrow.png";
-import noting from "../assets/wallet.png";
-import expense from "../assets/downArrow.png";
-// import foods from "../assets/food.png";
-import add from "../assets/addButton.png";
-import Sidebar from "../components/SideBar";
+// import "./Homepage.css";
+import income from "../assets/income.png";
+import noting from "../assets/nothing.png";
+import expense from "../assets/expense.png";
+import food from "../assets/food.png";
+import add from "../assets/add.png";
+import CommenScreen from "../components/SideBar";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import logo from "../assets/profile.png";
+import logo from "../assets/LOGO3.png";
+
+// import { useRef, useState } from "react";
+// import { useState } from "react";
 
 import Addtransaction from "./Addtransaction";
 import { Link } from "react-router-dom";
-interface ModalProps {
-  src: string;
-  onClose: () => void;
-}
-const Modal: React.FC<ModalProps> = ({ src, onClose }) => {
-  return (
-    <div className="modal" onClick={onClose}>
-      <div className="modal-content">
-        <span className="close" onClick={onClose}>
-          &times;
-        </span>
-        <img src={src} alt="Enlarged" />
-      </div>
-    </div>
-  );
-};
-
-const ProfilePhoto: React.FC<{
-  src: string;
-  onOpenModal: (src: string) => void;
-}> = ({ src, onOpenModal }) => {
-  return (
-    <img
-      src={src}
-      alt="Profile"
-      onClick={() => onOpenModal(src)}
-      style={{ cursor: "pointer" }}
-    />
-  );
-};
 function HomePage(): React.JSX.Element {
   const universalsex: number = 0.5;
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedPhoto, setSelectedPhoto] = useState("");
-  const handleOpenModal = (src: string) => {
-    setSelectedPhoto(src);
-    setModalOpen(true);
-  };
 
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
+  // const [credit, setcredit] = useState(50000);
+  // const [incomee, setincome] = useState(4000);
+  // const [expensee, setexpense] = useState(8000);
   const credit = 50000;
   const incomee = 4000;
   const expensee = 8000;
@@ -83,7 +50,8 @@ function HomePage(): React.JSX.Element {
   }, []);
 
   const myref = useRef<HTMLDivElement>(null);
-
+  // const myref2 = useRef<HTMLDivElement>();
+  //   let route = ["Home", "transaction", "Groups", "Profile"];
   const [isclick, setisclick] = useState(false);
   const changepage = () => {
     if (myref.current) {
@@ -105,19 +73,21 @@ function HomePage(): React.JSX.Element {
   const expenses = ["food", "entertainment", "petshop", "haircut"];
   return (
     <div className="HomePage">
-      <Sidebar />
+      <CommenScreen />
       <Addtransaction {...props}></Addtransaction>
       <div className="right">
-        <motion.div className="add">
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.8 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          className="add"
+        >
           <img src={add} alt="" className="ad" onClick={changepage} />
         </motion.div>
         <div className="up">
           <div className="side1">
             <div className="txt">
-              <ProfilePhoto src={logo} onOpenModal={handleOpenModal} />
-              {modalOpen && (
-                <Modal src={selectedPhoto} onClose={handleCloseModal} />
-              )}
+              <img src={logo} alt="" />
               <p className="welcome-text">Welcome ,</p>
               <p className="user-name">Priyansh Patel</p>
             </div>
@@ -131,10 +101,8 @@ function HomePage(): React.JSX.Element {
               </div>
               <div className="c3">
                 <div className="income">
-                  <div className="incomelayer">
-                    <div>
-                      <img src={income} alt="" />
-                    </div>
+                  <div>
+                    <img src={income} alt="" />
                   </div>
                   <div className="incomevalue">
                     <div>
@@ -148,10 +116,8 @@ function HomePage(): React.JSX.Element {
                 </div>
 
                 <div className="expense">
-                  <div className="expenselayer">
-                    <div>
-                      <img src={expense} alt="" />
-                    </div>
+                  <div>
+                    <img src={expense} alt="" />
                   </div>
                   <div className="expensevalue">
                     <div>
@@ -201,7 +167,7 @@ function HomePage(): React.JSX.Element {
                 <motion.div className="t1">
                   <div className="Detail-of-transaction">
                     <div className="Transaction-circle">
-                      {/* <img src={foods} alt="" id={i} /> */}
+                      <img src={food} alt="" />
                     </div>
                     <div className="Transaction-note">
                       <p> {i}</p>
