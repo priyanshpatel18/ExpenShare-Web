@@ -75,14 +75,14 @@ function HomePage(): React.JSX.Element {
     changepage2,
   };
 
-//   useEffect(() => {
-//     const UserData = async function () {
-//       const data = await store.getUserData(navigate);
-//       setUser(data ?? {});
-//       console.log(data);
-//     };
-//     UserData();
-//   }, []);
+  useEffect(() => {
+    const UserData = async function () {
+      const data = await store.getUserData(navigate);
+      setUser(data ?? {});
+      console.log(data);
+    };
+    UserData();
+  }, []);
 
   const expenses = ["food", "entertainment", "petshop", "haircut"];
   return (
