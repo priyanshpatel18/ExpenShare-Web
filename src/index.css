@@ -733,6 +733,21 @@ body {
   color: #c968ff;
   cursor: pointer;
 }
+.incomelayer div {
+  background-color: white;
+  border-radius: 50%;
+}
+.expenselayer div {
+  background-color: white;
+  border-radius: 50%;
+}
+
+.expenselayer div img {
+  width: 35px;
+}
+.incomelayer div img {
+  width: 35px;
+}
 
 .c1 {
   width: 100%;
