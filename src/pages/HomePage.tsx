@@ -7,13 +7,52 @@ import food from "../assets/food.png";
 import add from "../assets/addButton.png";
 import Sidebar from "../components/SideBar";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import logo from "../assets/LOGO3.png";
+import logo from "../assets/profile.png";
 
 import Addtransaction from "./Addtransaction";
 import { Link } from "react-router-dom";
+interface ModalProps {
+  src: string;
+  onClose: () => void;
+}
+const Modal: React.FC<ModalProps> = ({ src, onClose }) => {
+  return (
+    <div className="modal" onClick={onClose}>
+      <div className="modal-content">
+        <span className="close" onClick={onClose}>
+          &times;
+        </span>
+        <img src={src} alt="Enlarged" />
+      </div>
+    </div>
+  );
+};
+
+const ProfilePhoto: React.FC<{
+  src: string;
+  onOpenModal: (src: string) => void;
+}> = ({ src, onOpenModal }) => {
+  return (
+    <img
+      src={src}
+      alt="Profile"
+      onClick={() => onOpenModal(src)}
+      style={{ cursor: "pointer" }}
+    />
+  );
+};
 function HomePage(): React.JSX.Element {
   const universalsex: number = 0.5;
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPhoto, setSelectedPhoto] = useState("");
+  const handleOpenModal = (src: string) => {
+    setSelectedPhoto(src);
+    setModalOpen(true);
+  };
 
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
   const credit = 50000;
   const incomee = 4000;
   const expensee = 8000;
@@ -75,7 +114,10 @@ function HomePage(): React.JSX.Element {
         <div className="up">
           <div className="side1">
             <div className="txt">
-              <img src={logo} alt="" />
+              <ProfilePhoto src={logo} onOpenModal={handleOpenModal} />
+              {modalOpen && (
+                <Modal src={selectedPhoto} onClose={handleCloseModal} />
+              )}
               <p className="welcome-text">Welcome ,</p>
               <p className="user-name">Priyansh Patel</p>
             </div>

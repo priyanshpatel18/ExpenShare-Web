@@ -1,9 +1,9 @@
 
 import { Link } from "react-router-dom";
-import logo from "../assets/LOGO3.png";
+import logo from "../assets/profile.png";
 import Group from "../assets/group.png";
 
-import personal from "../assets/user.png";
+import personal from "../assets/profile.png";
 import transaction from "../assets/transaction.png";
 
 
