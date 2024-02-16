@@ -7,7 +7,7 @@ import food from "../assets/food.png";
 import add from "../assets/addButton.png";
 import CommenScreen from "../components/SideBar";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import logo from "../assets/LOGO3.png";
+import logo from "../assets/profile.png";
 
 // import { useRef, useState } from "react";
 // import { useState } from "react";

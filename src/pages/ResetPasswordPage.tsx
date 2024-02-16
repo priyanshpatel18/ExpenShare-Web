@@ -6,7 +6,7 @@ import Input from "../components/Input";
 // images
 import logo from "../assets/APP-LOGO-LIGHT-THEME.png";
 // icons
-import password from "../assets/icons/password.svg";
+import password from "../assets/password.png";
 import usersStore from "../stores/usersStore";
 import { ResetPasswordValidation } from "../helper/inputValidation";
 

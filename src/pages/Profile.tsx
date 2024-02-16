@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import CommenScreen from "../components/SideBar";
-import add from "../assets/add.png";
+import add from "../assets/addButton.png";
 import { useRef, useState } from "react";
 
 import Addtransaction from "./Addtransaction";
