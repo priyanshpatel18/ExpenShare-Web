@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
-import leftarrow from "../assets/arrow-left.png";
+import leftarrow from "../assets/leftArrow.png";
 import { motion } from "framer-motion";
 
 interface df {
