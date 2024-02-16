@@ -1,20 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 // import "./Homepage.css";
-import income from "../assets/upArrow.png";
-import noting from "../assets/wallet.png";
+import { animate, motion, useMotionValue, useTransform } from "framer-motion";
+import add from "../assets/addButton.png";
 import expense from "../assets/downArrow.png";
 import food from "../assets/food.png";
-import add from "../assets/addButton.png";
-import CommenScreen from "../components/SideBar";
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import logo from "../assets/profile.png";
+import income from "../assets/upArrow.png";
+import noting from "../assets/wallet.png";
+import CommenScreen from "../components/SideBar";
 
 // import { useRef, useState } from "react";
 // import { useState } from "react";
 
-import Addtransaction from "./Addtransaction";
 import { Link, useNavigate } from "react-router-dom";
 import usersStore from "../stores/usersStore";
+import Addtransaction from "./Addtransaction";
 
 function HomePage(): React.JSX.Element {
 	const [user, setUser] = useState({});
