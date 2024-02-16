@@ -3,6 +3,7 @@ import {
   MutableRefObject,
   Ref,
   RefObject,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -16,13 +17,17 @@ interface df {
 
 const Addtransaction = (props: df) => {
   const [value, setValue] = useState("");
-
-  const handleChange = (event: { target: { value: string } }) => {
-    // Ensure only numeric values are entered
-    const inputValue = event.target.value.replace(/[^\d.]/g, "");
-    setValue(inputValue);
-    console.log(value);
+  const [isexpense, setisexpense] = useState(true);
+  const handleChange = (e: { target: { value: string } }) => {
+    const inputValue = e.target.value;
+    // Allow only numbers and a single decimal point
+    if (/^\d*\.?\d*$/.test(inputValue)) {
+      setValue(inputValue);
+    }
   };
+  useEffect(() => {
+    console.log(isexpense);
+  }, [isexpense]);
 
   const { myref, changepage2 } = props;
   const myref_left: MutableRefObject<HTMLDivElement | null> = useRef(null);
@@ -57,6 +62,7 @@ const Addtransaction = (props: df) => {
       myref_ex_btn.current.style.backgroundColor = "white";
       myref_ex_btn.current.style.color = "black";
       tsp_down_input.current.style.backgroundColor = income.backround;
+      setisexpense(false);
     }
   };
   const swichtoexpense = () => {
@@ -76,6 +82,7 @@ const Addtransaction = (props: df) => {
       myref_ex_btn.current.style.backgroundColor = expense.backround;
       myref_ex_btn.current.style.color = "white";
       tsp_down_input.current.style.backgroundColor = expense.backround;
+      setisexpense(true);
     }
   };
   return (
