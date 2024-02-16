@@ -700,38 +700,6 @@ body {
   color: #c968ff;
   cursor: pointer;
 }
-.incomelayer div {
-  background-color: white;
-  border-radius: 50%;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.expenselayer div {
-  background-color: white;
-  border-radius: 50%;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.expenselayer {
-  width: 36px;
-  height: 36px;
-}
-.incomelayer {
-  width: 36px;
-  height: 36px;
-}
-.expenselayer div img {
-  width: 35px;
-}
-.incomelayer div img {
-  width: 35px;
-}
 
 .c1 {
   width: 100%;
@@ -942,6 +910,38 @@ body {
 }
 .Addtransaction {
   display: none;
+}
+.incomelayer div {
+  background-color: white;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.expenselayer div {
+  background-color: white;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.expenselayer {
+  width: 36px;
+  height: 36px;
+}
+.incomelayer {
+  width: 36px;
+  height: 36px;
+}
+.expenselayer div img {
+  width: 35px;
+}
+.incomelayer div img {
+  width: 35px;
 }
 /*groups page style*/
 

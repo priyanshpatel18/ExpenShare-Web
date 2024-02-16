@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import leftArrow from "../assets/leftArrow.png";
+import leftarrow from "../assets/leftArrow.png";
 import { motion } from "framer-motion";
 
 interface df {
@@ -85,7 +85,7 @@ const Addtransaction = (props: df) => {
           {" "}
           <div onClick={changepage2} className="img-layer-01">
             <div className="img-layer-02">
-              <img src={leftArrow} alt="" />
+              <img src={leftarrow} alt="" />
             </div>
           </div>
         </div>
