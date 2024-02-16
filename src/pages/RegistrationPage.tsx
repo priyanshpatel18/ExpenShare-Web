@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import Input from "../components/Input";
 // images
 import welcoemImage from "../assets/welcomePageImage.jpg";
-import logos from "../assets/APP-LOGO-LIGHT.png";
+import logos from "../assets/APP-LOGO-LIGHT-THEME.png";
 // icons
 import email from "../assets/email.png";
 import password from "../assets/password.png";

@@ -8,6 +8,8 @@
 :root {
   --clr-01-primary: rgb(255, 255, 255);
   --clr-formbackground: rgb(230, 230, 230);
+  --clr-mobile-01-primary: rgb(230, 230, 230);
+  --clr-mobile-formbackground: rgb(255, 255, 255);
 
   --gradient--btn: linear-gradient(
     120deg,
@@ -16,7 +18,7 @@
     #e680b1 75%,
     #fb9475 100%
   );
-  --shdow-primary: rgba(17, 17, 26, 0.05) 0px 4px 16px,
+  --shdow-primary: rgba(17, 17, 26, 0.019) 0px 4px 16px,
     rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
 
@@ -173,14 +175,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   margin: 10px;
 }
 
-.OtpVerificationPage h2 {
-  margin-bottom: 15px;
-}
-
-.OtpVerificationPage p {
+.pageTitle p {
+  margin-top: 15px;
   text-align: center;
 }
 
@@ -235,7 +235,7 @@ body {
 .ForgotPasswordForm .inputs input,
 .ResetPasswordForm .inputs input {
   width: 350px;
-  padding: 13px 13px 13px 50px;
+  padding: 13px 13px 13px 55px;
   margin: 5px 0px;
   border: none;
   font-size: 1rem;
@@ -256,6 +256,8 @@ body {
 .ForgotPasswordForm .inputContainer,
 .ResetPasswordForm .inputContainer {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .RegisterForm .inputContainer .icon,
@@ -263,12 +265,11 @@ body {
 .ForgotPasswordForm .inputContainer .icon,
 .ResetPasswordForm .inputContainer .icon {
   position: absolute;
-  height: 100%;
-  margin: 0 18px;
-  width: 20px;
+  display: block;
+  width: 22px;
+  height: auto;
   aspect-ratio: 1;
-  display: flex;
-  justify-content: center;
+  margin: 0 15px;
 }
 
 .OtpVerificationPage input {
@@ -313,7 +314,21 @@ body {
   text-align: left;
 }
 
-.resedOTP {
+.resendOtpContanier {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.9rem;
+}
+
+.resendOtpContanier button.resendOtp {
+  border: none;
+  background-color: transparent;
+  padding: 0px;
+  font-size: inherit;
+  color: #c968ff;
+}
+
+.resendOtp {
   text-align: right;
   margin-right: 20px;
 }
@@ -326,6 +341,8 @@ body {
 .profile {
   width: 7rem;
   position: relative;
+  border-radius: 50%;
+  box-shadow: var(--shdow-primary);
 }
 
 .profile img {
@@ -333,6 +350,7 @@ body {
   border-radius: 50%;
   aspect-ratio: 1;
   cursor: pointer;
+  display: block;
 }
 
 .profile [type="file"] {
@@ -359,6 +377,28 @@ body {
 }
 
 @media screen and (max-width: 820px) {
+  .RegistrationPage .formContainer,
+  .LoginPage .formContainer,
+  .OtpVerificationPage .formContainer,
+  .ForgotPasswordPage .formContainer,
+  .ResetPasswordPage .formContainer {
+    background-color: var(--clr-mobile-formbackground);
+  }
+
+  .RegistrationPage .formContainer input,
+  .LoginPage .formContainer input,
+  .ForgotPasswordPage .formContainer input,
+  .ResetPasswordPage .formContainer input {
+    background-color: var(--clr-mobile-01-primary);
+    border: 2px solid rgb(192, 189, 189);
+    border-radius: 20px;
+  }
+  .OtpVerificationPage .formContainer input {
+    background-color: var(--clr-mobile-01-primary);
+    border: 2px solid rgb(192, 189, 189);
+    border-radius: 10px;
+  }
+
   .LoginPage .welcome,
   .RegistrationPage .welcome {
     display: none;
@@ -368,7 +408,8 @@ body {
   .RegistrationPage .formContainer,
   .LoginPage .formContainer,
   .OtpVerificationPage .formContainer,
-  .ForgotPasswordPage .formContainer {
+  .ForgotPasswordPage .formContainer,
+  .ResetPasswordPage .formContainer {
     flex-basis: 100%;
     max-width: none;
     width: 100vw;
@@ -376,7 +417,11 @@ body {
     padding: 20px 0px;
     margin: 0;
     margin-bottom: 0px;
-    height: 100vh;
+    min-height: 100vh;
+  }
+
+  .formContainer .inputs .icon {
+    margin: 0 18px;
   }
 
   .LoginPage .formContainer,
@@ -394,16 +439,17 @@ body {
   .RegisterForm,
   .loginForm,
   .OtpForm,
-  .ForgotPasswordForm {
+  .ForgotPasswordForm,
+  .ResetPasswordForm {
     max-width: 90vw;
-    margin: 0;
   }
 
   .RegisterForm .inputs input,
   .loginForm .inputs input,
-  .ForgotPasswordForm .inputs input {
+  .ForgotPasswordForm .inputs input,
+  .ResetPasswordForm .inputs input {
     max-width: 90vw;
-    padding: 15px 15px 15px 50px;
+    padding: 15px 15px 15px 55px;
     margin: 8px 0px;
     font-size: 1.3rem;
   }
@@ -411,8 +457,11 @@ body {
   .RegisterForm button,
   .loginForm button,
   .OtpForm button,
-  .ForgotPasswordForm button {
+  .ForgotPasswordForm button,
+  .ResetPasswordForm button {
     max-width: 90vw;
+    padding-top: 15px;
+    padding-bottom: 15px;
   }
 }
 /*Home page style*/
@@ -596,7 +645,7 @@ body {
   width: 100%;
   height: 44%;
   position: absolute;
-
+  /* background-color: antiquewhite; */
   display: flex;
   flex-direction: row;
 }
@@ -604,8 +653,11 @@ body {
   width: 100%;
   top: 39%;
   height: 60%;
+  /* background-color: antiquewhite; */
   position: absolute;
   overflow: auto;
+
+  /* background-color: antiquewhite; */
 }
 
 .credit {
@@ -620,8 +672,26 @@ body {
     #fb9475
   );
 }
-
+/* .middle {
+  width: 95%;
+  background-color: aliceblue;
+  height: 4px;
+  border-radius: 20px;
+  position: fixed;
+  top: 38%;
+  z-index: -11;
+} */
+.up::before {
+  content: "";
+  /* border-bottom: 10px black; */
+  /* background-color: aliceblue;
+  position: fixed;
+  top: 37%;
+  width: 100%;
+  height: 4px; */
+}
 .side1 {
+  /* background-color: #c968ff; */
   width: 42%;
   height: 90%;
 
@@ -642,19 +712,20 @@ body {
 .txt {
   display: flex;
   justify-content: flex-start;
-
+  /* background-color: aqua; */
   width: 70%;
 }
 .side1 .txt p {
   padding-bottom: 40px;
 }
 .side2 {
+  /* background-color: #cfabe2; */
   width: 42%;
   height: 90%;
 }
 .detail {
   height: 6%;
-
+  /* background-color: burlywood; */
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -673,6 +744,7 @@ body {
   flex-direction: column;
   justify-content: center;
   overflow: auto;
+  /* color: #888888; */
 }
 .detail2 .err {
   align-items: center;
@@ -760,7 +832,7 @@ body {
 }
 .c3 {
   width: 100%;
-
+  /* background-color: #fb9475; */
   height: 33%;
   font-family: "Montserrat", sans-serif;
   color: white;
@@ -801,6 +873,7 @@ body {
   width: 70%;
   height: 100%;
   display: flex;
+  /* justify-content: space-; */
 
   align-items: center;
 }
@@ -818,11 +891,7 @@ body {
   display: flex;
   align-items: center;
 }
-.logo-cont img {
-  width: 130px;
-  border: 3px solid rgb(45, 45, 45);
-  border-radius: 50%;
-}
+
 .Transaction-circle img {
   width: 25px;
 }
@@ -903,7 +972,9 @@ body {
 .animateddiv {
   display: flex;
 }
-
+.logo-cont img {
+  width: 110px;
+}
 .viewall a {
   text-decoration: none;
   color: #c968ff;
@@ -1024,7 +1095,7 @@ body {
     width: 100vw;
     height: 100vh;
     top: 150%;
-    position: fixed;
+    position: absolute;
     z-index: 1111;
     display: block;
     overflow: hidden;
@@ -1085,14 +1156,11 @@ body {
   .side2 {
     display: none;
   }
-
   .txt img {
     position: fixed;
     top: 21px;
     width: 59px;
     left: 37px;
-    border: 2px solid;
-    border-radius: 50%;
   }
   .down {
     width: 100%;
@@ -1366,7 +1434,7 @@ body {
   .tsp-down {
     width: 100%;
     height: 80%;
-    font-size: 150%;
+    font-size: 200%;
     display: flex;
     margin-left: 80px;
     align-items: center;
@@ -1377,12 +1445,10 @@ body {
     font-size: 200%;
     width: 72%;
     color: white;
-    cursor: none;
     outline: none;
     border: none;
     font-family: "Montserrat", sans-serif;
     font-weight: bold;
-    caret-color: transparent;
   }
   .tsp-down {
     margin-bottom: 100px;

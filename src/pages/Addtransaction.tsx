@@ -122,7 +122,6 @@ const Addtransaction = (props: df) => {
           <h1>$</h1>
           <input
             type="nummber"
-            value={value}
             className="tsp-down-input"
             ref={tsp_down_input}
             maxLength={7}

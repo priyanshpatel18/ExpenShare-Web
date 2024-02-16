@@ -13,16 +13,18 @@ import personalactive from "../assets/userSelected.png";
 import home from "../assets/home.png";
 import { motion } from "framer-motion";
 
-const Sidebar = () => {
+const CommenScreen = (props: any) => {
   const location = useLocation();
   const { pathname } = location;
+
+  console.log(props.user.profilePicture);
 
   return (
     <div className="container">
       <div className="left">
         <div className="upper">
           <div className="logo-cont">
-            <img src={logo} alt="" />
+            <img src={props.user.profilePicture || logo} alt="" />
           </div>
         </div>
         <div className="lower">
@@ -131,4 +133,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default CommenScreen;
