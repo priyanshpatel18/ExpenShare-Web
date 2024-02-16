@@ -33,7 +33,7 @@ const Groups = () => {
         <motion.div className="add">
           <img src={add} alt="" className="ad" onClick={changepage} />
         </motion.div>
-        <p>Groups</p>
+       
       </div>
     </div>
   );
