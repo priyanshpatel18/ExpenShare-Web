@@ -7,7 +7,7 @@ import Input from "../components/Input";
 import logo from "../assets/APP-LOGO-LIGHT-THEME.png";
 import welcoemImage from "../assets/welcomePageImage.jpg";
 // icons
-import user from "../assets/icons/user.svg";
+import user from "../assets/user.png";
 import password from "../assets/icons/password.svg";
 import usersStore from "../stores/usersStore";
 
