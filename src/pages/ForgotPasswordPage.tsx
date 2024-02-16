@@ -5,7 +5,7 @@ import usersStore from "../stores/usersStore";
 // components
 import Input from "../components/Input";
 // icons
-import email from "../assets/icons/email.svg";
+import email from "../assets/email.png";
 import { forgotPasswordValidation } from "../helper/inputValidation";
 
 interface FormValues {

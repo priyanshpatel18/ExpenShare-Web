@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 // import "./Homepage.css";
-import income from "../assets/income.png";
-import noting from "../assets/nothing.png";
-import expense from "../assets/expense.png";
+import income from "../assets/upArrow.png";
+import noting from "../assets/wallet.png";
+import expense from "../assets/downArrow.png";
 import food from "../assets/food.png";
-import add from "../assets/add.png";
+import add from "../assets/addButton.png";
 import CommenScreen from "../components/SideBar";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import logo from "../assets/LOGO3.png";

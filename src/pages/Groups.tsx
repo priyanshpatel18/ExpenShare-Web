@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import CommenScreen from "../components/SideBar";
 import Addtransaction from "./Addtransaction";
 import { useRef, useState } from "react";
-import add from "../assets/add.png";
+import add from "../assets/addButton.png";
 
 // import GroupFrame from "./GroupFrame";
 // import { useLocation } from "react-router-dom";

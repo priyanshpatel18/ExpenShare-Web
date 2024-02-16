@@ -7,9 +7,9 @@ import Input from "../components/Input";
 import welcoemImage from "../assets/welcomePageImage.jpg";
 import logos from "../assets/APP-LOGO-LIGHT.png";
 // icons
-import email from "../assets/icons/email.svg";
-import password from "../assets/icons/password.svg";
-import user from "../assets/icons/user.svg";
+import email from "../assets/email.png";
+import password from "../assets/password.png";
+import user from "../assets/username.png";
 import profile from "../assets/profile.png";
 import usersStore from "../stores/usersStore";
 import { registerFormValidation } from "../helper/inputValidation";
