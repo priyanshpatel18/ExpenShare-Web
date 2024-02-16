@@ -1,4 +1,11 @@
-import { LegacyRef, MutableRefObject, Ref, RefObject, useRef } from "react";
+import {
+  LegacyRef,
+  MutableRefObject,
+  Ref,
+  RefObject,
+  useRef,
+  useState,
+} from "react";
 import leftarrow from "../assets/leftArrow.png";
 import { motion } from "framer-motion";
 
@@ -8,6 +15,15 @@ interface df {
 }
 
 const Addtransaction = (props: df) => {
+  const [value, setValue] = useState("");
+
+  const handleChange = (event: { target: { value: string } }) => {
+    // Ensure only numeric values are entered
+    const inputValue = event.target.value.replace(/^[^.]*\.[^.]*$/, "");
+    setValue(inputValue);
+    console.log(value);
+  };
+
   const { myref, changepage2 } = props;
   const myref_left: MutableRefObject<HTMLDivElement | null> = useRef(null);
   const myref_right: MutableRefObject<HTMLDivElement | null> = useRef(null);
@@ -109,6 +125,7 @@ const Addtransaction = (props: df) => {
             className="tsp-down-input"
             ref={tsp_down_input}
             maxLength={7}
+            onChange={handleChange}
           />
         </div>
       </div>
