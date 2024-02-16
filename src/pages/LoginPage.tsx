@@ -8,7 +8,9 @@ import logo from "../assets/APP-LOGO-LIGHT-THEME.png";
 import welcoemImage from "../assets/welcomePageImage.jpg";
 // icons
 import user from "../assets/username.png";
-import password from "../assets/icons/password.svg";
+
+import password from "../assets/password.png";
+
 import usersStore from "../stores/usersStore";
 
 interface FormValues {

@@ -1,10 +1,8 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/profile.png";
 import Group from "../assets/group.png";
-
 import personal from "../assets/user.png";
 import transaction from "../assets/transaction.png";
-
 import Groupsactive from "../assets/groupSelected.png";
 import { useLocation } from "react-router-dom";
 import transactive from "../assets/transactionSelected.png";
@@ -13,7 +11,7 @@ import personalactive from "../assets/userSelected.png";
 import home from "../assets/home.png";
 import { motion } from "framer-motion";
 
-const Sidebar = () => {
+const CommenScreen = () => {
   const location = useLocation();
   const { pathname } = location;
 
@@ -131,4 +129,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default CommenScreen;

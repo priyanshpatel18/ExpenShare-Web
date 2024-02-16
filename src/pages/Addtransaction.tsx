@@ -6,7 +6,9 @@ import {
   useRef,
   useState,
 } from "react";
-import leftArrow from "../assets/leftArrow.png";
+import leftarrow from "../assets/leftArrow.png";
+
+
 import { motion } from "framer-motion";
 
 interface df {
@@ -15,14 +17,15 @@ interface df {
 }
 
 const Addtransaction = (props: df) => {
-  const [value, setValue] = useState("");
 
+  const [value, setValue] = useState("");
   const handleChange = (event: { target: { value: string } }) => {
     // Ensure only numeric values are entered
     const inputValue = event.target.value.replace(/^[^.]*\.[^.]*$/, "");
     setValue(inputValue);
     console.log(value);
   };
+
 
   const { myref, changepage2 } = props;
   const myref_left: MutableRefObject<HTMLDivElement | null> = useRef(null);
@@ -85,7 +88,7 @@ const Addtransaction = (props: df) => {
           {" "}
           <div onClick={changepage2} className="img-layer-01">
             <div className="img-layer-02">
-              <img src={leftArrow} alt="" />
+              <img src={leftrrow} alt="" />
             </div>
           </div>
         </div>
@@ -122,11 +125,9 @@ const Addtransaction = (props: df) => {
           <h1>$</h1>
           <input
             type="nummber"
-            value={value}
             className="tsp-down-input"
             ref={tsp_down_input}
             maxLength={7}
-            onChange={handleChange}
           />
         </div>
       </div>
