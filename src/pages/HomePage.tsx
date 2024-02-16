@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import income from "../assets/upArrow.png";
 import noting from "../assets/wallet.png";
 import expense from "../assets/downArrow.png";
-import foods from "../assets/food.png";
+// import foods from "../assets/food.png";
 import add from "../assets/addButton.png";
 import Sidebar from "../components/SideBar";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
@@ -201,7 +201,7 @@ function HomePage(): React.JSX.Element {
                 <motion.div className="t1">
                   <div className="Detail-of-transaction">
                     <div className="Transaction-circle">
-                      <img src={foods} alt="" id={i} />
+                      {/* <img src={foods} alt="" id={i} /> */}
                     </div>
                     <div className="Transaction-note">
                       <p> {i}</p>
