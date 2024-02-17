@@ -9,7 +9,6 @@ import {
 } from "react";
 import leftarrow from "../assets/leftArrow.png";
 import { motion } from "framer-motion";
-import { log } from "console";
 
 interface df {
   myref: RefObject<HTMLDivElement>;
