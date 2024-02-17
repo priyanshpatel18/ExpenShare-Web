@@ -1027,6 +1027,30 @@ body {
   .tg {
     display: none;
   }
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(200px, 1fr)
+    ); /* Responsive grid with minimum item width of 200px */
+    gap: 20px; /* Gap between grid items */
+  }
+
+  .category-item {
+    text-align: center; /* Center-align content */
+  }
+
+  .category-item img {
+    width: 100px; /* Set width of category image */
+    height: 100px; /* Set height of category image */
+    object-fit: cover; /* Ensure the image covers its container */
+  }
+
+  .category-item p {
+    margin-top: 10px; /* Space between image and category name */
+    font-size: 14px; /* Font size of category name */
+  }
+
   .transaction .aa .im img {
     position: relative;
     top: 5px;
@@ -1095,7 +1119,7 @@ body {
     width: 100vw;
     height: 100vh;
     top: 150%;
-    position: absolute;
+    position: fixed;
     z-index: 1111;
     display: block;
     overflow: hidden;
@@ -1109,7 +1133,7 @@ body {
   .lower {
     display: flex;
     flex-direction: row;
-    z-index: 10100000;
+    z-index: 111;
     /* box-shadow: 0px 30px 89px black; */
     width: 100vw;
     justify-content: space-between;
@@ -1285,7 +1309,7 @@ body {
     /* top: -30px; */
     bottom: 63px;
     width: 100vw;
-    z-index: 11111111;
+    z-index: 111;
     height: 7px;
     /* width: 77px; */
     /* left: 50vw; */
@@ -1408,6 +1432,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+
     flex-direction: column;
     color: white;
     height: 35%;
@@ -1416,12 +1441,12 @@ body {
   .transaction-third-part {
     width: 100%;
     background-color: #ffffff;
-    height: 55%;
-    position: absolute;
+    height: 57%;
+    position: relative;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
-    top: 38%;
-    overflow: auto;
+    top: -14%;
+    overflow: hidden;
   }
   .tsp-up {
     width: 100%;
@@ -1460,5 +1485,214 @@ body {
     height: 100vh;
     width: 100vw;
     position: absolute;
+  }
+
+  /*addtransaction*/
+  .ttp-details {
+    width: 100%;
+    height: 75%;
+    position: relative;
+    display: grid;
+
+    flex-direction: column;
+
+    justify-items: center;
+    top: 19px;
+  }
+  .ttp-details .ttp-category {
+    width: 80%;
+    height: 84%;
+    border: 1px solid #888888;
+
+    border-radius: 13px;
+  }
+  .ttp-details .ttp-title {
+    width: 80%;
+    height: 84%;
+    border: 1px solid #888888;
+
+    border-radius: 13px;
+  }
+  .ttp-details .ttp-note {
+    width: 80%;
+    height: 84%;
+    border: 1px solid #888888;
+
+    border-radius: 13px;
+  }
+  .ttp-details .ttp-time-container {
+    width: 80%;
+    height: 80%;
+    /* border: 1px solid #888888; */
+    border-radius: 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .ttp-btn {
+    width: 100%;
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 22px;
+  }
+  .ttp-btn button {
+    width: 82%;
+    height: 50%;
+    background: linear-gradient(
+      99.2deg,
+      #2faae3,
+      #c968ff 33.33%,
+      #e680b1 66.67%,
+      #fb9475
+    );
+    color: white;
+    border-radius: 21px;
+    font-size: 29px;
+    font-weight: bold;
+    border: none;
+    font-family: "Montserrat", sans-serif;
+  }
+  .ttpc-detail {
+    height: 40%;
+  }
+  .ttpc-detail > p {
+    padding-top: 7px;
+    padding-left: 7px;
+  }
+  .ttp-category .ttpc-img {
+    height: 60%;
+  }
+
+  .ttp-Date {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #888888;
+    border-radius: 13px;
+  }
+  .ttp-Date input {
+    font-family: "Montserrat", sans-serif;
+    outline: none;
+    border: none;
+   
+  }
+  .ttp-time {
+    width: 34%;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #888888;
+    border-radius: 13px;
+  }
+  .ttp-time input {
+    outline: none;
+    font-family: "Montserrat", sans-serif;
+    outline: none;
+    border: none;
+    
+  }
+  .ttpc-title {
+    justify-content: flex-start;
+
+    height: 60%;
+    display: flex;
+    padding-left: 10px;
+    padding-top: 3px;
+    font-family: "Montserrat", sans-serif;
+  }
+  .ttpc-note {
+    justify-content: flex-start;
+    /* width: 60%; */
+    height: 60%;
+    display: flex;
+    padding-left: 10px;
+    padding-top: 3px;
+  }
+  .ttpc-title input {
+    width: 90%;
+    height: 80%;
+    border: none;
+    outline: none;
+
+    font-family: "Montserrat", sans-serif;
+    background-color: white;
+    border-radius: 3px;
+  }
+  .ttpc-note input {
+    width: 90%;
+    height: 80%;
+    border: none;
+
+    background-color: white;
+    outline: none;
+    border-radius: 3px;
+    font-family: "Montserrat", sans-serif;
+  }
+  .categories-page {
+    width: 100vw;
+    height: 100vh;
+    scale: 0;
+    position: fixed;
+    overflow: hidden;
+    background-color: #2faae3;
+    z-index: 10;
+    transition: all 0.2s ease-in-out;
+  }
+  .tfp-search {
+    width: 90%;
+    height: 50%;
+    background-color: #ffffff;
+    display: flex;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-evenly;
+    transition: all 0.5s ease-in-out;
+    font-family: "Montserrat", sans-serif;
+    background-color: #888888;
+  }
+  .tfp-search input {
+    font-family: "Montserrat", sans-serif;
+    background-color: #888888;
+    width: 90%;
+    height: 90%;
+    outline: none;
+    border: none;
+    font-size: 20px;
+    color: white;
+  }
+  .transaction-first-part-dopel {
+    display: flex;
+    background-color: white;
+    flex-direction: row;
+    width: 100%;
+    height: 15%;
+    justify-content: center;
+    align-items: center;
+  }
+  .tfp-left-dopel {
+    background-color: white;
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease-in-out;
+  }
+  .tfp-right-dopel {
+    background-color: white;
+    font-family: "Montserrat", sans-serif;
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease-in-out;
   }
 }
