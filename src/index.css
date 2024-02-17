@@ -1109,7 +1109,7 @@ body {
   .lower {
     display: flex;
     flex-direction: row;
-    z-index: 10100000;
+    z-index: 111;
     /* box-shadow: 0px 30px 89px black; */
     width: 100vw;
     justify-content: space-between;
@@ -1285,7 +1285,7 @@ body {
     /* top: -30px; */
     bottom: 63px;
     width: 100vw;
-    z-index: 11111111;
+    z-index: 111;
     height: 7px;
     /* width: 77px; */
     /* left: 50vw; */
@@ -1416,7 +1416,7 @@ body {
   .transaction-third-part {
     width: 100%;
     background-color: #ffffff;
-    height: 55%;
+    height: 62%;
     position: absolute;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
@@ -1460,5 +1460,74 @@ body {
     height: 100vh;
     width: 100vw;
     position: absolute;
+  }
+
+  /*addtransaction*/
+  .ttp-details {
+    width: 100%;
+    height: 80%;
+    position: relative;
+    display: grid;
+
+    flex-direction: column;
+
+    justify-items: center;
+    top: 19px;
+  }
+  .ttp-details .ttp-category {
+    width: 80%;
+    height: 84%;
+    border: 1px solid #888888;
+
+    border-radius: 13px;
+  }
+  .ttp-details .ttp-title {
+    width: 80%;
+    height: 84%;
+    border: 1px solid #888888;
+
+    border-radius: 13px;
+  }
+  .ttp-details .ttp-note {
+    width: 80%;
+    height: 84%;
+    border: 1px solid #888888;
+
+    border-radius: 13px;
+  }
+  .ttp-details .ttp-time-container {
+    width: 80%;
+    height: 65%;
+    border: 1px solid #888888;
+    border-radius: 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .ttp-btn {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 22px;
+  }
+  .ttp-btn button {
+    width: 82%;
+    height: 100%;
+    background: linear-gradient(
+      99.2deg,
+      #2faae3,
+      #c968ff 33.33%,
+      #e680b1 66.67%,
+      #fb9475
+    );
+    color: white;
+    border-radius: 21px;
+    font-size: 29px;
+    font-weight: bold;
+    border: none;
+    font-family: "Montserrat", sans-serif;
   }
 }

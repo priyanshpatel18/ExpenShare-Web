@@ -78,6 +78,7 @@ const Addtransaction = (props: df) => {
       tsp_down_input.current.style.backgroundColor = expense.backround;
     }
   };
+
   return (
     <div className="Addtransaction" ref={myref}>
       <div className="transaction-first-part">
@@ -125,11 +126,25 @@ const Addtransaction = (props: df) => {
             className="tsp-down-input"
             ref={tsp_down_input}
             maxLength={7}
+            value={value}
             onChange={handleChange}
           />
         </div>
       </div>
-      <div className="transaction-third-part"></div>
+      <div className="transaction-third-part">
+        <div className="ttp-details">
+          <div className="ttp-category"></div>
+          <div className="ttp-title"></div>
+          <div className="ttp-note"></div>
+          <div className="ttp-time-container">
+            <div className="ttp-Date"></div>
+            <div className="ttp-time"></div>
+          </div>
+        </div>
+        <div className="ttp-btn">
+          <button>CONTINUE</button>
+        </div>
+      </div>
     </div>
   );
 };
