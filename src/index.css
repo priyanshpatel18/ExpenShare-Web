@@ -1530,4 +1530,16 @@ body {
     border: none;
     font-family: "Montserrat", sans-serif;
   }
+  .ttpc-detail {
+    height: 40%;
+  }
+  .ttpc-detail > p {
+    padding-top: 7px;
+    padding-left: 7px;
+  }
+  .ttp-category .ttpc-img {
+    height: 60%;
+  }
+  .ttp-time-container {
+  }
 }

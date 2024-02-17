@@ -16,6 +16,7 @@ interface df {
 
 const Addtransaction = (props: df) => {
   const [value, setValue] = useState("");
+  const [isexpense, setisexpense] = useState(true);
 
   const handleChange = (event: { target: { value: string } }) => {
     // Ensure only numeric values are entered
@@ -49,6 +50,7 @@ const Addtransaction = (props: df) => {
       myref_ex_btn.current &&
       tsp_down_input.current
     ) {
+      setisexpense(false);
       myref_in_btn.current.style.backgroundColor = income.backround;
       myref_in_btn.current.style.color = "white";
       myref_left.current.style.backgroundColor = income.backround;
@@ -68,6 +70,7 @@ const Addtransaction = (props: df) => {
       myref_ex_btn.current &&
       tsp_down_input.current
     ) {
+      setisexpense(true);
       myref_in_btn.current.style.backgroundColor = "white";
       myref_in_btn.current.style.color = "black";
       myref_left.current.style.backgroundColor = expense.backround;
@@ -133,19 +136,37 @@ const Addtransaction = (props: df) => {
       </div>
       <div className="transaction-third-part">
         <div className="ttp-details">
-          <div className="ttp-category">
-            <div>
-              <p>Select a Category</p>
-            </div>
-            <div>
-              <img src="" alt="" />
+          {isexpense ? (
+            <>
+              <div className="ttp-category">
+                <div className="ttpc-detail">
+                  <p>Select a Category</p>
+                </div>
+                <div className="ttpc-img">
+                  <img src="" alt="" />
+                </div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+          <div className="ttp-title">
+            <div className="ttpc-detail">
+              <p>Title</p>
             </div>
           </div>
-          <div className="ttp-title"></div>
-          <div className="ttp-note"></div>
+          <div className="ttp-note">
+            <div className="ttpc-detail">
+              <p>Notes</p>
+            </div>
+          </div>
           <div className="ttp-time-container">
-            <div className="ttp-Date"></div>
-            <div className="ttp-time"></div>
+            <div className="ttp-Date">
+              <input type="date" />
+            </div>
+            <div className="ttp-time">
+              <input type="time" />
+            </div>
           </div>
         </div>
         <div className="ttp-btn">
