@@ -195,7 +195,7 @@ const Addtransaction = (props: df) => {
           </div>
           <div className="ttp-time-container">
             <div className="ttp-Date">
-              <input type="date" value={currentDateTime.toLocaleDateString()} />
+              <input type="date" />
             </div>
             <div className="ttp-time">
               <input
