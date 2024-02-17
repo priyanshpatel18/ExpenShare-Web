@@ -2083,7 +2083,9 @@ body {
 
   .SideBar {
     max-height: 70px;
-    min-width: auto;
+    /* min-width: auto; */
+    position: fixed;
+    width: 100vw;
     max-width: none;
     background-color: var(--clr-03-primary-gray);
     border-top-left-radius: 15px;
