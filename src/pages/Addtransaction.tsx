@@ -1,8 +1,11 @@
 import {
+  ChangeEvent,
   LegacyRef,
   MutableRefObject,
   Ref,
   RefObject,
+  SetStateAction,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -81,6 +84,32 @@ const Addtransaction = (props: df) => {
       tsp_down_input.current.style.backgroundColor = expense.backround;
     }
   };
+
+  const [currentTime, setCurrentTime] = useState(
+    new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    })
+  );
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  // useEffect(() => {
+  //   const timerID = setInterval(() => tick(), 1000);
+
+  //   return () => {
+  //     clearInterval(timerID);
+  //   };
+  // }, []);
+  // const tick = () => {
+  // setCurrentTime(new Date());
+  // setCurrentDateTime(new Date());
+  // };
+  console.log(currentTime);
+  const handlechangetime = (e: ChangeEvent<HTMLInputElement>) => {
+    setCurrentTime(e.target.value);
+    // console.log(e.target.value);
+  };
+  // console.log(currentDateTime.toLocaleDateString());
 
   return (
     <div className="Addtransaction" ref={myref}>
@@ -168,10 +197,14 @@ const Addtransaction = (props: df) => {
           </div>
           <div className="ttp-time-container">
             <div className="ttp-Date">
-              <input type="date" />
+              <input type="date" value={currentDateTime.toLocaleDateString()} />
             </div>
             <div className="ttp-time">
-              <input type="time" />
+              <input
+                type="time"
+                value={currentTime}
+                onChange={handlechangetime}
+              />
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ import income from "../assets/upArrow.png";
 import noting from "../assets/wallet.png";
 import CommenScreen from "../components/SideBar";
 import Addtransaction from "./Addtransaction";
+
 // import usersStore from "../stores/usersStore";
 
 function HomePage(): React.JSX.Element {
@@ -74,6 +75,7 @@ function HomePage(): React.JSX.Element {
   //   };
   //   UserData();
   // }, []);
+
 
   const expenses = ["food", "entertainment", "petshop", "haircut"];
 

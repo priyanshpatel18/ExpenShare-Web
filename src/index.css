@@ -1590,11 +1590,13 @@ body {
     border: none;
     outline: none;
     font-family: "Montserrat", sans-serif;
+    background-color: white;
   }
   .ttpc-note input {
     width: 90%;
     height: 80%;
     border: none;
+    background-color: white;
     outline: none;
     font-family: "Montserrat", sans-serif;
   }
