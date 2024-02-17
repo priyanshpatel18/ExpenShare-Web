@@ -9,6 +9,7 @@ import {
 } from "react";
 import leftarrow from "../assets/leftArrow.png";
 import { motion } from "framer-motion";
+import { log } from "console";
 
 interface df {
   myref: RefObject<HTMLDivElement>;
@@ -90,24 +91,23 @@ const Addtransaction = (props: df) => {
       hour12: false,
     })
   );
-  // const [currentDateTime, setCurrentDateTime] = useState(new Date());
-  // useEffect(() => {
-  //   const timerID = setInterval(() => tick(), 1000);
+  const dateObject = new Date();
+  const year = dateObject.getFullYear();
+  const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Month is zero-based
+  const day = String(dateObject.getDate()).padStart(2, "0");
+  const newDate = `${year}-${month}-${day}`;
 
-  //   return () => {
-  //     clearInterval(timerID);
-  //   };
-  // }, []);
-  // const tick = () => {
-  // setCurrentTime(new Date());
-  // setCurrentDateTime(new Date());
-  // };
-  console.log(currentTime);
+  const [date, setDate] = useState(newDate);
+
+  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const inputDate = event.target.value;
+
+    setDate(inputDate);
+  };
+
   const handlechangetime = (e: ChangeEvent<HTMLInputElement>) => {
     setCurrentTime(e.target.value);
-    // console.log(e.target.value);
   };
-  // console.log(currentDateTime.toLocaleDateString());
 
   return (
     <div className="Addtransaction" ref={myref}>
@@ -195,7 +195,7 @@ const Addtransaction = (props: df) => {
           </div>
           <div className="ttp-time-container">
             <div className="ttp-Date">
-              <input type="date" />
+              <input type="date" onChange={handleDateChange} value={date} />
             </div>
             <div className="ttp-time">
               <input

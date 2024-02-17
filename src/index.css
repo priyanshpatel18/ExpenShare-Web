@@ -1591,6 +1591,7 @@ body {
     outline: none;
     font-family: "Montserrat", sans-serif;
     background-color: white;
+    border-radius: 3px;
   }
   .ttpc-note input {
     width: 90%;
@@ -1598,6 +1599,7 @@ body {
     border: none;
     background-color: white;
     outline: none;
+    border-radius: 3px;
     font-family: "Montserrat", sans-serif;
   }
 }
