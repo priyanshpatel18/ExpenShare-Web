@@ -9,6 +9,8 @@ import {
 } from "react";
 import leftarrow from "../assets/leftArrow.png";
 import { motion } from "framer-motion";
+import AllCategoriesPage from "./AllCategoriesPage";
+import categoriesWithAssets from "../categories";
 
 interface df {
   myref: RefObject<HTMLDivElement>;
@@ -91,6 +93,7 @@ const Addtransaction = (props: df) => {
     })
   );
   const dateObject = new Date();
+  const today = new Date().toISOString().split("T")[0];
   const year = dateObject.getFullYear();
   const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Month is zero-based
   const day = String(dateObject.getDate()).padStart(2, "0");
@@ -108,11 +111,46 @@ const Addtransaction = (props: df) => {
     setCurrentTime(e.target.value);
   };
 
+  const categories_page_ref: MutableRefObject<HTMLDivElement | null> =
+    useRef(null);
+
+  const switchtocategoriespage = () => {
+    if (categories_page_ref.current) {
+      categories_page_ref.current.style.scale = "1";
+    }
+  };
+  const closecategories = () => {
+    if (categories_page_ref.current) {
+      categories_page_ref.current.style.scale = "0";
+    }
+  };
+
   return (
     <div className="Addtransaction" ref={myref}>
+      <div className="categories-page" ref={categories_page_ref}>
+        <div className="transaction-first-part-dopel">
+          <div className="tfp-left-dopel" ref={myref_left}>
+            <div className="img-layer-02" onClick={closecategories}>
+              <img src={leftarrow} alt="" />
+            </div>
+          </div>
+          <div className="tfp-right-dopel" ref={myref_right}>
+            <div className="tfp-search">
+              <input type="text" className="search-categories" />
+            </div>
+          </div>
+        </div>
+        <div className="category-grid">
+          {categoriesWithAssets.map((category, index) => (
+            <div key={index} className="category-item">
+              <img src={category.source} alt={category.name} />
+              <p>{category.name}</p>
+            </div>
+          ))}
+        </div>
+      </div>
       <div className="transaction-first-part">
         <div className="tfp-left" ref={myref_left}>
-          {" "}
           <div onClick={changepage2} className="img-layer-01">
             <div className="img-layer-02">
               <img src={leftarrow} alt="" />
@@ -162,20 +200,15 @@ const Addtransaction = (props: df) => {
       </div>
       <div className="transaction-third-part">
         <div className="ttp-details">
-          {isexpense ? (
-            <>
-              <div className="ttp-category">
-                <div className="ttpc-detail">
-                  <p>Select a Category</p>
-                </div>
-                <div className="ttpc-img">
-                  <img src="" alt="" />
-                </div>
-              </div>
-            </>
-          ) : (
-            ""
-          )}
+          <div className="ttp-category" onClick={switchtocategoriespage}>
+            <div className="ttpc-detail">
+              <p>Select a Category</p>
+            </div>
+            <div className="ttpc-img">
+              <img src="" alt="" />
+            </div>
+          </div>
+
           <div className="ttp-title">
             <div className="ttpc-detail">
               <p>Title</p>
@@ -194,7 +227,12 @@ const Addtransaction = (props: df) => {
           </div>
           <div className="ttp-time-container">
             <div className="ttp-Date">
-              <input type="date" onChange={handleDateChange} value={date} />
+              <input
+                type="date"
+                onChange={handleDateChange}
+                value={date}
+                max={today}
+              />
             </div>
             <div className="ttp-time">
               <input
