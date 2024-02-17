@@ -9,7 +9,7 @@ import {
 } from "react";
 import leftarrow from "../assets/leftArrow.png";
 import { motion } from "framer-motion";
-/
+
 import categoriesWithAssets from "../categories";
 
 interface df {
@@ -53,7 +53,7 @@ const Addtransaction = (props: df) => {
       myref_ex_btn.current &&
       tsp_down_input.current
     ) {
-      setisexpense(false);
+      // setisexpense(false);
       myref_in_btn.current.style.backgroundColor = income.backround;
       myref_in_btn.current.style.color = "white";
       myref_left.current.style.backgroundColor = income.backround;
@@ -73,7 +73,7 @@ const Addtransaction = (props: df) => {
       myref_ex_btn.current &&
       tsp_down_input.current
     ) {
-      setisexpense(true);
+      // setisexpense(true);
       myref_in_btn.current.style.backgroundColor = "white";
       myref_in_btn.current.style.color = "black";
       myref_left.current.style.backgroundColor = expense.backround;
