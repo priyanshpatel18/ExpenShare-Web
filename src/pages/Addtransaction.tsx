@@ -154,10 +154,16 @@ const Addtransaction = (props: df) => {
             <div className="ttpc-detail">
               <p>Title</p>
             </div>
+            <div className="ttpc-title">
+              <input type="text" />
+            </div>
           </div>
           <div className="ttp-note">
             <div className="ttpc-detail">
               <p>Notes</p>
+            </div>
+            <div className="ttpc-note">
+              <input type="text" />
             </div>
           </div>
           <div className="ttp-time-container">

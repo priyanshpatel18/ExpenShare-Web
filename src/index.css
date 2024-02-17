@@ -1542,4 +1542,59 @@ body {
   }
   .ttp-time-container {
   }
+  .ttp-Date {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .ttp-Date input {
+    font-family: "Montserrat", sans-serif;
+    outline: none;
+    border: none;
+  }
+  .ttp-time {
+    width: 34%;
+    display: flex;
+    height: 100%;
+    align-items: center;
+  }
+  .ttp-time input {
+    outline: none;
+    font-family: "Montserrat", sans-serif;
+    outline: none;
+    border: none;
+  }
+  .ttpc-title {
+    justify-content: flex-start;
+
+    height: 60%;
+    display: flex;
+    padding-left: 10px;
+    padding-top: 3px;
+    font-family: "Montserrat", sans-serif;
+  }
+  .ttpc-note {
+    justify-content: flex-start;
+    /* width: 60%; */
+    height: 60%;
+    display: flex;
+    padding-left: 10px;
+    padding-top: 3px;
+  }
+  .ttpc-title input {
+    width: 90%;
+    height: 80%;
+    border: none;
+    outline: none;
+    font-family: "Montserrat", sans-serif;
+  }
+  .ttpc-note input {
+    width: 90%;
+    height: 80%;
+    border: none;
+    outline: none;
+    font-family: "Montserrat", sans-serif;
+  }
 }
