@@ -1095,7 +1095,7 @@ body {
     width: 100vw;
     height: 100vh;
     top: 150%;
-    position: absolute;
+    position: fixed;
     z-index: 1111;
     display: block;
     overflow: hidden;
