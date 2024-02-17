@@ -9,7 +9,7 @@ import {
 } from "react";
 import leftarrow from "../assets/leftArrow.png";
 import { motion } from "framer-motion";
-import AllCategoriesPage from "./AllCategoriesPage";
+/
 import categoriesWithAssets from "../categories";
 
 interface df {
@@ -19,7 +19,7 @@ interface df {
 
 const Addtransaction = (props: df) => {
   const [value, setValue] = useState("");
-  const [isexpense, setisexpense] = useState(true);
+  // const [isexpense, setisexpense] = useState(true);
 
   const handleChange = (event: { target: { value: string } }) => {
     // Ensure only numeric values are entered
