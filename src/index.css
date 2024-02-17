@@ -1579,7 +1579,7 @@ body {
     font-family: "Montserrat", sans-serif;
     outline: none;
     border: none;
-    scale: 1.4;
+   
   }
   .ttp-time {
     width: 34%;
@@ -1595,7 +1595,7 @@ body {
     font-family: "Montserrat", sans-serif;
     outline: none;
     border: none;
-    scale: 1.4;
+    
   }
   .ttpc-title {
     justify-content: flex-start;
