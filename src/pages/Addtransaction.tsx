@@ -4,8 +4,6 @@ import {
   MutableRefObject,
   Ref,
   RefObject,
-  SetStateAction,
-  useEffect,
   useRef,
   useState,
 } from "react";
@@ -92,7 +90,7 @@ const Addtransaction = (props: df) => {
       hour12: false,
     })
   );
-  const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  // const [currentDateTime, setCurrentDateTime] = useState(new Date());
   // useEffect(() => {
   //   const timerID = setInterval(() => tick(), 1000);
 
