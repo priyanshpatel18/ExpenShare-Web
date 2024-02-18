@@ -1,4 +1,4 @@
-import React, {  useRef, useState } from "react";
+import React, {  useEffect, useRef, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 // import usersStore from "../stores/usersStore";
 // components
@@ -8,12 +8,17 @@ import TransactionScreen from "../components/TransactionScreen";
 import GroupsScreen from "../components/GroupsScreen";
 import ProfileScreen from "../components/ProfileScreen";
 import Addtransaction from "./Addtransaction";
+import usersStore from "../stores/usersStore";
+import { useNavigate } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 // import usersStore from "../stores/usersStore";
 
 export default function MainPage(): React.JSX.Element {
-  const myref = useRef<HTMLDivElement>(null);
-  const [isclick, setisclick] = useState(false);
+	const myref = useRef<HTMLDivElement>(null);
+  const store = usersStore()
+  const navigate = useNavigate();
+	const [isclick, setisclick] = useState(false);
+	const [userData, setUserData] = useState({});
 
   const [flag, setFlag] = useState({
     HomeScreen: true,
@@ -24,15 +29,13 @@ export default function MainPage(): React.JSX.Element {
   // const store = usersStore();
   // const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   async function getUserData() {
-  //     console.log("Welcomme");
-  //     const data = await store.getUserData(navigate);
-  //     console.log("user Data : ", data);
-  //   }
-
-  //   getUserData();
-  // }, []);
+	useEffect(() => {
+		async function getUserData() {
+			const data = await store.getUserData(navigate);
+			setUserData(data ?? {});
+		}
+    getUserData();
+  }, []);
 
   const changepage = () => {
     if (myref.current) {
@@ -54,16 +57,16 @@ export default function MainPage(): React.JSX.Element {
     changepage,
   };
 
-  return (
-    <div className="MainPage">
-      <SideBar user={null} flag={flag} setFlag={setFlag} {...buttonProps} />
-      <div className="mainScreen">
-        {flag.HomeScreen && <HomeScreen />}
-        {flag.TransactionScreen && <TransactionScreen />}
-        {flag.GroupsScreen && <GroupsScreen />}
-        {flag.ProfileScreen && <ProfileScreen />}
-      </div>
-      <Addtransaction {...buttonProps}></Addtransaction>
-    </div>
-  );
+	return (
+		<div className="MainPage">
+			<SideBar user={userData} flag={flag} setFlag={setFlag} {...buttonProps} />
+			<div className="mainScreen">
+				{flag.HomeScreen && <HomeScreen user={userData}/>}
+				{flag.TransactionScreen && <TransactionScreen user={userData}/>}
+				{flag.GroupsScreen && <GroupsScreen />}
+				{flag.ProfileScreen && <ProfileScreen />}
+			</div>
+			<Addtransaction {...buttonProps}></Addtransaction>
+		</div>
+	);
 }

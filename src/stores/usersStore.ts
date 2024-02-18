@@ -2,6 +2,8 @@ import axios from "axios";
 import { create } from "zustand";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
+const baseUrl1 = "http://192.168.43.242:8080";
+const baseUrl2 = "http://192.168.43.242:8081";
 
 interface UsersStore {
 	sendRegisterVerificationMail: (formData: FormData, navigate: (path: string) => void) => Promise<void>;
@@ -21,12 +23,13 @@ interface UsersStore {
 		  }
 		| undefined
 	>;
+	getAllTransactions: (values: Object) => Promise<void>;
 }
 
 const usersStore = create<UsersStore>(() => ({
 	sendRegisterVerificationMail: async (formData: FormData, navigate: any) => {
 		try {
-			await toast.promise(axios.post("/user/sendVerificationMail", formData), {
+			await toast.promise(axios.post(`${baseUrl1}/user/sendVerificationMail`, formData), {
 				pending: "Processing...",
 				success: "Email sent",
 			});
@@ -36,6 +39,8 @@ const usersStore = create<UsersStore>(() => ({
 			}
 			navigate("/registerOtpVerificationPage");
 		} catch (error: any) {
+			console.log(error);
+
 			if (error.response) {
 				toast.error(error.response.data);
 				return;
@@ -50,7 +55,7 @@ const usersStore = create<UsersStore>(() => ({
 		const OTP = values.OTP.reduce((otp: any, digit: any) => otp + digit, "");
 
 		try {
-			await toast.promise(axios.post("/user/verifyOtp", { userOtp: OTP }), {
+			await toast.promise(axios.post(`${baseUrl1}/user/verifyOtp`, { userOtp: OTP }), {
 				// pending: "Processing...",
 				// success: "OTP Verified",
 			});
@@ -60,7 +65,7 @@ const usersStore = create<UsersStore>(() => ({
 		} catch (error: any) {
 			Cookies.remove("userEmail");
 			if (error.response) {
-				toast.error(error.response.data);
+				toast.error(error.response.data.message);
 				return;
 			}
 			toast.error("Internal server error");
@@ -70,7 +75,7 @@ const usersStore = create<UsersStore>(() => ({
 
 	register: async (navigate: any) => {
 		try {
-			await toast.promise(axios.post("/user/register"), {
+			await toast.promise(axios.post(`${baseUrl1}/user/register`), {
 				pending: "Processing...",
 				success: "Sucessfully Registerd",
 			});
@@ -88,7 +93,7 @@ const usersStore = create<UsersStore>(() => ({
 
 	login: async (values: any, navigate: any) => {
 		try {
-			await toast.promise(axios.post("/user/login", values), {
+			await toast.promise(axios.post(`${baseUrl1}/user/login`, values), {
 				pending: "Processing...",
 				success: "Sucessfully Loggdin",
 			});
@@ -106,7 +111,7 @@ const usersStore = create<UsersStore>(() => ({
 
 	sendPasswordRecoveryMail: async (values: { email: string }, navigate: any) => {
 		try {
-			await toast.promise(axios.post("/user/sendMail", values), {
+			await toast.promise(axios.post(`${baseUrl1}/user/sendMail`, values), {
 				pending: "Processing...",
 				success: "Email sent",
 			});
@@ -129,7 +134,7 @@ const usersStore = create<UsersStore>(() => ({
 		const OTP = values.OTP.reduce((otp: any, digit: any) => otp + digit, "");
 
 		try {
-			await toast.promise(axios.post("/user/verifyOtp", { userOtp: OTP }), {
+			await toast.promise(axios.post(`${baseUrl1}/user/verifyOtp`, { userOtp: OTP }), {
 				pending: "Processing...",
 				success: "OTP Verified",
 			});
@@ -149,7 +154,7 @@ const usersStore = create<UsersStore>(() => ({
 
 	resetPassword: async (values: any, navigate: any) => {
 		try {
-			await toast.promise(axios.post("/user/resetPassword", values), {
+			await toast.promise(axios.post(`${baseUrl1}/user/resetPassword`, values), {
 				pending: "Processing...",
 				success: "Password Changed Successfully",
 			});
@@ -166,19 +171,29 @@ const usersStore = create<UsersStore>(() => ({
 
 	getUserData: async (navigate: any) => {
 		try {
-			const response = await axios.get("/user");
-			const data = response.data.user as {
-				email: string;
-				password: string;
-				profilePicture: string;
-				publicId: string;
-				userName: string;
-			};
+			const response = await axios.get(`${baseUrl2}/user/getUser`);
+			const data = response.data.user;
 			return data;
 		} catch (error: any) {
 			navigate("/login");
 			if (error.response) {
 				toast.error(error.response.data);
+				return;
+			}
+			toast.error("Internal server error");
+			return;
+		}
+	},
+
+	getAllTransactions: async (values: Object) => {
+		try {
+			const response = await axios.post(`${baseUrl2}/transaction/getAll`, values);
+			console.log(response.data);
+		} catch (error: any) {
+			console.log(error);
+
+			if (error.response) {
+				toast.error(error.response.data.message);
 				return;
 			}
 			toast.error("Internal server error");

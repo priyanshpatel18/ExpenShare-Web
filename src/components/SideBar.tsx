@@ -54,15 +54,15 @@ const SideBar = (props: any) => {
 				});
 				break;
 		}
-	}
+	}	
 
 	return (
 		<div className="SideBar">
 			<div className="userProfile">
 				<div className="img">
-					<img src={props?.user?.profilePicture || logo} alt="" />
+					<img src={props?.user?.profilePicture || logo} alt="Profile Picture" />
 				</div>
-				<div className="userName">{"Aayush"}</div>
+				<div className="userName">{props?.user?.userName || "User"}</div>
 			</div>
 			<nav className="navigation">
 				<motion.div
