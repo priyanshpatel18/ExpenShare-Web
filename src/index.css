@@ -1037,29 +1037,6 @@ body {
   .tg {
     display: none;
   }
-  .category-grid {
-    display: grid;
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(200px, 1fr)
-    ); /* Responsive grid with minimum item width of 200px */
-    gap: 20px; /* Gap between grid items */
-  }
-
-  .category-item {
-    text-align: center; /* Center-align content */
-  }
-
-  .category-item img {
-    width: 100px; /* Set width of category image */
-    height: 100px; /* Set height of category image */
-    object-fit: cover; /* Ensure the image covers its container */
-  }
-
-  .category-item p {
-    margin-top: 10px; /* Space between image and category name */
-    font-size: 14px; /* Font size of category name */
-  }
 
   .transaction .aa .im img {
     position: relative;
@@ -1568,6 +1545,17 @@ body {
   .ttpc-detail {
     height: 40%;
   }
+  .ttpc-img {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+  }
+  .ttpc-img p {
+    padding-left: 11px;
+  }
+  .ttpc-img img {
+    width: 30px;
+  }
   .ttpc-detail > p {
     padding-top: 7px;
     padding-left: 7px;
@@ -1644,13 +1632,15 @@ body {
   }
   .categories-page {
     width: 100vw;
-    height: 100vh;
-    scale: 0;
+    height: 0vh;
+    opacity: 1;
+    scale: 1;
+    animation: slideIn 0.3s ease-in-out;
     position: fixed;
     overflow: hidden;
-    background-color: #2faae3;
+    /* background-color: #cfd90f; */
     z-index: 10;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.3s ease-in-out;
   }
   .tfp-search {
     width: 90%;
@@ -1755,6 +1745,16 @@ body {
     font-size: 20px;
     transition: all 0.5s ease-in-out;
   }
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   .transaction-second-part {
     width: 100%;
     background-color: #ff4545;
@@ -1813,6 +1813,35 @@ body {
     height: 100vh;
     width: 100vw;
     position: absolute;
+  }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    overflow: auto;
+    width: 100%;
+    height: 85%;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    background-color: white;
+    /* Responsive grid with minimum item width of 200px */
+    /* Gap between grid items */
+  }
+
+  .category-item {
+    text-align: center; /* Center-align content */
+  }
+
+  .category-item img {
+    width: 30px; /* Set width of category image */
+    height: 30px; /* Set height of category image */
+    object-fit: cover; /* Ensure the image covers its container */
+  }
+
+  .category-item p {
+    margin-top: 10px; /* Space between image and category name */
+    font-size: 14px; /* Font size of category name */
   }
 }
 
@@ -1934,7 +1963,9 @@ body {
 
 .HomeScreen .transactions {
   flex: 1;
-  overflow-y: scroll;
+  /* overflow-y: scroll;
+   */
+  overflow: auto;
   padding: 0px 10px;
 }
 
@@ -2035,7 +2066,6 @@ body {
 }
 
 .HomeScreen .transactions .transaction {
-  border: 1px solid black;
   width: 100%;
   background-color: var(--clr-03-primary-gray);
   padding: 10px;
@@ -2045,8 +2075,34 @@ body {
   border-radius: 20px;
   margin-bottom: 10px;
 }
+.HomeScreen .transactions .transaction-income {
+  width: 100%;
+  background-color: var(--clr-03-primary-gray);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.HomeScreen .transactions .err {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
 
 .HomeScreen .transactions .transaction .transactionDetail {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.HomeScreen .transactions .transaction-income .transactionDetail {
   width: 70%;
   height: 100%;
   display: flex;
@@ -2071,6 +2127,11 @@ body {
 
 .HomeScreen .transactions .transactionValue {
   margin-right: 10px;
+  color: red;
+}
+.HomeScreen .transactions .transactionValue-income {
+  margin-right: 10px;
+  color: green;
 }
 
 /* .HomeScreen .userDashbord .ba */
@@ -2084,14 +2145,16 @@ body {
   .SideBar {
     max-height: 70px;
     /* min-width: auto; */
-    position: fixed;
-    width: 100vw;
     max-width: none;
     background-color: var(--clr-03-primary-gray);
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     border: none;
     z-index: 1;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 55px;
   }
 
   .mainScreen {
@@ -2104,7 +2167,9 @@ body {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    position: relative;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
   }
 
   .SideBar .addBtn {
@@ -2166,5 +2231,19 @@ body {
 
   .HomeScreen .userDashbord .welcomeText .profilePic img {
     width: 100%;
+  }
+  .err {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .err img {
+    width: 50px;
+  }
+  .HomeScreen .transactions .transaction {
+    background-color: rgb(255, 173, 173);
+  }
+  .HomeScreen .transactions .transaction-income {
+    background-color: rgb(170, 253, 166);
   }
 }

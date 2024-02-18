@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, {  useRef, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 // import usersStore from "../stores/usersStore";
 // components
@@ -8,6 +8,8 @@ import TransactionScreen from "../components/TransactionScreen";
 import GroupsScreen from "../components/GroupsScreen";
 import ProfileScreen from "../components/ProfileScreen";
 import Addtransaction from "./Addtransaction";
+// import { useNavigate } from "react-router-dom";
+// import usersStore from "../stores/usersStore";
 
 export default function MainPage(): React.JSX.Element {
   const myref = useRef<HTMLDivElement>(null);
@@ -19,17 +21,17 @@ export default function MainPage(): React.JSX.Element {
     GroupsScreen: false,
     ProfileScreen: false,
   });
-  //   const store = usersStore();
-  //   const navigate = useNavigate();
+  // const store = usersStore();
+  // const navigate = useNavigate();
 
   // useEffect(() => {
-  // 	async function getUserData() {
-  // 		console.log("Welcomme");
-  // 		const data = await store.getUserData(navigate);
-  // 		console.log("user Data : ", data);
-  // 	}
+  //   async function getUserData() {
+  //     console.log("Welcomme");
+  //     const data = await store.getUserData(navigate);
+  //     console.log("user Data : ", data);
+  //   }
 
-  // 	getUserData();
+  //   getUserData();
   // }, []);
 
   const changepage = () => {
