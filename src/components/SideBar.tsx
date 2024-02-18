@@ -15,7 +15,6 @@ const SideBar = (props: any) => {
 	function chageScreen(screen: string) {
 		switch (screen) {
 			case "HomeScreen":
-				console.log("HomeSccreen");
 				props.setFlag({
 					HomeScreen: true,
 					TransactionScreen: false,
@@ -25,7 +24,6 @@ const SideBar = (props: any) => {
 				break;
 
 			case "TransactionScreen":
-				console.log("TransactionScreen");
 				props.setFlag({
 					HomeScreen: false,
 					TransactionScreen: true,
@@ -35,7 +33,6 @@ const SideBar = (props: any) => {
 				break;
 
 			case "GroupsScreen":
-				console.log("GroupsScreen");
 				props.setFlag({
 					HomeScreen: false,
 					TransactionScreen: false,
@@ -45,7 +42,6 @@ const SideBar = (props: any) => {
 				break;
 
 			case "ProfileScreen":
-				console.log("ProfileScreen");
 				props.setFlag({
 					HomeScreen: false,
 					TransactionScreen: false,

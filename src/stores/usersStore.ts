@@ -1,9 +1,23 @@
 import axios from "axios";
-import { create } from "zustand";
-import { toast } from "react-toastify";
 import Cookies from "js-cookie";
-const baseUrl1 = "http://192.168.43.242:8080";
-const baseUrl2 = "http://192.168.43.242:8081";
+import { toast } from "react-toastify";
+import { create } from "zustand";
+
+const baseUrl1 = "server 1 link here";
+const baseUrl2 = "server 2 link here";
+
+interface Transaction {
+	category: string;
+	createdBy: string;
+	invoiceUrl: string;
+	notes: string;
+	publicId: string;
+	transactionAmount: string;
+	transactionDate: string;
+	transactionTitle: string;
+	type: string;
+	_id: string;
+}
 
 interface UsersStore {
 	sendRegisterVerificationMail: (formData: FormData, navigate: (path: string) => void) => Promise<void>;
@@ -24,9 +38,16 @@ interface UsersStore {
 		| undefined
 	>;
 	getAllTransactions: (values: Object) => Promise<void>;
+	putTransactions: (values: Object) => Promise<void>;
+	transactions: Transaction[];
+	setTransactions: (values: Transaction) => null;
+	isLoading: boolean;
 }
 
-const usersStore = create<UsersStore>(() => ({
+const usersStore = create<UsersStore>((set) => ({
+	transactions: [],
+	isLoading: false,
+
 	sendRegisterVerificationMail: async (formData: FormData, navigate: any) => {
 		try {
 			await toast.promise(axios.post(`${baseUrl1}/user/sendVerificationMail`, formData), {
@@ -77,7 +98,7 @@ const usersStore = create<UsersStore>(() => ({
 		try {
 			await toast.promise(axios.post(`${baseUrl1}/user/register`), {
 				pending: "Processing...",
-				success: "Sucessfully Registerd",
+				success: "Successfully Registered",
 			});
 			setTimeout(() => navigate("/"), 1000);
 			return;
@@ -95,7 +116,7 @@ const usersStore = create<UsersStore>(() => ({
 		try {
 			await toast.promise(axios.post(`${baseUrl1}/user/login`, values), {
 				pending: "Processing...",
-				success: "Sucessfully Loggdin",
+				success: "Successfully Logged In",
 			});
 			navigate("/");
 			return;
@@ -171,10 +192,13 @@ const usersStore = create<UsersStore>(() => ({
 
 	getUserData: async (navigate: any) => {
 		try {
+			set({ isLoading: true });
 			const response = await axios.get(`${baseUrl2}/user/getUser`);
+			set({ isLoading: false });
 			const data = response.data.user;
 			return data;
 		} catch (error: any) {
+			set({ isLoading: false });
 			navigate("/login");
 			if (error.response) {
 				toast.error(error.response.data);
@@ -185,10 +209,10 @@ const usersStore = create<UsersStore>(() => ({
 		}
 	},
 
-	getAllTransactions: async (values: Object) => {
+	putTransactions: async (values: Object) => {
 		try {
-			const response = await axios.post(`${baseUrl2}/transaction/getAll`, values);
-			console.log(response.data);
+			await axios.post(`${baseUrl2}/transaction/add`, values);
+			console.log("Transaction Submitted");
 		} catch (error: any) {
 			console.log(error);
 
@@ -199,6 +223,30 @@ const usersStore = create<UsersStore>(() => ({
 			toast.error("Internal server error");
 			return;
 		}
+	},
+
+	getAllTransactions: async (values: Object) => {
+		console.log(values);
+		
+
+		try {
+			const response = await axios.post(`${baseUrl2}/transaction/getAll`, values);
+			set({ transactions: response.data.transactions });
+		} catch (error: any) {
+			console.log(error);
+
+			if (error.response) {
+				toast.error(error.response.data.message);
+				return;
+			}
+			toast.error("Internal server error");
+			return;
+		}
+	},
+
+	setTransactions: (values: Transaction) => {
+		set((state) => ({ transactions: [...state.transactions, values] }));
+		return null; 
 	},
 }));
 

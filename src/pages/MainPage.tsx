@@ -10,6 +10,7 @@ import ProfileScreen from "../components/ProfileScreen";
 import Addtransaction from "./Addtransaction";
 import usersStore from "../stores/usersStore";
 import { useNavigate } from "react-router-dom";
+import LoadingPage from "./LoadingPage";
 // import { useNavigate } from "react-router-dom";
 // import usersStore from "../stores/usersStore";
 
@@ -57,6 +58,10 @@ export default function MainPage(): React.JSX.Element {
     changepage,
   };
 
+  if (store.isLoading === true) {
+		return <LoadingPage />;
+  }
+
 	return (
 		<div className="MainPage">
 			<SideBar user={userData} flag={flag} setFlag={setFlag} {...buttonProps} />
@@ -66,7 +71,7 @@ export default function MainPage(): React.JSX.Element {
 				{flag.GroupsScreen && <GroupsScreen />}
 				{flag.ProfileScreen && <ProfileScreen />}
 			</div>
-			<Addtransaction {...buttonProps}></Addtransaction>
+			<Addtransaction {...buttonProps} user={userData}></Addtransaction>
 		</div>
 	);
 }
