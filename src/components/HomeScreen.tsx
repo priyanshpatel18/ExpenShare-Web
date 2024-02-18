@@ -9,11 +9,11 @@ import nothing from "../assets/wallet.png";
 import income from "../assets/upArrow.png";
 import { transactionData } from "../stores/TransactionStore";
 
-function HomePage(): React.JSX.Element {
-  const universalsex: number = 0.5;
-  const credit = 50000;
-  const incomee = 4000;
-  const expensee = 8000;
+function HomeScreen(props: any): React.JSX.Element {
+	const universalsex: number = 0.5;
+	const credit = 50000;
+	const incomee = 4000;
+	const expensee = 8000;
 
   const count = useMotionValue(0);
   const count2 = useMotionValue(0);
@@ -42,19 +42,19 @@ function HomePage(): React.JSX.Element {
 
   const storee = transactionData();
 
-  return (
-    <div className="HomeScreen">
-      <div className="userDashbord">
-        <div className="leftDashbord">
-          <div className="welcomeText">
-            <div className="profilePic">
-              <img src={logo} alt="Profile Picture" />
-            </div>
-            <div>
-              <h2>Welcome,</h2>
-              <div>User One</div>
-            </div>
-          </div>
+	return (
+		<div className="HomeScreen">
+			<div className="userDashbord">
+				<div className="leftDashbord">
+					<div className="welcomeText">
+						<div className="profilePic">
+							<img src={props?.user?.profilePicture || logo} alt="Profile Picture" />
+						</div>
+						<div>
+							<h2>Welcome,</h2>
+							<div>{props?.user?.userName || "User"}</div>
+						</div>
+					</div>
 
           <div className="balance">
             <div className="row1">
@@ -158,4 +158,4 @@ function HomePage(): React.JSX.Element {
   );
 }
 
-export default HomePage;
+export default HomeScreen;
