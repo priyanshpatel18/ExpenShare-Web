@@ -2,10 +2,7 @@ import create from "zustand";
 
 interface TransactionData {
   amount: string;
-  category: {
-    name: string;
-    source: string;
-  };
+  category: string;
   title: string;
   notes: string;
   date: string;
