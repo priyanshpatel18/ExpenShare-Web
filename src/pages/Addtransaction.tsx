@@ -5,13 +5,13 @@ import usersStore from "../stores/usersStore";
 import leftarrow from "../assets/leftArrow.png";
 import categoriesWithAssets from "../pages/categories";
 
-interface df {
-	myref: React.RefObject<HTMLDivElement>;
-	changepage2: () => void;
-	changepage: () => void;
-}
+// interface df {
+// 	myref: React.RefObject<HTMLDivElement>;
+// 	changepage2: () => void;
+// 	changepage: () => void;
+// }
 
-export default function AddTransaction(props: df): React.JSX.Element {
+export default function AddTransaction(props: any): React.JSX.Element {
 	const [incomeFlag, setIncomeFlag] = useState("expense");
 	const [searchQuery, setSearchQuery] = useState("");
 	const [amount, setAmount] = useState("");
