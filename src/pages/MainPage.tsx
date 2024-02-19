@@ -5,10 +5,10 @@ import HomeScreen from "../components/HomeScreen";
 import TransactionScreen from "../components/TransactionScreen";
 import GroupsScreen from "../components/GroupsScreen";
 import ProfileScreen from "../components/ProfileScreen";
-import Addtransaction from "./AddTransaction";
 import usersStore from "../stores/usersStore";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "./LoadingPage";
+import AddTransaction from "../components/AddTransaction"
 
 export default function MainPage(): React.JSX.Element {
 	const myref = useRef<HTMLDivElement>(null);
@@ -65,7 +65,7 @@ export default function MainPage(): React.JSX.Element {
 				{flag.GroupsScreen && <GroupsScreen />}
 				{flag.ProfileScreen && <ProfileScreen />}
 			</div>
-			<Addtransaction {...buttonProps}></Addtransaction>
+			<AddTransaction {...buttonProps} />
 		</div>
 	);
 }
