@@ -11,7 +11,7 @@ interface df {
 	changepage: () => void;
 }
 
-const AddTransaction = (props: df) => {
+export default function AddTransaction(props: df): React.JSX.Element {
 	const [incomeFlag, setIncomeFlag] = useState("expense");
 	const [searchQuery, setSearchQuery] = useState("");
 	const [amount, setAmount] = useState("");
@@ -279,5 +279,3 @@ const AddTransaction = (props: df) => {
 		</div>
 	);
 };
-
-export default AddTransaction;
