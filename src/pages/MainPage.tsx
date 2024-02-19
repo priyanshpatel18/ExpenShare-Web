@@ -5,7 +5,7 @@ import HomeScreen from "../components/HomeScreen";
 import TransactionScreen from "../components/TransactionScreen";
 import GroupsScreen from "../components/GroupsScreen";
 import ProfileScreen from "../components/ProfileScreen";
-import Addtransaction from "../pages/AddTransaction";
+import Addtransaction from "../pages/AddTransaction.tsx";
 import usersStore from "../stores/usersStore";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "./LoadingPage";
