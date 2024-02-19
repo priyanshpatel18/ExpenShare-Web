@@ -2,14 +2,14 @@ import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import usersStore from "../stores/usersStore";
 import categoriesImgs from "../pages/categories";
 
-export default function TransactionScreen(props: any): React.JSX.Element {
+export default function TransactionScreen(): React.JSX.Element {
 	const store = usersStore();
 	const [Flag, setFlag] = useState("income");
 	const buttonRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
 
 	useEffect(() => {
 		async function getTransactions() {
-			await store.getAllTransactions({ email: props?.user?.email || "" });
+			await store.getAllTransactions();
 		}
 		getTransactions();
 	}, []);

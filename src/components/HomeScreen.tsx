@@ -1,28 +1,43 @@
-import { animate, motion, useMotionValue, useTransform } from "framer-motion";
-import React, { MutableRefObject, useEffect, useRef } from "react";
+import { animate, motion, useMotionValue } from "framer-motion";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 // imges
 import expense from "../assets/downArrow.png";
 import categoriesWithAssets from "../pages/categories";
-// import food from "../assets/food.png";
 import logo from "../assets/profile.png";
 import income from "../assets/upArrow.png";
 import nothing from "../assets/wallet.png";
 import usersStore from "../stores/usersStore";
 
-function HomeScreen(props: any): React.JSX.Element {
+interface userData {
+	email: string;
+	expenses: string[];
+	incomes: string[];
+	password: string;
+	profilePicture: string;
+	publicId: string;
+	totalBalance: number;
+	totalExpense: number;
+	totalIncome: number;
+	userName: string;
+	__v: number;
+	_id: string;
+}
+
+function HomeScreen(): React.JSX.Element {
+	const [userData, setUserData] = useState<userData | null>(null);
 	const store = usersStore();
 	const universalsex: number = 0.5;
-	const credit = 50000;
+	const credit = 5000;
 	const incomee = 4000;
 	const expensee = 8000;
 
 	const count = useMotionValue(0);
 	const count2 = useMotionValue(0);
 	const count3 = useMotionValue(0);
-	const rounded = useTransform(count, Math.round);
-	const rounded2 = useTransform(count2, Math.round);
-	const rounded3 = useTransform(count3, Math.round);
+	// const rounded = useTransform(count, Math.round);
+	// const rounded2 = useTransform(count2, Math.round);
+	// const rounded3 = useTransform(count3, Math.round);
 
 	useEffect(() => {
 		const incomeanimation = animate(count, incomee, { duration: universalsex });
@@ -42,12 +57,10 @@ function HomeScreen(props: any): React.JSX.Element {
 	}, []);
 	const ammount_ref: MutableRefObject<HTMLDivElement | null> = useRef(null);
 
-
-
 	useEffect(() => {
+		setUserData(store.userData as userData | null);
 		async function getTransactions() {
-			// props des not loading.. 
-			// await store.getAllTransactions({ email: data?.email || "" });
+			await store.getAllTransactions();
 		}
 		getTransactions();
 	}, []);
@@ -58,11 +71,11 @@ function HomeScreen(props: any): React.JSX.Element {
 				<div className="leftDashbord">
 					<div className="welcomeText">
 						<div className="profilePic">
-							<img src={props?.user?.profilePicture || logo} alt="Profile Picture" />
+							<img src={userData?.profilePicture || logo} alt="Profile Picture" />
 						</div>
 						<div>
 							<h2>Welcome,</h2>
-							<div>{props?.user?.userName || "User"}</div>
+							<div>{userData?.userName || "User"}</div>
 						</div>
 					</div>
 
@@ -73,7 +86,7 @@ function HomeScreen(props: any): React.JSX.Element {
 
 						<div className="row2">
 							<span>$</span>
-							<motion.p>{rounded3}</motion.p>
+							<motion.p>{userData?.totalBalance || 0}</motion.p>
 						</div>
 
 						<div className="row3">
@@ -85,7 +98,7 @@ function HomeScreen(props: any): React.JSX.Element {
 									<p>Income</p>
 									<div>
 										<span>$</span>
-										<motion.span>{rounded}</motion.span>
+										<motion.span>{userData?.totalExpense || 0}</motion.span>
 									</div>
 								</div>
 							</div>
@@ -98,7 +111,7 @@ function HomeScreen(props: any): React.JSX.Element {
 									<p>Expense</p>
 									<div>
 										<span>$</span>
-										<motion.span>{rounded2}</motion.span>
+										<motion.span>{userData?.totalIncome || 0}</motion.span>
 									</div>
 								</div>
 							</div>
@@ -153,9 +166,7 @@ function HomeScreen(props: any): React.JSX.Element {
 							</div>
 							<div
 								className={`${
-									T.type === "expense"
-										? "transactionValue "
-										: "transactionValue-income"
+									T.type === "expense" ? "transactionValue " : "transactionValue-income"
 								}`}
 								ref={ammount_ref}
 							>

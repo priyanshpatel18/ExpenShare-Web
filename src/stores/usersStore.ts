@@ -3,9 +3,6 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { create } from "zustand";
 
-const baseUrl1 = "server 1 link here";
-const baseUrl2 = "server 2 link here";
-
 interface Transaction {
 	category: string;
 	createdBy: string;
@@ -16,6 +13,21 @@ interface Transaction {
 	transactionDate: string;
 	transactionTitle: string;
 	type: string;
+	_id: string;
+}
+
+interface userData {
+	email: string;
+	expenses: string[];
+	incomes: string[];
+	password: string;
+	profilePicture: string;
+	publicId: string;
+	totalBalance: number;
+	totalExpense: number;
+	totalIncome: number;
+	userName: string;
+	__v: number;
 	_id: string;
 }
 
@@ -37,20 +49,35 @@ interface UsersStore {
 		  }
 		| undefined
 	>;
-	getAllTransactions: (values: Object) => Promise<void>;
+	getAllTransactions: () => Promise<void>;
 	putTransactions: (values: Object) => Promise<void>;
-	transactions: Transaction[];
 	setTransactions: (values: Transaction) => null;
+	transactions: Transaction[];
 	isLoading: boolean;
+	userData: userData | {};
 }
 
 const usersStore = create<UsersStore>((set) => ({
+	userData: {
+		email: "",
+		expenses: [],
+		incomes: [],
+		password: "",
+		profilePicture: "",
+		publicId: "",
+		totalBalance: 0,
+		totalExpense: 0,
+		totalIncome: 0,
+		userName: "",
+		__v: 0,
+		_id: "",
+	},
 	transactions: [],
 	isLoading: false,
 
 	sendRegisterVerificationMail: async (formData: FormData, navigate: any) => {
 		try {
-			await toast.promise(axios.post(`${baseUrl1}/user/sendVerificationMail`, formData), {
+			await toast.promise(axios.post(`/user/sendVerificationMail`, formData), {
 				pending: "Processing...",
 				success: "Email sent",
 			});
@@ -63,7 +90,7 @@ const usersStore = create<UsersStore>((set) => ({
 			console.log(error);
 
 			if (error.response) {
-				toast.error(error.response.data);
+				toast.error(error.response.data.message);
 				return;
 			}
 			toast.error("Internal server error");
@@ -76,10 +103,7 @@ const usersStore = create<UsersStore>((set) => ({
 		const OTP = values.OTP.reduce((otp: any, digit: any) => otp + digit, "");
 
 		try {
-			await toast.promise(axios.post(`${baseUrl1}/user/verifyOtp`, { userOtp: OTP }), {
-				// pending: "Processing...",
-				// success: "OTP Verified",
-			});
+			await axios.post(`/user/verifyOtp`, { userOtp: OTP });
 			Cookies.remove("userEmail");
 			await register(navigate);
 			return;
@@ -96,7 +120,7 @@ const usersStore = create<UsersStore>((set) => ({
 
 	register: async (navigate: any) => {
 		try {
-			await toast.promise(axios.post(`${baseUrl1}/user/register`), {
+			await toast.promise(axios.post(`/user/register`), {
 				pending: "Processing...",
 				success: "Successfully Registered",
 			});
@@ -104,7 +128,7 @@ const usersStore = create<UsersStore>((set) => ({
 			return;
 		} catch (error: any) {
 			if (error.response) {
-				toast.error(error.response.data);
+				toast.error(error.response.data.message);
 				return;
 			}
 			toast.error("Internal server error");
@@ -114,7 +138,7 @@ const usersStore = create<UsersStore>((set) => ({
 
 	login: async (values: any, navigate: any) => {
 		try {
-			await toast.promise(axios.post(`${baseUrl1}/user/login`, values), {
+			await toast.promise(axios.post(`/user/login`, values), {
 				pending: "Processing...",
 				success: "Successfully Logged In",
 			});
@@ -122,7 +146,7 @@ const usersStore = create<UsersStore>((set) => ({
 			return;
 		} catch (error: any) {
 			if (error.response) {
-				toast.error(error.response.data);
+				toast.error(error.response.data.message);
 				return;
 			}
 			toast.error("Internal server error");
@@ -132,7 +156,7 @@ const usersStore = create<UsersStore>((set) => ({
 
 	sendPasswordRecoveryMail: async (values: { email: string }, navigate: any) => {
 		try {
-			await toast.promise(axios.post(`${baseUrl1}/user/sendMail`, values), {
+			await toast.promise(axios.post(`/user/sendMail`, values), {
 				pending: "Processing...",
 				success: "Email sent",
 			});
@@ -143,7 +167,7 @@ const usersStore = create<UsersStore>((set) => ({
 			navigate("/passwordResetOtpVerificationPage");
 		} catch (error: any) {
 			if (error.response) {
-				toast.error(error.response.data);
+				toast.error(error.response.data.message);
 				return;
 			}
 			toast.error("Internal server error");
@@ -155,7 +179,7 @@ const usersStore = create<UsersStore>((set) => ({
 		const OTP = values.OTP.reduce((otp: any, digit: any) => otp + digit, "");
 
 		try {
-			await toast.promise(axios.post(`${baseUrl1}/user/verifyOtp`, { userOtp: OTP }), {
+			await toast.promise(axios.post(`/user/verifyOtp`, { userOtp: OTP }), {
 				pending: "Processing...",
 				success: "OTP Verified",
 			});
@@ -164,7 +188,7 @@ const usersStore = create<UsersStore>((set) => ({
 			return;
 		} catch (error: any) {
 			if (error.response) {
-				toast.error(error.response.data);
+				toast.error(error.response.data.message);
 				return;
 			}
 			Cookies.remove("userEmail");
@@ -175,14 +199,14 @@ const usersStore = create<UsersStore>((set) => ({
 
 	resetPassword: async (values: any, navigate: any) => {
 		try {
-			await toast.promise(axios.post(`${baseUrl1}/user/resetPassword`, values), {
+			await toast.promise(axios.post(`/user/resetPassword`, values), {
 				pending: "Processing...",
 				success: "Password Changed Successfully",
 			});
 			navigate("/login");
 		} catch (error: any) {
 			if (error.response) {
-				toast.error(error.response.data);
+				toast.error(error.response.data.message);
 				return;
 			}
 			toast.error("Internal server error");
@@ -193,7 +217,8 @@ const usersStore = create<UsersStore>((set) => ({
 	getUserData: async (navigate: any) => {
 		try {
 			set({ isLoading: true });
-			const response = await axios.get(`${baseUrl2}/user/getUser`);
+			const response = await axios.get(`/user/getUser`);
+			set({ userData: response.data.user });
 			set({ isLoading: false });
 			const data = response.data.user;
 			return data;
@@ -201,7 +226,7 @@ const usersStore = create<UsersStore>((set) => ({
 			set({ isLoading: false });
 			navigate("/login");
 			if (error.response) {
-				toast.error(error.response.data);
+				toast.error(error.response.data.message);
 				return;
 			}
 			toast.error("Internal server error");
@@ -211,8 +236,7 @@ const usersStore = create<UsersStore>((set) => ({
 
 	putTransactions: async (values: Object) => {
 		try {
-			await axios.post(`${baseUrl2}/transaction/add`, values);
-			console.log("Transaction Submitted");
+			await axios.post(`/transaction/add`, values);
 		} catch (error: any) {
 			console.log(error);
 
@@ -225,13 +249,15 @@ const usersStore = create<UsersStore>((set) => ({
 		}
 	},
 
-	getAllTransactions: async (values: Object) => {
-		console.log(values);
-		
-
+	getAllTransactions: async () => {
 		try {
-			const response = await axios.post(`${baseUrl2}/transaction/getAll`, values);
-			set({ transactions: response.data.transactions });
+			const response = await axios.get(`/transaction/getAll`);
+			// Sort transactions by transactionDate in descending order
+			const sortedTransactions = response.data.transactions.sort(
+				(a: Transaction, b: Transaction) =>
+					new Date(b.transactionDate).getTime() - new Date(a.transactionDate).getTime(),
+			);
+			set({ transactions: sortedTransactions });
 		} catch (error: any) {
 			console.log(error);
 
@@ -245,8 +271,8 @@ const usersStore = create<UsersStore>((set) => ({
 	},
 
 	setTransactions: (values: Transaction) => {
-		set((state) => ({ transactions: [...state.transactions, values] }));
-		return null; 
+		set((state) => ({ transactions: [values, ...state.transactions] }));
+		return null;
 	},
 }));
 

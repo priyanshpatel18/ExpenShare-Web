@@ -1,33 +1,23 @@
 import { motion } from "framer-motion";
 import { LegacyRef, MutableRefObject, Ref, useRef, useState } from "react";
-// stores
-import { transactionData } from "../stores/TransactionStore";
 import usersStore from "../stores/usersStore";
 // images
 import leftarrow from "../assets/leftArrow.png";
-import categoriesWithAssets from "./categories";
+import categoriesWithAssets from "../pages/categories";
 
-// interface df {
-// 	myref: React.RefObject<HTMLDivElement>;
-// 	changepage2: () => void;
-// 	changepage: () => void;
-// 	user: {
-// 		email: string;
-// 		password: string;
-// 		profilePicture: string;
-// 		publicId: string;
-// 		userName: string;
-// 	};
-// }
+interface df {
+	myref: React.RefObject<HTMLDivElement>;
+	changepage2: () => void;
+	changepage: () => void;
+}
 
-const Addtransaction = (props: any) => {
+const AddTransaction = (props: df) => {
 	const [incomeFlag, setIncomeFlag] = useState("expense");
 	const [searchQuery, setSearchQuery] = useState("");
 	const [amount, setAmount] = useState("");
 	const [notes, setNotes] = useState("");
 	const [title, setTitle] = useState("");
 	const [category, setCategory] = useState("Air Tickets");
-	const storee = transactionData();
 	const store = usersStore();
 
 	// Userref and style change stuff
@@ -117,34 +107,13 @@ const Addtransaction = (props: any) => {
 		category.name.toLowerCase().includes(searchQuery.toLowerCase()),
 	);
 
-	const handleselected = (index: number) => {
-		setCategory(categoriesWithAssets[index].name);
-	};
-
 	const handlesubmit = () => {
 		if (!amount.trim()) {
 			alert("Please enter a valid amount");
 			return;
 		}
-		// Construct the transaction object with form data
-
-		// {
-		// 			category: string;
-		// 			createdBy: string;
-		// 			invoiceUrl: string;
-		// 			notes: string;
-		// 			publicId: string;
-		// 			transactionAmount: string;
-		// 			transactionDate: string;
-		// 			transactionTitle: string;
-		// 			type: string;
-		// 			_id: string;
-		// 		},
-
 		const transactionDate = new Date(`${date}T${time}`).toISOString();
 
-		const transaction = { amount, category, title, notes, date, time, transactiontype: incomeFlag };
-		storee.addData(transaction);
 		store.setTransactions({
 			category,
 			createdBy: "",
@@ -159,15 +128,7 @@ const Addtransaction = (props: any) => {
 		});
 
 		// Server Regest Object
-		const requestObject = {
-			amount,
-			category,
-			title,
-			notes,
-			incomeFlag,
-			email: props?.user?.email,
-			transactionDate,
-		};
+		const requestObject = { amount, category, title, notes, incomeFlag, transactionDate };
 		store.putTransactions(requestObject);
 	};
 
@@ -200,7 +161,7 @@ const Addtransaction = (props: any) => {
 								alt={category.name}
 								onClick={() => {
 									closeCategorisPage();
-									handleselected(index);
+									setCategory(categoriesWithAssets[index].name);
 								}}
 							/>
 							<p>{category.name}</p>
@@ -319,4 +280,4 @@ const Addtransaction = (props: any) => {
 	);
 };
 
-export default Addtransaction;
+export default AddTransaction;
