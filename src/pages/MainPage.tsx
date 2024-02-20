@@ -5,18 +5,16 @@ import HomeScreen from "../components/HomeScreen";
 import TransactionScreen from "../components/TransactionScreen";
 import GroupsScreen from "../components/GroupsScreen";
 import ProfileScreen from "../components/ProfileScreen";
-// import { Store } from "../stores/store";
-// import { useNavigate } from "react-router-dom";
-
+import { Store } from "../stores/store";
+import { useNavigate } from "react-router-dom";
 import AddTransaction from "../components/AddTransaction";
 
 export default function MainPage(): React.JSX.Element {
     const myref = useRef<HTMLDivElement>(null);
-    // const store = Store();
-    // const navigate = useNavigate();
+    const store = Store();
+    const navigate = useNavigate();
 
     const [isclick, setisclick] = useState(false);
-    // const [userData, setUserData] = useState({});
 
     useEffect(() => {}, []);
     const [flag, setFlag] = useState({
@@ -27,11 +25,10 @@ export default function MainPage(): React.JSX.Element {
     });
 
     useEffect(() => {
-        // async function getUserData() {
-        //     const data = await store.getUserData(navigate);
-        //     setUserData(data ?? {});
-        // }
-        // getUserData();
+        async function getUserData() {
+            await store.getUserData(navigate);
+        }
+        getUserData();
     }, []);
 
     const changepage = () => {
@@ -57,7 +54,6 @@ export default function MainPage(): React.JSX.Element {
     return (
         <div className="MainPage">
             <SideBar
-                // user={userData}
                 flag={flag}
                 setFlag={setFlag}
                 {...buttonProps}

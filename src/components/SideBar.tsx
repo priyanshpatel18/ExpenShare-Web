@@ -1,4 +1,7 @@
 import { motion } from "framer-motion";
+import { Store } from "../stores/store";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 // imges
 import addBtn from "../assets/addButton.png";
 import Group from "../assets/group.png";
@@ -11,7 +14,26 @@ import transactive from "../assets/transactionSelected.png";
 import personal from "../assets/user.png";
 import personalactive from "../assets/userSelected.png";
 
+interface userObject {
+	email: string;
+	expenses: string[];
+	incomes: string[];
+	password: string;
+	profilePicture: string;
+	publicId: string;
+	totalBalance: number;
+	totalExpense: number;
+	totalIncome: number;
+	userName: string;
+	__v: number;
+	_id: string;
+}
+
 const SideBar = (props: any) => {
+	const store = Store();
+	const [userObject, setUserObject] = useState<userObject>();
+	const navigate = useNavigate()
+
 	function chageScreen(screen: string) {
 		switch (screen) {
 			case "HomeScreen":
@@ -52,13 +74,21 @@ const SideBar = (props: any) => {
 		}
 	}	
 
+	useEffect(() => {
+		async function getUserObject() {
+			await store.getUserData(navigate);
+		}
+
+		getUserObject();
+	}, []);
+
 	return (
 		<div className="SideBar">
 			<div className="userProfile">
 				<div className="img">
-					<img src={props?.user?.profilePicture || logo} alt="Profile Picture" />
+					<img src={userObject?.profilePicture || logo} alt="Profile Picture" />
 				</div>
-				<div className="userName">{props?.user?.userName || "User"}</div>
+				<div className="userName">{userObject?.userName || "User"}</div>
 			</div>
 			<nav className="navigation">
 				<motion.div
