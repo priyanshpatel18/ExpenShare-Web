@@ -31,7 +31,7 @@ interface userObject {
 
 const SideBar = (props: any) => {
 	const store = Store();
-	const [userObject, setUserObject] = useState<userObject>();
+	const [userObject, setUserObject] = useState<userObject | null>();
 	const navigate = useNavigate()
 
 	function chageScreen(screen: string) {
@@ -78,8 +78,8 @@ const SideBar = (props: any) => {
 		async function getUserObject() {
 			await store.getUserData(navigate);
 		}
-
 		getUserObject();
+        setUserObject(store.userData as userObject | null);
 	}, []);
 
 	return (
