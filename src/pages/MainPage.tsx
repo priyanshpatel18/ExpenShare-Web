@@ -57,7 +57,7 @@ export default function MainPage(): React.JSX.Element {
     return (
         <div className="MainPage">
             <SideBar
-                user={userData}
+                // user={userData}
                 flag={flag}
                 setFlag={setFlag}
                 {...buttonProps}
