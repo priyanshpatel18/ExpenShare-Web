@@ -27,11 +27,11 @@ export default function MainPage(): React.JSX.Element {
     });
 
     useEffect(() => {
-        async function getUserData() {
-            const data = await store.getUserData(navigate);
-            setUserData(data ?? {});
-        }
-        getUserData();
+        // async function getUserData() {
+        //     const data = await store.getUserData(navigate);
+        //     setUserData(data ?? {});
+        // }
+        // getUserData();
     }, []);
 
     const changepage = () => {
