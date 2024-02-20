@@ -6,7 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import App from "./App.js";
 import "./index.css";
-axios.defaults.baseURL = "https://expenshare.vercel.app";
+axios.defaults.baseURL = "https://expen-share-web-server.vercel.app";
 axios.defaults.withCredentials = true;
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
