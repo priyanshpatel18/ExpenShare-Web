@@ -51,6 +51,11 @@ export default function MainPage(): React.JSX.Element {
         changepage,
     };
 
+    // do not render content if useer is not logged in    
+    if (store.isLoggedIn) {
+        return <></>
+    }
+
     return (
         <div className="MainPage">
             <SideBar

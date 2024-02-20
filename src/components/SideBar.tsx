@@ -80,7 +80,7 @@ const SideBar = (props: any) => {
 		}
 		getUserObject();
         setUserObject(store.userData as userObject | null);
-	}, []);
+	}, [store.userData]);
 
 	return (
 		<div className="SideBar">
@@ -133,7 +133,7 @@ const SideBar = (props: any) => {
 					</div>
 				</motion.div>
 
-				<div>{/* div for image justification in mobile */}</div>
+				<div style={{paddingInline: "18px"}}>{/* div for image justification in mobile */}</div>
 				<motion.button
 					whileHover={{ scale: 1.1 }}
 					whileTap={{ scale: 0.8 }}

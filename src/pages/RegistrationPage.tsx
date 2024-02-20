@@ -29,12 +29,11 @@ function RegistrationPage(): React.JSX.Element {
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit: async (values) => {
-            const formData: RegisterFormValues = {
-                email: values.email,
-                userName: values.userName,
-                password: values.password,
-                profilePicture: values.profilePicture,
-            };
+            const formData = new FormData();
+            formData.append("email", values.email);
+            formData.append("userName", values.userName);
+            formData.append("password", values.password);
+            formData.append("profilePicture", values.profilePicture as File);
             store.sendEmailVerificationMail(formData, navigate);
         },
     });
