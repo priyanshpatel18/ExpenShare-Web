@@ -1,6 +1,6 @@
 import { animate, motion, useMotionValue } from "framer-motion";
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // imges
 import expense from "../assets/downArrow.png";
 import categoriesWithAssets from "../pages/categories";
@@ -10,65 +10,73 @@ import nothing from "../assets/wallet.png";
 import { Store, TransactionType } from "../stores/store";
 
 interface userData {
-	email: string;
-	expenses: string[];
-	incomes: string[];
-	password: string;
-	profilePicture: string;
-	publicId: string;
-	totalBalance: number;
-	totalExpense: number;
-	totalIncome: number;
-	userName: string;
-	__v: number;
-	_id: string;
+    email: string;
+    expenses: string[];
+    incomes: string[];
+    password: string;
+    profilePicture: string;
+    publicId: string;
+    totalBalance: number;
+    totalExpense: number;
+    totalIncome: number;
+    userName: string;
+    __v: number;
+    _id: string;
 }
 
 function HomeScreen(): React.JSX.Element {
-	const [userData, setUserData] = useState<userData | null>(null);
-	const store = Store();
-	const universalsex: number = 0.5;
-	const credit = 5000;
-	const incomee = 4000;
-	const expensee = 8000;
+    const [userData, setUserData] = useState<userData | null>(null);
+    const navigate = useNavigate();
+    const store = Store();
+    const universalsex: number = 0.5;
+    const credit = 5000;
+    const incomee = 4000;
+    const expensee = 8000;
 
-	const count = useMotionValue(0);
-	const count2 = useMotionValue(0);
-	const count3 = useMotionValue(0);
-	// const rounded = useTransform(count, Math.round);
-	// const rounded2 = useTransform(count2, Math.round);
-	// const rounded3 = useTransform(count3, Math.round);
+    const count = useMotionValue(0);
+    const count2 = useMotionValue(0);
+    const count3 = useMotionValue(0);
+    // const rounded = useTransform(count, Math.round);
+    // const rounded2 = useTransform(count2, Math.round);
+    // const rounded3 = useTransform(count3, Math.round);
 
-	useEffect(() => {
-		const incomeanimation = animate(count, incomee, {
-			duration: universalsex,
-		});
-		return incomeanimation.stop;
-	}, []);
+    useEffect(() => {
+        const incomeanimation = animate(count, incomee, {
+            duration: universalsex,
+        });
+        return incomeanimation.stop;
+    }, []);
 
-	useEffect(() => {
-		const expenseanimation = animate(count2, expensee, {
-			duration: universalsex,
-		});
-		return expenseanimation.stop;
-	}, []);
+    useEffect(() => {
+        const expenseanimation = animate(count2, expensee, {
+            duration: universalsex,
+        });
+        return expenseanimation.stop;
+    }, []);
 
-	useEffect(() => {
-		const animation = animate(count3, credit, { duration: universalsex });
-		return animation.stop;
-	}, []);
-	const ammount_ref: MutableRefObject<HTMLDivElement | null> = useRef(null);
+    useEffect(() => {
+        const animation = animate(count3, credit, { duration: universalsex });
+        return animation.stop;
+    }, []);
+    const ammount_ref: MutableRefObject<HTMLDivElement | null> = useRef(null);
 
-	useEffect(() => {
-		setUserData(store.userData as userData | null);
-		async function getTransactions() {
-			await store.getTransactions();
-		}
-		getTransactions();
-	}, [store.userData]);
+    useEffect(() => {
+        async function getTransactions() {
+            await store.getTransactions();
+        }
+        getTransactions();
+    }, []);
+    const [isEditing, setIsEditing] = useState(false);
+    useEffect(() => {
+        async function getUserObject() {
+            await store.getUserData(navigate);
+        }
+        getUserObject();
+        setUserData(store.userData as userData | null);
+    }, [navigate, store]);
 
-	return (
-		  <motion.div
+    return (
+        <motion.div
             animate={{
                 x: 0,
 
@@ -243,7 +251,7 @@ function HomeScreen(): React.JSX.Element {
                 )}
             </div>
         </motion.div>
-	);
+    );
 }
 
 export default HomeScreen;
