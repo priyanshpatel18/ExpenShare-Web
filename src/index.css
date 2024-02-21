@@ -1447,12 +1447,10 @@ body {
 	/*addtransaction*/
 	.ttp-details {
 		width: 100%;
-		height: 75%;
+		height: 78%;
 		position: relative;
 		display: grid;
-
 		flex-direction: column;
-
 		justify-items: center;
 		top: 19px;
 	}
@@ -1470,7 +1468,7 @@ body {
 	}
 	.ttp-details .ttp-note {
 		width: 85%;
-		height: 84%;
+		height: 80%;
 		border: 2px solid #888888d3;
 
 		border-radius: 13px;
@@ -1481,14 +1479,14 @@ body {
 	.ttp-details .ttp-time {
 		border: 2px solid #888888d3;
 	}
-    .ttp-details .ttp-note input,
+	.ttp-details .ttp-note input,
 	.ttp-details .ttp-title input {
-        font-size: 1.2rem;
-        font-weight: 500;
+		font-size: 1.2rem;
+		font-weight: 500;
 	}
 	.ttp-details .ttp-time-container {
 		width: 88%;
-		height: 80%;
+		height: 84%;
 		/* border: 1px solid #888888; */
 		border-radius: 13px;
 
@@ -1502,7 +1500,11 @@ body {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		padding-top: 22px;
+		padding-top: 15px;
+		margin-bottom: 1px;
+	}
+	.tsp-down input::placeholder {
+		color: rgba(255, 255, 255, 0.534);
 	}
 	.ttp-btn button {
 		padding: 10px;
@@ -1517,7 +1519,7 @@ body {
 		font-family: "Montserrat", sans-serif;
 	}
 	.ttpc-detail {
-		height: 40%;
+		height: 30%;
 	}
 	.ttpc-img {
 		display: flex;
@@ -1536,6 +1538,11 @@ body {
 	}
 	.ttp-category .ttpc-img {
 		height: 60%;
+	}
+
+	.Addtransaction form {
+		background-color: transparent;
+		height: 100%;
 	}
 
 	.ttp-Date {
@@ -1576,6 +1583,12 @@ body {
 		padding-top: 3px;
 		font-family: "Montserrat", sans-serif;
 	}
+	.ttpc-note .container {
+		height: 100%;
+	}
+	.ttpc-note input {
+		background-color: #000000;
+	}
 	.ttpc-note {
 		justify-content: flex-start;
 		/* width: 60%; */
@@ -1584,6 +1597,38 @@ body {
 		padding-left: 10px;
 		padding-top: 3px;
 	}
+
+	.ttp-note {
+		position: relative;
+	}
+
+	.ttp-note .invoiceInput {
+		position: absolute;
+		top: 7px;
+		right: 8px;
+		width: 45px;
+		padding-right: 10px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.ttp-note .invoiceInput img {
+		width: 100%;
+	}
+
+	.ttp-note .invoiceInput input {
+		display: none;
+	}
+
+	.invoiceInput .invoiceView a{
+		font-size: 0.8rem;
+		text-decoration: none;
+	}
+	.invoiceInput .invoiceView {
+		font-size: 0.8rem;
+	}
+
 	.ttpc-title input {
 		width: 90%;
 		height: 80%;
@@ -1594,6 +1639,7 @@ body {
 		background-color: white;
 		border-radius: 3px;
 	}
+
 	.ttpc-note input {
 		width: 90%;
 		height: 80%;
@@ -1747,17 +1793,17 @@ body {
 		align-items: center;
 		flex-direction: column;
 		color: white;
-		height: 35%;
+		height: 27%;
 		transition: all 0.5s ease-in-out;
 	}
 	.transaction-third-part {
 		width: 100%;
 		background-color: #ffffff;
-		height: 55%;
+		height: 58%;
 		position: absolute;
 		border-top-left-radius: 20px;
 		border-top-right-radius: 20px;
-		top: 38%;
+		top: 36%;
 		overflow: auto;
 	}
 	.tsp-up {
@@ -1770,7 +1816,7 @@ body {
 	}
 	.tsp-down {
 		width: 100%;
-		height: 80%;
+		height: 30%;
 		font-size: 200%;
 		display: flex;
 		margin-left: 80px;
@@ -1788,7 +1834,7 @@ body {
 		font-weight: bold;
 	}
 	.tsp-down {
-		margin-bottom: 100px;
+		margin-bottom: 30px;
 	}
 	/*Profile Page */
 

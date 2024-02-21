@@ -52,9 +52,11 @@ export default function MainPage(): React.JSX.Element {
     };
 
     // do not render content if useer is not logged in    
-    if (store.isLoggedIn) {
+    if (!store.userData) {
+        console.log("No entry");
+        
         return <></>
-    }
+    }  
 
     return (
         <div className="MainPage">

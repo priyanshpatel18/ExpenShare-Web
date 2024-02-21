@@ -18,12 +18,13 @@ export interface TransactionType {
 }
 
 export interface TransactionRequest {
-  transactionAmount: string;
-  category: string;
-  transactionTitle: string;
-  notes: string;
-  transactionDate: string; 
-  type: string; 
+	transactionAmount: string;
+	category: string;
+	transactionTitle: string;
+	notes: string;
+	transactionDate: string;
+	type: string;
+	invoiceUrl: File | null;
 }
 
 export interface UserObject {
@@ -82,7 +83,7 @@ interface Store {
 	// Email Verification Mail
 	sendEmailVerificationMail: (FormData: FormData, redirect: NavigateFunction) => void;
 	// Post Transactions
-	addTransaction: (formData: TransactionRequest) => void;
+	addTransaction: (formData: FormData) => void;
 	// Get User
 	getUserData: (redirect: NavigateFunction) => void;
 	// Get Transactions
@@ -119,8 +120,8 @@ export const Store = create<Store>((set) => ({
 				redirect("/registerOtpVerificationPage");
 			})
 			.catch((err) => {
-				toast.error(err.response.data.message);
-				console.log(err.response.data.message);
+				if (err.response) return toast.error(err.response?.data?.message);
+				return toast.error("Internal server error");
 			})
 			.finally(() => {
 				// set({ isLoading: false });
@@ -142,8 +143,8 @@ export const Store = create<Store>((set) => ({
 				console.log(res.data);
 			})
 			.catch((err) => {
-				toast.error(err.response.data.message);
-				console.log(err.response.data.message);
+				if (err.response) return toast.error(err.response?.data?.message);
+				return toast.error("Internal server error");
 			})
 			.finally(() => {
 				// set({ isLoading: false });
@@ -162,8 +163,8 @@ export const Store = create<Store>((set) => ({
 				redirect("/");
 			})
 			.catch((err) => {
-				toast.error(err.response.data.message);
-				console.log(err.response.data.message);
+				if (err.response) return toast.error(err.response?.data?.message);
+				return toast.error("Internal server error");
 			})
 			.finally(() => {
 				// set({ isLoading: true });
@@ -177,14 +178,14 @@ export const Store = create<Store>((set) => ({
 		await axios
 			.post("/user/login", formData)
 			.then((res) => {
-				toast.success(res.data.message);
+				toast.success(res?.data?.message);
 				console.log(res.data.message);
-				set({ isLoggedIn: true })
+				set({ isLoggedIn: true });
 				redirect("/");
 			})
 			.catch((err) => {
-				toast.error(err.response.data.message);
-				console.log(err.response.data.message);
+				if (err.response) return toast.error(err.response?.data?.message);
+				return toast.error("Internal server error");
 			})
 			.finally(() => {
 				// set({ isLoading: false });
@@ -202,8 +203,8 @@ export const Store = create<Store>((set) => ({
 				redirect("/passwordResetOtpVerificationPage");
 			})
 			.catch((err) => {
-				toast.error(err.response.data.message);
-				console.log(err.response.data.message);
+				if (err.response) return toast.error(err.response?.data?.message);
+				return toast.error("Internal server error");
 			})
 			.finally(() => {
 				// set({ isLoading: false });
@@ -223,8 +224,8 @@ export const Store = create<Store>((set) => ({
 				console.log(res.data);
 			})
 			.catch((err) => {
-				toast.error(err.response.data.message);
-				console.log(err.response.data.message);
+				if (err.response) return toast.error(err.response?.data?.message);
+				return toast.error("Internal server error");
 			})
 			.finally(() => {
 				// set({ isLoading: false });
@@ -242,8 +243,8 @@ export const Store = create<Store>((set) => ({
 				redirect("/login");
 			})
 			.catch((err) => {
-				toast.error(err.response.data.message);
-				console.log(err.response.data.message);
+				if (err.response) return toast.error(err.response?.data?.message);
+				return toast.error("Internal server error");
 			})
 			.finally(() => {
 				// set({ isLoading: false });
@@ -257,14 +258,13 @@ export const Store = create<Store>((set) => ({
 		await axios
 			.get("/user/getUser")
 			.then((res) => {
-				if (userData == undefined)
-				set({ userData: res.data.userObject });
+				if (userData == undefined) set({ userData: res.data.userObject });
 				console.log("userData", userData);
 			})
 			.catch((err) => {
 				redirect("/login");
-				toast.error(err.response.data);
-				console.log(err.response.data);
+				if (err.response) return toast.error(err.response?.data?.message);
+				return toast.error("Internal server error");
 			})
 			.finally(() => {
 				// set({ isLoading: false });
@@ -277,11 +277,12 @@ export const Store = create<Store>((set) => ({
 		await axios
 			.post("/transaction/add", formData)
 			.then((res) => {
+				toast.success("Transaction added");
 				console.log(res);
 			})
 			.catch((err) => {
-				toast.error(err.response.data.message);
-				console.log(err.response?.data.message);
+				if (err.response) return toast.error(err.response?.data?.message);
+				return toast.error("Internal server error");
 			})
 			.finally(() => {
 				// set({ isLoading: false });
@@ -301,8 +302,8 @@ export const Store = create<Store>((set) => ({
 				set({ transactions: sortedTransactions });
 			})
 			.catch((err) => {
-				toast.error(err.response.data.message);
-				console.log(err.response.data?.message);
+				if (err.response) return toast.error(err.response?.data?.message);
+				return toast.error("Internal server error");
 			})
 			.finally(() => {
 				// set({ isLoading: false });
