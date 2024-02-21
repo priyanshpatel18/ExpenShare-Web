@@ -1,287 +1,311 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 import { NavigateFunction } from "react-router-dom";
 import { create } from "zustand";
 
 export interface TransactionType {
-    transactionAmount: number;
-    category: string;
-    transactionTitle: string;
-    notes: string;
+	category: string;
+	createdBy: string;
+	invoiceUrl: string;
+	notes: string;
+	publicId: string;
+	transactionAmount: string;
+	transactionDate: string;
+	transactionTitle: string;
+	type: string;
+	_id: string;
+}
 
-    transactionDate: string;
-    type: string;
+export interface TransactionRequest {
+  transactionAmount: string;
+  category: string;
+  transactionTitle: string;
+  notes: string;
+  transactionDate: string; 
+  type: string; 
 }
 
 export interface UserObject {
-    email: string;
-    userName: string;
-    profilePicture: string;
-    totalBalance: number;
-    totalIncome: number;
-    totalExpense: number;
+	email: string;
+	userName: string;
+	profilePicture: string;
+	totalBalance: number;
+	totalIncome: number;
+	totalExpense: number;
 }
 
 export interface LoginFormValues {
-    userNameOrEmail: string;
-    password: string;
+	userNameOrEmail: string;
+	password: string;
 }
 
 export interface ResetFormValues {
-    password: string;
-    confirmPassword: string;
+	password: string;
+	confirmPassword: string;
 }
 
 export interface ForgotFormValues {
-    email: string;
+	email: string;
 }
 
 export interface RegisterFormValues {
-    email: string;
-    userName: string;
-    password: string;
-    profilePicture: File | null;
+	email: string;
+	userName: string;
+	password: string;
+	profilePicture: File | null;
 }
 
 export interface OTPFormValues {
-    OTP: string[];
+	OTP: string[];
 }
 
 interface Store {
-    // Loading
-    // isLoading: boolean;
-    // setIsLoading: (state: boolean) => void;
-    // Transactions
-    transactions: TransactionType[] | undefined;
-    setTransactions: (transactions: TransactionType[] | undefined) => void;
-    // User Data
-    userData: UserObject | undefined;
-    setUserData: (userData: UserObject) => void;
-    // Login
-    handleLogin: (
-        formData: LoginFormValues,
-        redirect: NavigateFunction
-    ) => void;
-    // Reset Password
-    handleResetPasswrord: (
-        formData: ResetFormValues,
-        redirect: NavigateFunction
-    ) => void;
-    // Forgot Password Email
-    sendRecoveryMail: (
-        formData: ForgotFormValues,
-        redirect: NavigateFunction
-    ) => void;
-    // Register
-    handleRegister: (redirect: NavigateFunction) => void;
-    // Email Verification Mail
-    sendEmailVerificationMail: (
-        FormData: RegisterFormValues,
-        redirect: NavigateFunction
-    ) => void;
-    // Post Transactions
-    addTransaction: (formData: TransactionType) => void;
-    // Get User
-    getUserData: (redirect: NavigateFunction) => void;
-    // Get Transactions
-    getTransactions: () => void;
-    // Email Verification
-    verifyEmail: (formData: OTPFormValues, redirect: NavigateFunction) => void;
-    // OTP Verification
-    verifyOtp: (formData: OTPFormValues, redirect: NavigateFunction) => void;
+	isLoggedIn: boolean;
+	// Loading
+	// isLoading: boolean;
+	// setIsLoading: (state: boolean) => void;
+	// Transactions
+	transactions: TransactionType[] | undefined;
+	setTransactions: (transactions: TransactionType[] | undefined) => void;
+	// User Data
+	userData: UserObject | undefined;
+	setUserData: (userData: UserObject) => void;
+	// Login
+	handleLogin: (formData: LoginFormValues, redirect: NavigateFunction) => void;
+	// Reset Password
+	handleResetPasswrord: (formData: ResetFormValues, redirect: NavigateFunction) => void;
+	// Forgot Password Email
+	sendRecoveryMail: (formData: ForgotFormValues, redirect: NavigateFunction) => void;
+	// Register
+	handleRegister: (redirect: NavigateFunction) => void;
+	// Email Verification Mail
+	sendEmailVerificationMail: (FormData: FormData, redirect: NavigateFunction) => void;
+	// Post Transactions
+	addTransaction: (formData: TransactionRequest) => void;
+	// Get User
+	getUserData: (redirect: NavigateFunction) => void;
+	// Get Transactions
+	getTransactions: () => void;
+	// Email Verification
+	verifyEmail: (formData: OTPFormValues, redirect: NavigateFunction) => void;
+	// OTP Verification
+	verifyOtp: (formData: OTPFormValues, redirect: NavigateFunction) => void;
 }
 
 export const Store = create<Store>((set) => ({
-    // isLoading: false,
-    // setIsLoading: (state) => set({ isLoading: state }),
+	// isLoading: false,
+	// setIsLoading: (state) => set({ isLoading: state }),
+	isLoggedIn: false,
 
-    transactions: undefined,
-    setTransactions: (transactions) => set({ transactions: transactions }),
+	transactions: undefined,
+	setTransactions: (transactions) => set({ transactions: transactions }),
 
-    userData: undefined,
-    setUserData: (userData) => set({ userData }),
+	userData: undefined,
+	setUserData: (userData) => set({ userData }),
 
-    handleLogin: async (formData, redirect) => {
-        // set({ isLoading: true });
+	sendEmailVerificationMail: async (formData, redirect) => {
+		// set({ isLoading: true });
 
-        // Post Request
-        await axios
-            .post("/user/login", formData)
-            .then((res) => {
-                console.log(res.data.message);
-                redirect("/");
-            })
-            .catch((err) => {
-                console.log(err.response.data.message);
-            })
-            .finally(() => {
-                // set({ isLoading: false });
-            });
-    },
+		await axios
+			.post("/user/sendVerificationMail", formData)
+			.then((res) => {
+				toast.success(res.data.message);
+				console.log(res.data.message);
+				const email = formData.get("email") as string | null;
+				if (email) {
+					Cookies.set("userEmail", email);
+				}
+				redirect("/registerOtpVerificationPage");
+			})
+			.catch((err) => {
+				toast.error(err.response.data.message);
+				console.log(err.response.data.message);
+			})
+			.finally(() => {
+				// set({ isLoading: false });
+			});
+	},
 
-    handleResetPasswrord: async (formData, redirect) => {
-        // set({ isLoading: true });
+	verifyEmail: async (formData, redirect) => {
+		const { handleRegister } = Store.getState();
 
-        await axios
-            .post("/user/resetPassword", formData)
-            .then((res) => {
-                console.log(res.data.response);
-                redirect("/login");
-            })
-            .catch((err) => {
-                console.log(err.response.data.message);
-            })
-            .finally(() => {
-                // set({ isLoading: false });
-            });
-    },
+		// set({ isLoading: true });
 
-    sendRecoveryMail: async (formData, redirect) => {
-        // set({ isLoading: true });
+		const OTP: string = formData.OTP.reduce((otp: string, digit: string) => otp + digit, "");
 
-        await axios
-            .post("/user/sendMail", formData)
-            .then((res) => {
-                console.log(res.data.message);
-                redirect("/verifyOtp");
-            })
-            .catch((err) => {
-                console.log(err.response.data.message);
-            })
-            .finally(() => {
-                // set({ isLoading: false });
-            });
-    },
+		await axios
+			.post(`/user/verifyOtp`, { userOtp: OTP })
+			.then((res) => {
+				Cookies.remove("userEmail");
+				handleRegister(redirect);
+				console.log(res.data);
+			})
+			.catch((err) => {
+				toast.error(err.response.data.message);
+				console.log(err.response.data.message);
+			})
+			.finally(() => {
+				// set({ isLoading: false });
+			});
+	},
 
-    handleRegister: async (redirect) => {
-        // set({ isLoading: true });
+	handleRegister: async (redirect) => {
+		// set({ isLoading: true });
 
-        await axios
-            .post("/user/register")
-            .then((res) => {
-                console.log(res.data.message);
-                redirect("/");
-            })
-            .catch((err) => {
-                console.log(err.response.data.message);
-            })
-            .finally(() => {
-                // set({ isLoading: true });
-            });
-    },
+		await axios
+			.post("/user/register")
+			.then((res) => {
+				toast.success(res.data.message);
+				console.log(res.data.message);
+				set({ isLoggedIn: true });
+				redirect("/");
+			})
+			.catch((err) => {
+				toast.error(err.response.data.message);
+				console.log(err.response.data.message);
+			})
+			.finally(() => {
+				// set({ isLoading: true });
+			});
+	},
 
-    sendEmailVerificationMail: async (formData, redirect) => {
-        // set({ isLoading: true });
+	handleLogin: async (formData, redirect) => {
+		// set({ isLoading: true });
 
-        await axios
-            .post("/user/sendVerificationMail", formData)
-            .then((res) => {
-                console.log(res.data.message);
-                redirect("/verifyEmail");
-            })
-            .catch((err) => {
-                console.log(err.response.data.message);
-            })
-            .finally(() => {
-                // set({ isLoading: false });
-            });
-    },
+		// Post Request
+		await axios
+			.post("/user/login", formData)
+			.then((res) => {
+				toast.success(res.data.message);
+				console.log(res.data.message);
+				set({ isLoggedIn: true })
+				redirect("/");
+			})
+			.catch((err) => {
+				toast.error(err.response.data.message);
+				console.log(err.response.data.message);
+			})
+			.finally(() => {
+				// set({ isLoading: false });
+			});
+	},
 
-    getUserData: async (redirect) => {
-        // set({ isLoading: true });
+	sendRecoveryMail: async (formData, redirect) => {
+		// set({ isLoading: true });
 
-        await axios
-            .get("/user/getUser")
-            .then((res) => {
-                set({ userData: res.data.userData });
-            })
-            .catch((err) => {
-                redirect("/");
-                console.log(err.response.data.message);
-            })
-            .finally(() => {
-                // set({ isLoading: false });
-            });
-    },
+		await axios
+			.post("/user/sendMail", formData)
+			.then((res) => {
+				toast.success(res.data.message);
+				console.log(res.data.message);
+				redirect("/passwordResetOtpVerificationPage");
+			})
+			.catch((err) => {
+				toast.error(err.response.data.message);
+				console.log(err.response.data.message);
+			})
+			.finally(() => {
+				// set({ isLoading: false });
+			});
+	},
 
-    addTransaction: async (formData) => {
-        // set({ isLoading: true });
+	verifyOtp: async (formData, redirect) => {
+		// set({ isLoading: false });
 
-        await axios
-            .post("/transaction/add", formData)
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err.response?.data.message);
-            })
-            .finally(() => {
-                // set({ isLoading: false });
-            });
-    },
+		const userOtp: string = formData.OTP.reduce((otp: string, digit: string) => otp + digit, "");
 
-    getTransactions: async () => {
-        // set({ isLoading: true });
+		await axios
+			.post("/user/verifyOtp", { userOtp })
+			.then((res) => {
+				Cookies.remove("userEmail");
+				redirect("/resetPasswordPage");
+				console.log(res.data);
+			})
+			.catch((err) => {
+				toast.error(err.response.data.message);
+				console.log(err.response.data.message);
+			})
+			.finally(() => {
+				// set({ isLoading: false });
+			});
+	},
 
-        await axios
-            .get("/transaction/getAll")
-            .then((res) => {
-                console.log(res.data.transactions);
-                set({ transactions: res.data.transactions });
-            })
-            .catch((err) => {
-                console.log(err.response.data?.message);
-            })
-            .finally(() => {
-                // set({ isLoading: false });
-            });
-    },
+	handleResetPasswrord: async (formData, redirect) => {
+		// set({ isLoading: true });
 
-    verifyEmail: async (formData, redirect) => {
-        const { handleRegister } = Store.getState();
+		await axios
+			.post("/user/resetPassword", formData)
+			.then((res) => {
+				toast.success(res.data.response);
+				console.log(res.data.response);
+				redirect("/login");
+			})
+			.catch((err) => {
+				toast.error(err.response.data.message);
+				console.log(err.response.data.message);
+			})
+			.finally(() => {
+				// set({ isLoading: false });
+			});
+	},
 
-        // set({ isLoading: true });
+	getUserData: async (redirect) => {
+		// set({ isLoading: true });
+		const { userData } = Store.getState();
 
-        const OTP: string = formData.OTP.reduce(
-            (otp: string, digit: string) => otp + digit,
-            ""
-        );
+		await axios
+			.get("/user/getUser")
+			.then((res) => {
+				if (userData == undefined)
+				set({ userData: res.data.userObject });
+				console.log("userData", userData);
+			})
+			.catch((err) => {
+				redirect("/login");
+				toast.error(err.response.data);
+				console.log(err.response.data);
+			})
+			.finally(() => {
+				// set({ isLoading: false });
+			});
+	},
 
-        await axios
-            .post(`/user/verifyOtp`, { userOtp: OTP })
-            .then((res) => {
-                Cookies.remove("userEmail");
-                handleRegister(redirect);
-                console.log(res.data.message);
-            })
-            .catch((err) => {
-                console.log(err.response.data.message);
-            })
-            .finally(() => {
-                // set({ isLoading: false });
-            });
-    },
+	addTransaction: async (formData) => {
+		// set({ isLoading: true });
 
-    verifyOtp: async (formData, redirect) => {
-        // set({ isLoading: false });
+		await axios
+			.post("/transaction/add", formData)
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((err) => {
+				toast.error(err.response.data.message);
+				console.log(err.response?.data.message);
+			})
+			.finally(() => {
+				// set({ isLoading: false });
+			});
+	},
 
-        const OTP: string = formData.OTP.reduce(
-            (otp: string, digit: string) => otp + digit,
-            ""
-        );
+	getTransactions: async () => {
+		// set({ isLoading: true });
 
-        await axios
-            .post("/user/verifyOtp", OTP)
-            .then((res) => {
-                Cookies.remove("userEmail");
-                redirect("/resetPasswordPage");
-                console.log(res.data.message);
-            })
-            .catch((err) => {
-                console.log(err.response.data.message);
-            })
-            .finally(() => {
-                // set({ isLoading: false });
-            });
-    },
+		await axios
+			.get("/transaction/getAll")
+			.then((res) => {
+				const sortedTransactions = res.data.transactions.sort(
+					(a: TransactionType, b: TransactionType) =>
+						new Date(b.transactionDate).getTime() - new Date(a.transactionDate).getTime(),
+				);
+				set({ transactions: sortedTransactions });
+			})
+			.catch((err) => {
+				toast.error(err.response.data.message);
+				console.log(err.response.data?.message);
+			})
+			.finally(() => {
+				// set({ isLoading: false });
+			});
+	},
 }));

@@ -20,7 +20,7 @@ export default function RegisterOtpVerificationPage(): React.JSX.Element {
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit: (values) => {
-            store.verifyOtp(values, navigate);
+            store.verifyEmail(values, navigate);
         },
     });
 
@@ -33,7 +33,7 @@ export default function RegisterOtpVerificationPage(): React.JSX.Element {
 
         // geting users email id from cookie
         const userEmailcookie = Cookies.get("userEmail");
-        setUserEmail(userEmailcookie ?? "");
+        setUserEmail(userEmailcookie ?? "provided email");
     }, []);
 
     function handleChange(
