@@ -1,5 +1,12 @@
 import { motion } from "framer-motion";
-import { LegacyRef, MutableRefObject, Ref, RefObject, useRef, useState } from "react";
+import {
+    LegacyRef,
+    MutableRefObject,
+    Ref,
+    RefObject,
+    useRef,
+    useState,
+} from "react";
 import { Store } from "../stores/store";
 import { TransactionRequest } from "../stores/store";
 import { useFormik } from "formik";
@@ -9,9 +16,9 @@ import leftarrow from "../assets/leftArrow.png";
 import categoriesWithAssets from "../pages/categories";
 
 interface AddTransactionint {
-	myref: RefObject<HTMLDivElement>;
-	changepage2: () => void;
-	changepage: () => void;
+    myref: RefObject<HTMLDivElement>;
+    changepage2: () => void;
+    changepage: () => void;
 }
 
 export default function AddTransaction(props: AddTransactionint): React.JSX.Element {
