@@ -2797,5 +2797,23 @@ body {
 
         font-family: "Montserrat", sans-serif;
     }
+	 .fullscreeniaemodel {
+        width: 100%;
+        z-index: 200;
+        height: 100%;
+        position: fixed;
+        background-color: rgba(229, 229, 229, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .fullscreeniaemodel div {
+        scale: 0.5;
+    }
+
+    .fullscreeniaemodel div img {
+        width: 100%;
+        border-radius: 20px;
+    }
 
 }
