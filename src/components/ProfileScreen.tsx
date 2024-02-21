@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import profilepic from "../assets/profile.png";
 import { motion } from "framer-motion";
 import Accounts from "../assets/account.png";
@@ -7,8 +7,76 @@ import Report from "../assets/report.png";
 import Settings from "../assets/settings.png";
 import Logout from "../assets/logout.png";
 export default function ProfileScreen(): React.JSX.Element {
+    const [isaccount, setisaccount] = useState(false);
+    const [issetting, setissetting] = useState(false);
+
+    const [islogout, setislogout] = useState(false);
     return (
-        <div className="ProfileScreen">
+        <motion.div
+            className="ProfileScreen"
+            animate={{
+                x: 0,
+                opacity: 1,
+                rotate: 0,
+            }}
+            transition={{ type: "spring", damping: 30, stiffness: 100 }}
+        >
+            {/* account popup */}
+            <motion.div
+                animate={{
+                    x: 0,
+                    opacity: isaccount ? 1 : 0,
+                    scale: isaccount ? 1 : 0,
+                    rotate: 0,
+                    visibility: isaccount ? "visible" : "hidden",
+                }}
+                className="account-section"
+            >
+                <button onClick={() => setisaccount(!isaccount)}>click</button>
+            </motion.div>
+
+            {/* setting popup */}
+            <motion.div
+                animate={{
+                    x: 0,
+                    opacity: issetting ? 1 : 0,
+                    scale: issetting ? 1 : 0,
+                    rotate: 0,
+                    visibility: issetting ? "visible" : "hidden",
+                }}
+                className="setting-section"
+            >
+                <button onClick={() => setissetting(!issetting)}>click</button>
+            </motion.div>
+
+            {/* logout popup */}
+
+            <motion.div
+                transition={{ type: "tween", damping: 30, stiffness: 30 }}
+                animate={{
+                    x: 0,
+                    opacity: islogout ? 1 : 0.7,
+                    scale: islogout ? 1 : 0.7,
+                    rotate: 0,
+                    visibility: islogout ? "visible" : "hidden",
+                }}
+                className="logout-section"
+            >
+                <div className="logoutcontainer">
+                    <div className="logout-confirmation">
+                        <h3>Are you want to logout?</h3>
+                    </div>
+                    <div className="logout-options">
+                        <button className="yes">Logout</button>
+                        <button
+                            className="no"
+                            onClick={() => setislogout(!islogout)}
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </motion.div>
             <div className="Profile-photo">
                 <div className="profilepic">
                     <img src={profilepic} alt="" />
@@ -26,6 +94,7 @@ export default function ProfileScreen(): React.JSX.Element {
                             damping: 17,
                         }}
                         className="Account"
+                        onClick={() => setisaccount(!isaccount)}
                     >
                         <div className="Account-icon">
                             <img src={Accounts} alt="" />
@@ -72,6 +141,7 @@ export default function ProfileScreen(): React.JSX.Element {
                             damping: 17,
                         }}
                         className="Settings"
+                        onClick={() => setissetting(!issetting)}
                     >
                         <div className="Settings-icon">
                             {" "}
@@ -88,6 +158,7 @@ export default function ProfileScreen(): React.JSX.Element {
                             damping: 17,
                         }}
                         className="Loggout"
+                        onClick={() => setislogout(!islogout)}
                     >
                         <div className="Loggout-icon">
                             {" "}
@@ -97,6 +168,6 @@ export default function ProfileScreen(): React.JSX.Element {
                     </motion.div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
