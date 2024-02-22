@@ -92,6 +92,8 @@ interface Store {
 	verifyEmail: (formData: OTPFormValues, redirect: NavigateFunction) => void;
 	// OTP Verification
 	verifyOtp: (formData: OTPFormValues, redirect: NavigateFunction) => void;
+	// user log out
+	logoutUser: (redirect: NavigateFunction) => void;
 }
 
 export const Store = create<Store>((set) => ({
@@ -160,7 +162,7 @@ export const Store = create<Store>((set) => ({
 				toast.success(res.data.message);
 				console.log(res.data.message);
 				set({ isLoggedIn: true });
-				redirect("/");
+				setTimeout(() => redirect("/"), 1000);
 			})
 			.catch((err) => {
 				if (err.response) return toast.error(err.response?.data?.message);
@@ -174,7 +176,6 @@ export const Store = create<Store>((set) => ({
 	handleLogin: async (formData, redirect) => {
 		// set({ isLoading: true });
 
-		// Post Request
 		await axios
 			.post("/user/login", formData)
 			.then((res) => {
@@ -292,7 +293,7 @@ export const Store = create<Store>((set) => ({
 			.finally(() => {
 				// set({ isLoading: false });
 			});
-			return flag;
+		return flag;
 	},
 
 	getTransactions: async () => {
@@ -314,5 +315,20 @@ export const Store = create<Store>((set) => ({
 			.finally(() => {
 				// set({ isLoading: false });
 			});
+	},
+
+	logoutUser: async (redirect) => {
+		await axios
+			.post("/user/logout")
+			.then((res) => {
+				redirect("/login");
+				set({ isLoggedIn: false });
+				toast.success(res?.data?.message);
+			})
+			.catch((err) => {
+				if (err.response) return toast.error(err.response?.data?.message);
+				return toast.error("Internal server error");
+			})
+			.finally(() => {});
 	},
 }));
