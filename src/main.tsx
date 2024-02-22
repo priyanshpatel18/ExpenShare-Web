@@ -10,9 +10,9 @@ axios.defaults.baseURL = "https://expen-share-web-server.vercel.app";
 axios.defaults.withCredentials = true;
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-    <BrowserRouter>
-        <App />
-        <Toaster />
-        <ToastContainer position="bottom-left" autoClose={2000} theme="dark" />
-    </BrowserRouter>
+	<BrowserRouter>
+		<App />
+		<Toaster />
+		<ToastContainer position="bottom-left" autoClose={2000} theme="dark" />
+	</BrowserRouter>,
 );

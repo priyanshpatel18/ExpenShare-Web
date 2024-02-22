@@ -15,6 +15,7 @@ interface AddTransactionint {
 }
 
 export default function AddTransaction(props: AddTransactionint): React.JSX.Element {
+	const [isEditing, setIsEditing] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
 	const store = Store();
 
@@ -116,7 +117,7 @@ export default function AddTransaction(props: AddTransactionint): React.JSX.Elem
 			type: "expense",
 			invoiceUrl: null,
 		},
-		onSubmit: async (values, {resetForm}) => {
+		onSubmit: async (values, { resetForm }) => {
 			const transactionDate = new Date(`${date}T${time}`).toISOString();
 			formik.setValues({ ...formik.values, transactionDate: transactionDate });
 			console.log(values);
@@ -152,6 +153,21 @@ export default function AddTransaction(props: AddTransactionint): React.JSX.Elem
 
 	return (
 		<div className="Addtransaction" ref={myref}>
+			<motion.div
+				animate={{
+					x: 0,
+					opacity: isEditing ? 1 : 0,
+					scale: isEditing ? 1 : 0,
+					width: isEditing ? "100vw" : 0,
+					visibility: isEditing ? "visible" : "hidden",
+				}}
+				className="fullscreeniaemodel"
+				onClick={() => setIsEditing(!isEditing)}
+			>
+				<div>
+					<img src={formik.values.invoiceUrl ? URL.createObjectURL(formik.values.invoiceUrl) : addImageIcon} alt="Invoice Iamge"/>
+				</div>
+			</motion.div>
 			<form onSubmit={formik.handleSubmit}>
 				<div className="categories-page" ref={categories_page_ref}>
 					<div className="transaction-first-part-dopel">
@@ -323,7 +339,7 @@ export default function AddTransaction(props: AddTransactionint): React.JSX.Elem
 								</label>
 								<div className="invoiceView">
 									{formik.values.invoiceUrl ? (
-										<a href={URL.createObjectURL(formik.values.invoiceUrl)}>View</a>
+										<a onClick={() => setIsEditing(true)}>View</a>
 									) : (
 										"invoice"
 									)}

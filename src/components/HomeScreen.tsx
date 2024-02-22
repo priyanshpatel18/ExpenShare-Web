@@ -38,11 +38,12 @@ interface props {
 			GroupsScreen: boolean;
 			ProfileScreen: boolean;
 		}>
-	>;
-}
-
+		>;
+	}
+	
 function HomeScreen(props: props): React.JSX.Element {
 	const [userData, setUserData] = useState<userData | null>(null);
+	const [isEditing, setIsEditing] = useState(false);
 	const navigate = useNavigate();
 	const store = Store();
 	const universalsex: number = 0.5;
@@ -83,14 +84,14 @@ function HomeScreen(props: props): React.JSX.Element {
 		}
 		getTransactions();
 	}, []);
-	const [isEditing, setIsEditing] = useState(false);
+
 	useEffect(() => {
 		async function getUserObject() {
 			await store.getUserData(navigate);
 		}
 		getUserObject();
 		setUserData(store.userData as userData | null);
-	}, [navigate, store]);
+	}, [store]);
 
 	function chageScreen(screen: string) {
 		switch (screen) {
