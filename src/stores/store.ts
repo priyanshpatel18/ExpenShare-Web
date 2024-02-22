@@ -83,7 +83,7 @@ interface Store {
 	// Email Verification Mail
 	sendEmailVerificationMail: (FormData: FormData, redirect: NavigateFunction) => void;
 	// Post Transactions
-	addTransaction: (formData: FormData) => void;
+	addTransaction: (formData: FormData) => Promise<boolean>;
 	// Get User
 	getUserData: (redirect: NavigateFunction) => void;
 	// Get Transactions
@@ -272,21 +272,27 @@ export const Store = create<Store>((set) => ({
 	},
 
 	addTransaction: async (formData) => {
-		// set({ isLoading: true });
-
+		let flag = false;
 		await axios
 			.post("/transaction/add", formData)
 			.then((res) => {
 				toast.success("Transaction added");
 				console.log(res);
+				flag = true;
+				return true;
 			})
 			.catch((err) => {
-				if (err.response) return toast.error(err.response?.data?.message);
-				return toast.error("Internal server error");
+				if (err.response) {
+					toast.error(err.response?.data?.message);
+					return false;
+				}
+				toast.error("Internal server error");
+				return false;
 			})
 			.finally(() => {
 				// set({ isLoading: false });
 			});
+			return flag;
 	},
 
 	getTransactions: async () => {

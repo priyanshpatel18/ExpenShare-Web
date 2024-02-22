@@ -116,7 +116,7 @@ export default function AddTransaction(props: AddTransactionint): React.JSX.Elem
 			type: "expense",
 			invoiceUrl: null,
 		},
-		onSubmit: (values) => {
+		onSubmit: async (values, {resetForm}) => {
 			const transactionDate = new Date(`${date}T${time}`).toISOString();
 			formik.setValues({ ...formik.values, transactionDate: transactionDate });
 			console.log(values);
@@ -145,7 +145,8 @@ export default function AddTransaction(props: AddTransactionint): React.JSX.Elem
 			formData.append("transactionDate", values.transactionDate);
 			formData.append("type", values.type);
 			formData.append("invoiceUrl", values.invoiceUrl as File);
-			store.addTransaction(formData);
+			const res = await store.addTransaction(formData);
+			if (res) resetForm();
 		},
 	});
 
