@@ -51,27 +51,22 @@ export default function MainPage(): React.JSX.Element {
         changepage,
     };
 
-    // do not render content if useer is not logged in    
+    // do not render content if useer is not logged in
     if (!store.userData) {
-        console.log("No entry");
-        
-        return <></>
-    }  
+		console.log("No entry, can not get user data...");
+		return <></>;
+	} 
 
     return (
-        <div className="MainPage">
-            <SideBar
-                flag={flag}
-                setFlag={setFlag}
-                {...buttonProps}
-            />
-            <div className="mainScreen">
-                {flag.HomeScreen && <HomeScreen />}
-                {flag.TransactionScreen && <TransactionScreen />}
-                {flag.GroupsScreen && <GroupsScreen />}
-                {flag.ProfileScreen && <ProfileScreen />}
-            </div>
-            <AddTransaction {...buttonProps} />
-        </div>
-    );
+		<div className="MainPage">
+			<SideBar flag={flag} setFlag={setFlag} {...buttonProps} />
+			<div className="mainScreen">
+				{flag.HomeScreen && <HomeScreen flag={flag} setFlag={setFlag} />}
+				{flag.TransactionScreen && <TransactionScreen />}
+				{flag.GroupsScreen && <GroupsScreen />}
+				{flag.ProfileScreen && <ProfileScreen />}
+			</div>
+			<AddTransaction {...buttonProps} />
+		</div>
+	);
 }

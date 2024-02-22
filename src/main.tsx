@@ -6,7 +6,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import App from "./App.js";
 import "./index.css";
-// axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.baseURL = "https://expen-share-web-server.vercel.app";
 axios.defaults.withCredentials = true;
 
