@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Store } from "../stores/store";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // imges
 import addBtn from "../assets/addButton.png";
 import Group from "../assets/group.png";
@@ -30,56 +30,17 @@ interface userObject {
 }
 
 const SideBar = (props: any) => {
+	const { pathname } = useLocation();
 	const store = Store();
 	const [userObject, setUserObject] = useState<userObject | null>();
-	const navigate = useNavigate()
-
-	function chageScreen(screen: string) {
-		switch (screen) {
-			case "HomeScreen":
-				props.setFlag({
-					HomeScreen: true,
-					TransactionScreen: false,
-					GroupsScreen: false,
-					ProfileScreen: false,
-				});
-				break;
-
-			case "TransactionScreen":
-				props.setFlag({
-					HomeScreen: false,
-					TransactionScreen: true,
-					GroupsScreen: false,
-					ProfileScreen: false,
-				});
-				break;
-
-			case "GroupsScreen":
-				props.setFlag({
-					HomeScreen: false,
-					TransactionScreen: false,
-					GroupsScreen: true,
-					ProfileScreen: false,
-				});
-				break;
-
-			case "ProfileScreen":
-				props.setFlag({
-					HomeScreen: false,
-					TransactionScreen: false,
-					GroupsScreen: false,
-					ProfileScreen: true,
-				});
-				break;
-		}
-	}	
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		async function getUserObject() {
 			await store.getUserData(navigate);
 		}
 		getUserObject();
-        setUserObject(store.userData as userObject | null);
+		setUserObject(store.userData as userObject | null);
 	}, [store.userData]);
 
 	return (
@@ -96,18 +57,18 @@ const SideBar = (props: any) => {
 					whileHover={{ scale: 1.1 }}
 					whileTap={{ scale: 0.8 }}
 					transition={{ type: "spring", stiffness: 200, damping: 17 }}
-					onClick={() => chageScreen("HomeScreen")}
+					onClick={() => navigate("/")}
 				>
 					<div>
 						<motion.div className="img">
-							{props.flag.HomeScreen ? (
+							{pathname === "/" ? (
 								<img src={homeactive} alt="" />
 							) : (
 								<img src={home} alt="" />
 							)}
 						</motion.div>
 						<motion.div className="text">
-							<p className={`${props.flag.HomeScreen ? "active" : ""}`}>Home</p>
+							<p className={pathname === "/" ? "active" : ""}>Home</p>
 						</motion.div>
 					</div>
 				</motion.div>
@@ -117,23 +78,25 @@ const SideBar = (props: any) => {
 					whileHover={{ scale: 1.1 }}
 					whileTap={{ scale: 0.8 }}
 					transition={{ type: "spring", stiffness: 200, damping: 17 }}
-					onClick={() => chageScreen("TransactionScreen")}
+					onClick={() => navigate("/transactionsPage")}
 				>
 					<div className="">
 						<motion.div className="img">
-							{props.flag.TransactionScreen ? (
+							{pathname === "/transactionsPage" ? (
 								<img src={transactive} alt="" />
 							) : (
 								<img src={transaction} alt="" />
 							)}
 						</motion.div>
 						<motion.div className="text">
-							<p className={`${props.flag.TransactionScreen ? "active" : ""}`}>Transactions</p>
+							<p className={`${pathname === "/transactionsPage" ? "active" : ""}`}>
+								Transactions
+							</p>
 						</motion.div>
 					</div>
 				</motion.div>
 
-				<div style={{paddingInline: "18px"}}>{/* div for image justification in mobile */}</div>
+				<div style={{ paddingInline: "18px" }}>{/* div for image justification in mobile */}</div>
 				<motion.button
 					whileHover={{ scale: 1.1 }}
 					whileTap={{ scale: 0.8 }}
@@ -149,18 +112,18 @@ const SideBar = (props: any) => {
 					whileHover={{ scale: 1.1 }}
 					whileTap={{ scale: 0.8 }}
 					transition={{ type: "spring", stiffness: 200, damping: 17 }}
-					onClick={() => chageScreen("GroupsScreen")}
+					onClick={() => navigate("/groupsPage")}
 				>
 					<div className="">
 						<motion.div className="img">
-							{props.flag.GroupsScreen ? (
+							{pathname === "/groupsPage" ? (
 								<img src={Groupsactive} alt="" />
 							) : (
 								<img src={Group} alt="" />
 							)}
 						</motion.div>
 						<motion.div className="text">
-							<p className={`${props.flag.GroupsScreen ? "active" : ""}`}>Groups</p>
+							<p className={`${pathname === "/groupsPage" ? "active" : ""}`}>Groups</p>
 						</motion.div>
 					</div>
 				</motion.div>
@@ -170,18 +133,18 @@ const SideBar = (props: any) => {
 					whileHover={{ scale: 1.1 }}
 					whileTap={{ scale: 0.8 }}
 					transition={{ type: "spring", stiffness: 200, damping: 17 }}
-					onClick={() => chageScreen("ProfileScreen")}
+					onClick={() => navigate("/ProfilePage")}
 				>
 					<div className="">
 						<motion.div className="img">
-							{props.flag.ProfileScreen ? (
+							{pathname === "/ProfilePage" ? (
 								<img src={personalactive} alt="" />
 							) : (
 								<img src={personal} alt="" />
 							)}
 						</motion.div>
 						<motion.div className="text">
-							<p className={`${props.flag.ProfileScreen ? "active" : ""}`}>Profile</p>
+							<p className={`${pathname === "/ProfilePage" ? "active" : ""}`}>Profile</p>
 						</motion.div>
 					</div>
 				</motion.div>

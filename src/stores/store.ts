@@ -62,7 +62,7 @@ export interface OTPFormValues {
 }
 
 interface Store {
-	isLoggedIn: boolean;
+	isLoggedIn: boolean | null;
 	// Loading
 	// isLoading: boolean;
 	// setIsLoading: (state: boolean) => void;
@@ -86,6 +86,8 @@ interface Store {
 	addTransaction: (formData: FormData) => Promise<boolean>;
 	// Get User
 	getUserData: (redirect: NavigateFunction) => void;
+	// Check Authentication
+	checkAuth: (redirect: NavigateFunction) => void;
 	// Get Transactions
 	getTransactions: () => void;
 	// Email Verification
@@ -99,7 +101,7 @@ interface Store {
 export const Store = create<Store>((set) => ({
 	// isLoading: false,
 	// setIsLoading: (state) => set({ isLoading: state }),
-	isLoggedIn: false,
+	isLoggedIn: null,
 
 	transactions: undefined,
 	setTransactions: (transactions) => set({ transactions: transactions }),
@@ -252,15 +254,29 @@ export const Store = create<Store>((set) => ({
 			});
 	},
 
+	checkAuth: async (redirect) => {
+		await axios
+			.get("/user/checkAuth")
+			.then(() => {
+				set({ isLoggedIn: true });
+			})
+			.catch((err) => {
+				set({ isLoggedIn: false });
+				redirect("/login");
+				if (err.response) return toast.error(err.response?.data?.message);
+				return toast.error("Internal server error");
+			});
+	},
+
 	getUserData: async (redirect) => {
 		// set({ isLoading: true });
 		const { userData } = Store.getState();
 
+		console.log("userData : ", userData);
 		await axios
 			.get("/user/getUser")
 			.then((res) => {
 				if (userData == undefined) set({ userData: res.data.userObject });
-				console.log("userData", userData);
 			})
 			.catch((err) => {
 				redirect("/login");
