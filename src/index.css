@@ -1103,7 +1103,7 @@ body {
         background-color: #ffffff;
         width: 100vw;
         height: 100vh;
-        top: 150%;
+        /* top: 150%; */
         position: fixed;
         z-index: 1111;
         display: block;
@@ -1417,6 +1417,7 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
+        backdrop-filter: blur(15px);
 
         flex-direction: column;
         color: white;
@@ -1427,6 +1428,7 @@ body {
         width: 100%;
         background-color: #ffffff;
         height: 57%;
+
         position: relative;
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
@@ -1488,17 +1490,20 @@ body {
         height: 84%;
         border: 2px solid #888888d3;
         border-radius: 13px;
+        opacity: 0;
     }
     .ttp-details .ttp-title {
         width: 85%;
         height: 84%;
         border: 2px solid #888888d3;
         border-radius: 13px;
+        opacity: 0;
     }
     .ttp-details .ttp-note {
         width: 85%;
         height: 80%;
         border: 2px solid #888888d3;
+        opacity: 0;
 
         border-radius: 13px;
     }
@@ -1517,6 +1522,7 @@ body {
         width: 88%;
         height: 84%;
         /* border: 1px solid #888888; */
+        opacity: 0;
         border-radius: 13px;
 
         display: flex;
@@ -2433,7 +2439,15 @@ body {
     .HomeScreen .transactions .transaction-income {
         background-color: hsl(128, 29%, 90%);
     }
-
+    .HomeScreen
+        .transactions
+        .transaction
+        .transactionDetail
+        .transactionDetail-text {
+        width: 60%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     .HomeScreen .userDashbord .welcomeText .profilePic img {
         width: 100%;
         aspect-ratio: 1;
@@ -2445,6 +2459,7 @@ body {
         height: calc(100dvh - 55px);
         opacity: 0;
     }
+
     /* hedaer innner components styles */
     /* incomes/expenses inner components styles */
 }
@@ -2783,6 +2798,14 @@ body {
         opacity: 0;
     }
     .report-section {
+        width: 100vw;
+        height: 100vh;
+        z-index: 100;
+        background-color: rgb(255, 255, 255);
+        position: fixed;
+    }
+
+    .export-section {
         width: 100vw;
         height: 100vh;
         z-index: 100;

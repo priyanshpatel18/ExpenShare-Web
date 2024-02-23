@@ -10,28 +10,42 @@ import RegisterOtpVerificationPage from "./pages/RegisterOtpVerificationPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import TransactionsPage from "./pages/TransactionsPage";
+import AddTransaction from "./components/AddTransaction";
+import UserReport from "./components/UserReport";
 
 function App(): React.JSX.Element {
-	return (
-		<main>
-			<Routes>
-				<Route path="/registration" element={<RegistrationPage />} />
-				<Route path="/registerOtpVerificationPage" element={<RegisterOtpVerificationPage />} />
-				<Route path="/login" element={<LoginPage />} />
-				<Route path="/forgotPasswordPage" element={<ForgotPasswordPage />} />
-				<Route
-					path="/passwordResetOtpVerificationPage"
-					element={<PasswordResetOtpVerificationPage />}
-				/>
-				<Route path="/resetPasswordPage" element={<ResetPasswordPage />} />
-				{/* Protected routes */}
-				<Route path="/" element={<HomePage />} />
-				<Route path="/transactionsPage" element={<TransactionsPage />} />
-				<Route path="/groupsPage" element={<GroupsPage />} />
-				<Route path="/profilePage" element={<ProfilePage />} />
-			</Routes>
-		</main>
-	);
+    return (
+        <main>
+            <Routes>
+                <Route path="/registration" element={<RegistrationPage />} />
+                <Route
+                    path="/registerOtpVerificationPage"
+                    element={<RegisterOtpVerificationPage />}
+                />
+                <Route path="/login" element={<LoginPage />} />
+                <Route
+                    path="/forgotPasswordPage"
+                    element={<ForgotPasswordPage />}
+                />
+                <Route
+                    path="/passwordResetOtpVerificationPage"
+                    element={<PasswordResetOtpVerificationPage />}
+                />
+                <Route path="/Addtransactions" element={<AddTransaction />} />
+
+                <Route
+                    path="/resetPasswordPage"
+                    element={<ResetPasswordPage />}
+                />
+                {/* Protected routes */}
+                <Route path="/" element={<HomePage />} />
+                <Route path="/transactions" element={<TransactionsPage />} />
+                <Route path="/groups" element={<GroupsPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/profile/Report" element={<UserReport />} />
+            </Routes>
+        </main>
+    );
 }
 
 export default SplashScreen(App);
