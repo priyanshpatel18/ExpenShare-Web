@@ -33,15 +33,16 @@ export default function TransactionPage(): React.JSX.Element {
 	};
 
 	useEffect(() => {
-		async function checkAuth() {
-			await store.checkAuth(navigate);
+		async function fetchUserData() {
+			await store.getUserData(navigate);
+			await store.getTransactions();
 		}
 
-		checkAuth();
-	}, [])
+		fetchUserData();
+	}, []);
 
 	// do not render content if useer is not logged in
-	if (!store.isLoggedIn) {
+	if (!store.userData) {
 		console.log("No entry, token invalid or not found...");
 		return <></>;
 	}
