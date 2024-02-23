@@ -61,6 +61,10 @@ export interface OTPFormValues {
 	OTP: string[];
 }
 
+export interface updateUserFormData {
+	userName: string;
+	profilePicture: File | null;
+}
 interface Store {
 	isLoggedIn: boolean | null;
 	// Loading
@@ -94,6 +98,12 @@ interface Store {
 	verifyOtp: (formData: OTPFormValues, redirect: NavigateFunction) => void;
 	// user log out
 	logoutUser: (redirect: NavigateFunction) => void;
+	// update user, profile pic and username
+	updateUser: (formData: FormData, redirect: NavigateFunction) => void;
+	// Reset Password
+	handleChangePassword: (formData: ResetFormValues) => Promise<boolean>;
+	// delete user
+	deleteUser: (redirect: NavigateFunction) => void;
 }
 
 export const Store = create<Store>((set) => ({
@@ -113,8 +123,7 @@ export const Store = create<Store>((set) => ({
 		await axios
 			.post("/user/sendVerificationMail", formData)
 			.then((res) => {
-				toast.success(res.data.message);
-				console.log(res.data.message);
+				toast.success(res.data?.message);
 				const email = formData.get("email") as string | null;
 				if (email) {
 					Cookies.set("userEmail", email);
@@ -142,7 +151,7 @@ export const Store = create<Store>((set) => ({
 			.then((res) => {
 				Cookies.remove("userEmail");
 				handleRegister(redirect);
-				console.log(res.data);
+				toast.success(res.data?.message);
 			})
 			.catch((err) => {
 				if (err.response) return toast.error(err.response?.data?.message);
@@ -159,8 +168,7 @@ export const Store = create<Store>((set) => ({
 		await axios
 			.post("/user/register")
 			.then((res) => {
-				toast.success(res.data.message);
-				console.log(res.data.message);
+				toast.success(res.data?.message);
 				set({ isLoggedIn: true });
 				setTimeout(() => redirect("/"), 1000);
 			})
@@ -179,8 +187,7 @@ export const Store = create<Store>((set) => ({
 		await axios
 			.post("/user/login", formData)
 			.then((res) => {
-				toast.success(res?.data?.message);
-				console.log(res.data.message);
+				toast.success(res.data?.message);
 				set({ isLoggedIn: true });
 				redirect("/");
 			})
@@ -199,8 +206,7 @@ export const Store = create<Store>((set) => ({
 		await axios
 			.post("/user/sendMail", formData)
 			.then((res) => {
-				toast.success(res.data.message);
-				console.log(res.data.message);
+				toast.success(res.data?.message);
 				redirect("/passwordResetOtpVerificationPage");
 			})
 			.catch((err) => {
@@ -220,9 +226,9 @@ export const Store = create<Store>((set) => ({
 		await axios
 			.post("/user/verifyOtp", { userOtp })
 			.then((res) => {
+				toast.success(res.data?.message);
 				Cookies.remove("userEmail");
 				redirect("/resetPasswordPage");
-				console.log(res.data);
 			})
 			.catch((err) => {
 				if (err.response) return toast.error(err.response?.data?.message);
@@ -239,8 +245,7 @@ export const Store = create<Store>((set) => ({
 		await axios
 			.post("/user/resetPassword", formData)
 			.then((res) => {
-				toast.success(res.data.response);
-				console.log(res.data.response);
+				toast.success(res.data?.message);
 				redirect("/login");
 			})
 			.catch((err) => {
@@ -276,9 +281,8 @@ export const Store = create<Store>((set) => ({
 		let flag = false;
 		await axios
 			.post("/transaction/add", formData)
-			.then((res) => {
+			.then(() => {
 				toast.success("Transaction added");
-				console.log(res);
 				flag = true;
 				return true;
 			})
@@ -301,22 +305,22 @@ export const Store = create<Store>((set) => ({
 		const { userData } = Store.getState();
 
 		if (userData)
-		await axios
-			.get("/transaction/getAll")
-			.then((res) => {
-				const sortedTransactions = res.data.transactions.sort(
-					(a: TransactionType, b: TransactionType) =>
-						new Date(b.transactionDate).getTime() - new Date(a.transactionDate).getTime(),
-				);
-				set({ transactions: sortedTransactions });
-			})
-			.catch((err) => {
-				if (err.response) return toast.error(err.response?.data?.message);
-				return toast.error("Internal server error");
-			})
-			.finally(() => {
-				// set({ isLoading: false });
-			});
+			await axios
+				.get("/transaction/getAll")
+				.then((res) => {
+					const sortedTransactions = res.data.transactions.sort(
+						(a: TransactionType, b: TransactionType) =>
+							new Date(b.transactionDate).getTime() - new Date(a.transactionDate).getTime(),
+					);
+					set({ transactions: sortedTransactions });
+				})
+				.catch((err) => {
+					if (err.response) return toast.error(err.response?.data?.message);
+					return toast.error("Internal server error");
+				})
+				.finally(() => {
+					// set({ isLoading: false });
+				});
 	},
 
 	logoutUser: async (redirect) => {
@@ -325,7 +329,60 @@ export const Store = create<Store>((set) => ({
 			.then((res) => {
 				redirect("/login");
 				set({ isLoggedIn: false });
-				toast.success(res?.data?.message);
+				toast.success(res.data?.message);
+			})
+			.catch((err) => {
+				if (err.response) return toast.error(err.response?.data?.message);
+				return toast.error("Internal server error");
+			})
+			.finally(() => {});
+	},
+
+	updateUser: async (formData, redirect) => {
+		const { getUserData } = Store.getState();
+
+		await axios
+			.put("/user/update", formData)
+			.then((res) => {
+				toast.success(res.data?.message);
+				set({ userData: undefined });
+				getUserData(redirect);
+			})
+			.catch((err) => {
+				if (err.response) return toast.error(err.response?.data?.message);
+				return toast.error("Internal server error");
+			})
+			.finally(() => {});
+	},
+
+	handleChangePassword: async (formData) => {
+		// set({ isLoading: true });
+		let flag = false;
+
+		await axios
+			.post("/user/resetPassword", formData)
+			.then((res) => {
+				flag = true;
+				toast.success(res.data?.message);
+			})
+			.catch((err) => {
+				flag = false;
+				if (err.response) return toast.error(err.response?.data?.message);
+				return toast.error("Internal server error");
+			})
+			.finally(() => {
+				// set({ isLoading: false });
+			});
+
+		return flag;
+	},
+
+	deleteUser: async (redirect) => {
+		await axios
+			.delete("/user/delete")
+			.then((res) => {
+				redirect("/login");
+				toast.success(res.data?.message);
 			})
 			.catch((err) => {
 				if (err.response) return toast.error(err.response?.data?.message);

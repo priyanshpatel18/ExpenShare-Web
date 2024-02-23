@@ -383,7 +383,7 @@ export default function ProfileScreen(): React.JSX.Element {
 							damping: 17,
 						}}
 						className="Account"
-						onClick={() => setisaccount(!isaccount)}
+						onClick={() => navigate("/accountPage")}
 					>
 						<div className="Account-icon">
 							<img src={Accounts} alt="" />

@@ -10,6 +10,7 @@ import RegisterOtpVerificationPage from "./pages/RegisterOtpVerificationPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import TransactionsPage from "./pages/TransactionsPage";
+import AccountPage from "./pages/AccountPage";
 
 function App(): React.JSX.Element {
 	return (
@@ -29,6 +30,7 @@ function App(): React.JSX.Element {
 				<Route path="/transactionsPage" element={<TransactionsPage />} />
 				<Route path="/groupsPage" element={<GroupsPage />} />
 				<Route path="/profilePage" element={<ProfilePage />} />
+				<Route path="/accountPage" element={<AccountPage />} />
 			</Routes>
 		</main>
 	);
