@@ -1,14 +1,15 @@
 import { Route, Routes } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen";
-
-// pagesimport HomePage from "./pages/HomePage";
-import RegistrationPage from "./pages/RegistrationPage";
-import LoginPage from "./pages/LoginPage";
-import RegisterOtpVerificationPage from "./pages/RegisterOtpVerificationPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
+import GroupsPage from "./pages/GroupsPage";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
 import PasswordResetOtpVerificationPage from "./pages/PasswordResetOtpVerificationPage";
-import MainPage from "./pages/MainPage";
+import ProfilePage from "./pages/ProfilePage";
+import RegisterOtpVerificationPage from "./pages/RegisterOtpVerificationPage";
+import RegistrationPage from "./pages/RegistrationPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import TransactionsPage from "./pages/TransactionsPage";
 
 function App(): React.JSX.Element {
 	return (
@@ -16,7 +17,6 @@ function App(): React.JSX.Element {
 			<Routes>
 				<Route path="/registration" element={<RegistrationPage />} />
 				<Route path="/registerOtpVerificationPage" element={<RegisterOtpVerificationPage />} />
-				<Route path="/" element={<MainPage />} />
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/forgotPasswordPage" element={<ForgotPasswordPage />} />
 				<Route
@@ -24,6 +24,11 @@ function App(): React.JSX.Element {
 					element={<PasswordResetOtpVerificationPage />}
 				/>
 				<Route path="/resetPasswordPage" element={<ResetPasswordPage />} />
+				{/* Protected routes */}
+				<Route path="/" element={<HomePage />} />
+				<Route path="/transactionsPage" element={<TransactionsPage />} />
+				<Route path="/groupsPage" element={<GroupsPage />} />
+				<Route path="/profilePage" element={<ProfilePage />} />
 			</Routes>
 		</main>
 	);
