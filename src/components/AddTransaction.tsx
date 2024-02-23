@@ -14,8 +14,6 @@ export default function AddTransaction(): React.JSX.Element {
     const [searchQuery, setSearchQuery] = useState("");
     const store = Store();
     const navigate = useNavigate();
-    const balance = store.userData?.totalBalance;
-    console.log(balance);
 
     // changing date to hyphen from slash
     const [time, setTime] = useState(
@@ -123,7 +121,6 @@ export default function AddTransaction(): React.JSX.Element {
                 ...formik.values,
                 transactionDate: transactionDate,
             });
-            console.log(values);
 
             store.setTransactions([
                 {

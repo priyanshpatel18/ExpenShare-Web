@@ -100,10 +100,10 @@ export default function ProfileScreen(): React.JSX.Element {
                 <div className="profilepic">
                     <img
                         src={store.userData?.profilePicture || profilepic}
-                        alt=""
+                        alt="profile picture"
                     />
                 </div>
-                <div>Vaidik</div>
+                <div>{store.userData?.userName || "User Name"}</div>
             </div>
             <div className="Profile-detail">
                 <div className="profile-detail-container">
@@ -116,7 +116,7 @@ export default function ProfileScreen(): React.JSX.Element {
                             damping: 17,
                         }}
                         className="Account"
-                        onClick={() => setisaccount(!isaccount)}
+                        onClick={() => navigate("/accountPage")}
                     >
                         <div className="Account-icon">
                             <img src={Accounts} alt="" />

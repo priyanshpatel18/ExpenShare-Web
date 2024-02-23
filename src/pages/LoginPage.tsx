@@ -66,7 +66,7 @@ function LoginPage(): React.JSX.Element {
                         />
                     </div>
                     <div className="forgotPassword navigationText">
-                        <Link to="/forgotPasswordPage" className="link">
+                        <Link to="/forgotPassword" className="link">
                             Forgot password ?
                         </Link>
                     </div>

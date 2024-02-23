@@ -6,6 +6,7 @@ interface FormValues {
 	password?: string;
 	confirmPassword?: string;
 	OTP?: string[];
+	profilePicture?: File | null;
 }
 
 // validating registration form
@@ -15,6 +16,8 @@ export async function registerFormValidation(values: FormValues) {
 	emailVerify(error, values);
 	if (error.email) return error;
 	passwordVerify(error, values);
+	if (error.password) return error;
+	profilePictureVerify(error, values);
 
 	return error;
 }
@@ -36,6 +39,16 @@ export async function ResetPasswordValidation(values: FormValues) {
 	const error: Partial<FormValues> = passwordVerify({}, values);
 	if (error.password) return error;
 	resetPasswordVerify(error, values);
+
+	return error;
+}
+
+// validating user update form in account page
+export async function updateUserFormValidation(values: FormValues) {
+	console.log("run");
+	const error: Partial<FormValues> = usernameVerify({}, values);
+	if (error.password) return error;
+	profilePictureVerify(error, values);
 
 	return error;
 }
@@ -104,5 +117,18 @@ function otpVerify(error: Partial<FormValues> = {}, values: FormValues) {
 		}
 	});
 
+	return error;
+}
+
+// profile pic verify
+function profilePictureVerify(error: Partial<FormValues> = {}, values: FormValues) {	
+	console.log(values.profilePicture);
+	
+	if (values.profilePicture && !values.profilePicture.type.includes("image")) {
+		error.userName = toast.error("Please upload a valid image file");
+	} else if (values.profilePicture && values.profilePicture.size > 3000000) {
+		error.userName = toast.error("Image size must be less then 3 MB");
+	} 
+	
 	return error;
 }
