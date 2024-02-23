@@ -86,8 +86,6 @@ interface Store {
 	addTransaction: (formData: FormData) => Promise<boolean>;
 	// Get User
 	getUserData: (redirect: NavigateFunction) => void;
-	// Check Authentication
-	checkAuth: (redirect: NavigateFunction) => void;
 	// Get Transactions
 	getTransactions: () => void;
 	// Email Verification
@@ -254,20 +252,6 @@ export const Store = create<Store>((set) => ({
 			});
 	},
 
-	checkAuth: async (redirect) => {
-		await axios
-			.get("/user/checkAuth")
-			.then(() => {
-				set({ isLoggedIn: true });
-			})
-			.catch((err) => {
-				set({ isLoggedIn: false });
-				redirect("/login");
-				if (err.response) return toast.error(err.response?.data?.message);
-				return toast.error("Internal server error");
-			});
-	},
-
 	getUserData: async (redirect) => {
 		// set({ isLoading: true });
 		const { userData } = Store.getState();
@@ -314,7 +298,9 @@ export const Store = create<Store>((set) => ({
 
 	getTransactions: async () => {
 		// set({ isLoading: true });
+		const { userData } = Store.getState();
 
+		if (userData)
 		await axios
 			.get("/transaction/getAll")
 			.then((res) => {
