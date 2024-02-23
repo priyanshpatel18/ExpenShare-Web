@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
+import { updateUserFormData, ResetFormValues } from "../stores/store";
+import { useNavigate } from "react-router-dom";
+import { Store } from "../stores/store";
+import { useFormik } from "formik";
+import { updateUserFormValidation, ResetPasswordValidation } from "../helper/inputValidation";
 // images
 import backButton from "../assets/backButton.png";
 import doneButton from "../assets/doneButton.png";
 import profile from "../assets/profile.png";
-import { useNavigate } from "react-router-dom";
-import { Store } from "../stores/store";
-import { useFormik } from "formik";
-import { updateUserFormData, ResetFormValues } from "../stores/store";
-import { updateUserFormValidation, ResetPasswordValidation } from "../helper/inputValidation";
 
 export default function AccountScreen(): React.JSX.Element {
 	const navigate = useNavigate();
@@ -44,7 +44,7 @@ export default function AccountScreen(): React.JSX.Element {
 				resetForm();
 			}
 		},
-	});
+	});	
 
 	useEffect(() => {
 		formikUserData.setValues({ ...formikUserData.values, userName: store.userData?.userName || "" });
@@ -109,20 +109,18 @@ export default function AccountScreen(): React.JSX.Element {
 					<div className="inputs">
 						<input
 							type="password"
-							id="password"
 							placeholder="Password"
 							required
 							{...formikUserPassword.getFieldProps("password")}
 						/>
 						<input
 							type="password"
-							id="confirmPassword"
 							placeholder="Confirm Password"
 							required
 							{...formikUserPassword.getFieldProps("confirmPassword")}
 						/>
 					</div>
-					<button type="submit">Chage Password</button>
+					<button type="submit">Change Password</button>
 				</form>
 
 				<div className="deleteAccountChange">
