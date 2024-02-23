@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { useEffect, useRef } from "react";
+import  { useEffect, useRef } from "react";
 import { Store } from "../stores/store";
 import Chart from "chart.js/auto";
 import back from "../assets/backButton.png";
