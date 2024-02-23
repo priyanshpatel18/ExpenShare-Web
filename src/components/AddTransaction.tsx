@@ -1,12 +1,5 @@
 import { motion } from "framer-motion";
-import {
-    LegacyRef,
-    MutableRefObject,
-    Ref,
-    RefObject,
-    useRef,
-    useState,
-} from "react";
+import { LegacyRef, MutableRefObject, Ref, useRef, useState } from "react";
 import { Store } from "../stores/store";
 import { TransactionRequest } from "../stores/store";
 import { useFormik } from "formik";
@@ -14,17 +7,15 @@ import { useFormik } from "formik";
 import addImageIcon from "../assets/addImageIcon.png";
 import leftarrow from "../assets/leftArrow.png";
 import categoriesWithAssets from "../pages/categories";
+import { useNavigate } from "react-router-dom";
 
-interface AddTransactionint {
-    myref: RefObject<HTMLDivElement>;
-    changepage2: () => void;
-    changepage: () => void;
-}
-
-export default function AddTransaction(props: AddTransactionint): React.JSX.Element {
-	const [isEditing, setIsEditing] = useState(false);
-	const [searchQuery, setSearchQuery] = useState("");
-	const store = Store();
+export default function AddTransaction(): React.JSX.Element {
+    const [isEditing, setIsEditing] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const store = Store();
+    const navigate = useNavigate();
+    const balance = store.userData?.totalBalance;
+    console.log(balance);
 
     // changing date to hyphen from slash
     const [time, setTime] = useState(
@@ -62,7 +53,7 @@ export default function AddTransaction(props: AddTransactionint): React.JSX.Elem
     };
 
     // Userref and style change stuff
-    const { myref, changepage2 } = props;
+
     const myref_left: MutableRefObject<HTMLDivElement | null> = useRef(null);
     const myref_right: MutableRefObject<HTMLDivElement | null> = useRef(null);
     const myref_in_btn: Ref<HTMLButtonElement> = useRef(null);
@@ -116,20 +107,23 @@ export default function AddTransaction(props: AddTransactionint): React.JSX.Elem
         category.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-	const formik = useFormik<TransactionRequest>({
-		initialValues: {
-			transactionAmount: "",
-			category: "Air Tickets",
-			transactionTitle: "",
-			notes: "",
-			transactionDate: new Date().toISOString(),
-			type: "expense",
-			invoiceUrl: null,
-		},
-		onSubmit: async (values, { resetForm }) => {
-			const transactionDate = new Date(`${date}T${time}`).toISOString();
-			formik.setValues({ ...formik.values, transactionDate: transactionDate });
-			console.log(values);
+    const formik = useFormik<TransactionRequest>({
+        initialValues: {
+            transactionAmount: "",
+            category: "Air Tickets",
+            transactionTitle: "",
+            notes: "",
+            transactionDate: new Date().toISOString(),
+            type: "expense",
+            invoiceUrl: null,
+        },
+        onSubmit: async (values, { resetForm }) => {
+            const transactionDate = new Date(`${date}T${time}`).toISOString();
+            formik.setValues({
+                ...formik.values,
+                transactionDate: transactionDate,
+            });
+            console.log(values);
 
             store.setTransactions([
                 {
@@ -160,66 +154,84 @@ export default function AddTransaction(props: AddTransactionint): React.JSX.Elem
         },
     });
 
-	return (
-		<div className="Addtransaction" ref={myref}>
-			<motion.div
-				animate={{
-					x: 0,
-					opacity: isEditing ? 1 : 0,
-					scale: isEditing ? 1 : 0,
-					width: isEditing ? "100vw" : 0,
-					visibility: isEditing ? "visible" : "hidden",
-				}}
-				className="fullscreeniaemodel"
-				onClick={() => setIsEditing(!isEditing)}
-			>
-				<div>
-					<img src={formik.values.invoiceUrl ? URL.createObjectURL(formik.values.invoiceUrl) : addImageIcon} alt="Invoice Iamge"/>
-				</div>
-			</motion.div>
-			<form onSubmit={formik.handleSubmit}>
-				<div className="categories-page" ref={categories_page_ref}>
-					<div className="transaction-first-part-dopel">
-						<div className="tfp-left-dopel" ref={myref_left}>
-							<div className="img-layer-02" onClick={closeCategorisPage}>
-								<img src={leftarrow} alt="" />
-							</div>
-						</div>
-						<div className="tfp-right-dopel" ref={myref_right}>
-							<div className="tfp-search">
-								<input
-									type="text"
-									className="search-categories"
-									placeholder="Search categories..."
-									value={searchQuery}
-									onChange={(e) => setSearchQuery(e.target.value)}
-								/>
-							</div>
-						</div>
-					</div>
-					<div className="category-grid">
-						{filteredCategories.map((category, index) => (
-							<div key={index} className="category-item">
-								<img
-									src={category.source}
-									alt={category.name}
-									onClick={() => {
-										closeCategorisPage();
-										formik.setValues({
-											...formik.values,
-											category: categoriesWithAssets[index].name,
-										});
-									}}
-								/>
-								<p>{category.name}</p>
-							</div>
-						))}
-					</div>
-				</div>
+    return (
+        <div className="Addtransaction">
+            <motion.div
+                animate={{
+                    x: 0,
+                    opacity: isEditing ? 1 : 0,
+                    scale: isEditing ? 1 : 0,
+                    width: isEditing ? "100vw" : 0,
+                    visibility: isEditing ? "visible" : "hidden",
+                }}
+                className="fullscreeniaemodel"
+                onClick={() => setIsEditing(!isEditing)}
+            >
+                <div>
+                    <img
+                        src={
+                            formik.values.invoiceUrl
+                                ? URL.createObjectURL(formik.values.invoiceUrl)
+                                : addImageIcon
+                        }
+                        alt="Invoice Iamge"
+                    />
+                </div>
+            </motion.div>
+            <form onSubmit={formik.handleSubmit}>
+                <div className="categories-page" ref={categories_page_ref}>
+                    <div className="transaction-first-part-dopel">
+                        <div className="tfp-left-dopel" ref={myref_left}>
+                            <div
+                                className="img-layer-02"
+                                onClick={closeCategorisPage}
+                            >
+                                <img src={leftarrow} alt="" />
+                            </div>
+                        </div>
+                        <div className="tfp-right-dopel" ref={myref_right}>
+                            <div className="tfp-search">
+                                <input
+                                    type="text"
+                                    className="search-categories"
+                                    placeholder="Search categories..."
+                                    value={searchQuery}
+                                    onChange={(e) =>
+                                        setSearchQuery(e.target.value)
+                                    }
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="category-grid">
+                        {filteredCategories.map((category, index) => (
+                            <div key={index} className="category-item">
+                                <img
+                                    src={category.source}
+                                    alt={category.name}
+                                    onClick={() => {
+                                        closeCategorisPage();
+                                        formik.setValues({
+                                            ...formik.values,
+                                            category:
+                                                categoriesWithAssets[index]
+                                                    .name,
+                                        });
+                                    }}
+                                />
+                                <p>{category.name}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
 
                 <div className="transaction-first-part">
-                    <div className="tfp-left" ref={myref_left}>
-                        <div onClick={changepage2} className="img-layer-01">
+                    <div
+                        className="tfp-left"
+                        ref={myref_left}
+                        onClick={() => navigate("/")}
+                    >
+                        <div className="img-layer-01">
                             <div className="img-layer-02">
                                 <img src={leftarrow} alt="" />
                             </div>
@@ -268,7 +280,7 @@ export default function AddTransaction(props: AddTransactionint): React.JSX.Elem
                         <p>How much ?</p>
                     </div>
                     <div className="tsp-down">
-                        <h1>$</h1>
+                        <h1>₹</h1>
                         <input
                             type="nummber"
                             id="transactionAmount"
@@ -293,7 +305,15 @@ export default function AddTransaction(props: AddTransactionint): React.JSX.Elem
                 </div>
                 <div className="transaction-third-part">
                     <div className="ttp-details">
-                        <div
+                        <motion.div
+                            animate={{
+                                opacity: 1,
+                            }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 260,
+                                damping: 100,
+                            }}
                             className="ttp-category"
                             onClick={switchToCategorisPage}
                         >
@@ -313,76 +333,116 @@ export default function AddTransaction(props: AddTransactionint): React.JSX.Elem
                                 />
                                 <p>{formik.values.category}</p>
                             </div>
-                        </div>
+                        </motion.div>
 
-						<div className="ttp-title">
-							<div className="ttpc-detail">
-								<p>Title</p>
-							</div>
-							<div className="ttpc-title">
-								<input
-									type="text"
-									id="transactionTitle"
-									placeholder="Add a title"
-									{...formik.getFieldProps("transactionTitle")}
-									required
-								/>
-							</div>
-						</div>
-						<div className="ttp-note">
-							<div className="ttpc-detail">
-								<p>Notes</p>
-							</div>
-							<div className="ttpc-note">
-								<input
-									type="text"
-									placeholder="Optional"
-									{...formik.getFieldProps("notes")}
-								/>
-							</div>
-							<div className="invoiceInput">
-								<label htmlFor="invoiceUrl">
-									<img className="img" src={addImageIcon} />
-									<input
-										className="invoi"
-										id="invoiceUrl"
-										type="file"
-										onChange={(e) =>
-											formik.setValues({
-												...formik.values,
-												invoiceUrl: e.target.files ? e.target.files[0] : null,
-											})
-										}
-									/>
-								</label>
-								<div className="invoiceView">
-									{formik.values.invoiceUrl ? (
-										<a onClick={() => setIsEditing(true)}>View</a>
-									) : (
-										"invoice"
-									)}
-								</div>
-							</div>
-						</div>
-						<div className="ttp-time-container">
-							<div className="ttp-Date">
-								<input
-									type="date"
-									value={date}
-									max={today + 1}
-									onChange={(e) => setDate(e.target.value)}
-								/>
-							</div>
-							<div className="ttp-time">
-								<input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
-							</div>
-						</div>
-					</div>
-					<div className="ttp-btn">
-						<button type="submit">CONTINUE</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	);
+                        <motion.div
+                            animate={{
+                                opacity: 1,
+                            }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 260,
+                                damping: 150,
+                            }}
+                            className="ttp-title"
+                        >
+                            <div className="ttpc-detail">
+                                <p>Title</p>
+                            </div>
+                            <div className="ttpc-title">
+                                <input
+                                    type="text"
+                                    id="transactionTitle"
+                                    placeholder="Add a title"
+                                    {...formik.getFieldProps(
+                                        "transactionTitle"
+                                    )}
+                                    required
+                                />
+                            </div>
+                        </motion.div>
+                        <motion.div
+                            animate={{
+                                opacity: 1,
+                            }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 260,
+                                damping: 200,
+                            }}
+                            className="ttp-note"
+                        >
+                            <div className="ttpc-detail">
+                                <p>Notes</p>
+                            </div>
+                            <div className="ttpc-note">
+                                <input
+                                    type="text"
+                                    placeholder="Optional"
+                                    {...formik.getFieldProps("notes")}
+                                />
+                            </div>
+                            <div className="invoiceInput">
+                                <label htmlFor="invoiceUrl">
+                                    <img className="img" src={addImageIcon} />
+                                    <input
+                                        className="invoi"
+                                        id="invoiceUrl"
+                                        type="file"
+                                        onChange={(e) =>
+                                            formik.setValues({
+                                                ...formik.values,
+                                                invoiceUrl: e.target.files
+                                                    ? e.target.files[0]
+                                                    : null,
+                                            })
+                                        }
+                                    />
+                                </label>
+                                <div className="invoiceView">
+                                    {formik.values.invoiceUrl ? (
+                                        <a onClick={() => setIsEditing(true)}>
+                                            View
+                                        </a>
+                                    ) : (
+                                        "invoice"
+                                    )}
+                                </div>
+                            </div>
+                        </motion.div>
+                        <motion.div
+                            animate={{
+                                opacity: 1,
+                            }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 260,
+                                damping: 250,
+                            }}
+                            className="ttp-time-container"
+                        >
+                            <div className="ttp-Date">
+                                <input
+                                    type="date"
+                                    value={date}
+                                    max={today + 1}
+                                    onChange={(e) => setDate(e.target.value)}
+                                />
+                            </div>
+                            <div className="ttp-time">
+                                <input
+                                    type="time"
+                                    value={time}
+                                    onChange={(e) => setTime(e.target.value)}
+                                />
+                            </div>
+                        </motion.div>
+                    </div>
+                    <div className="ttp-btn">
+                        <button type="submit">CONTINUE</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    );
 }

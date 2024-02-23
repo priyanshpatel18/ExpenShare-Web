@@ -1,64 +1,65 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+
 import toast from "react-hot-toast";
 import { NavigateFunction } from "react-router-dom";
 import { create } from "zustand";
 
 export interface TransactionType {
-	category: string;
-	createdBy: string;
-	invoiceUrl: string;
-	notes: string;
-	publicId: string;
-	transactionAmount: string;
-	transactionDate: string;
-	transactionTitle: string;
-	type: string;
-	_id: string;
+    category: string;
+    createdBy: string;
+    invoiceUrl: string;
+    notes: string;
+    publicId: string;
+    transactionAmount: string;
+    transactionDate: string;
+    transactionTitle: string;
+    type: string;
+    _id: string;
 }
 
 export interface TransactionRequest {
-	transactionAmount: string;
-	category: string;
-	transactionTitle: string;
-	notes: string;
-	transactionDate: string;
-	type: string;
-	invoiceUrl: File | null;
+    transactionAmount: string;
+    category: string;
+    transactionTitle: string;
+    notes: string;
+    transactionDate: string;
+    type: string;
+    invoiceUrl: File | null;
 }
 
 export interface UserObject {
-	email: string;
-	userName: string;
-	profilePicture: string;
-	totalBalance: number;
-	totalIncome: number;
-	totalExpense: number;
+    email: string;
+    userName: string;
+    profilePicture: string;
+    totalBalance: number;
+    totalIncome: number;
+    totalExpense: number;
 }
 
 export interface LoginFormValues {
-	userNameOrEmail: string;
-	password: string;
+    userNameOrEmail: string;
+    password: string;
 }
 
 export interface ResetFormValues {
-	password: string;
-	confirmPassword: string;
+    password: string;
+    confirmPassword: string;
 }
 
 export interface ForgotFormValues {
-	email: string;
+    email: string;
 }
 
 export interface RegisterFormValues {
-	email: string;
-	userName: string;
-	password: string;
-	profilePicture: File | null;
+    email: string;
+    userName: string;
+    password: string;
+    profilePicture: File | null;
 }
 
 export interface OTPFormValues {
-	OTP: string[];
+    OTP: string[];
 }
 
 export interface updateUserFormData {

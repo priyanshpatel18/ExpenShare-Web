@@ -1870,6 +1870,40 @@ body {
 		margin-top: 10px; /* Space between image and category name */
 		font-size: 14px; /* Font size of category name */
 	}
+  
+  /* settings page */
+    .settings-back-btn {
+        display: flex;
+
+        position: fixed;
+        z-index: 111111;
+        border: none;
+        top: 10px;
+        left: 10px;
+        background-color: white;
+    }
+    .settings-back-btn img {
+        width: 35px;
+    }
+    .deletebtndev {
+        width: 100%;
+        height: 40%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .delete {
+        width: 200px;
+        height: 40px;
+        border: none;
+        border-radius: 10px;
+        background-color: red;
+        font-weight: bold;
+        font-size: 19px;
+        color: white;
+        font-family: "Montserrat", sans-serif;
+        box-shadow: 1px 1px 60px black;
+    }
 }
 
 /* # - Team memer 2 styles */
@@ -2889,7 +2923,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	font-weight: 500;
-    position: relative;
+	position: relative;
 }
 
 .AccountPageSideBar .SideBar {
@@ -3020,16 +3054,16 @@ body {
 }
 
 .AccountScreen .userEmail p::-webkit-scrollbar {
-    display: none;
+	display: none;
 }
 
 .AccountScreen .userEmail h3 {
-    font-size: 1rem;
+	font-size: 1rem;
 	font-weight: 500;
 }
 
 .AccountScreen .userEmail p {
-    overflow-x: scroll;
+	overflow-x: scroll;
 	font-size: 1.3rem;
 	line-height: 2.5rem;
 	max-width: 400px;
@@ -3076,7 +3110,7 @@ body {
 
 .AccountScreen .passwordChange button {
 	width: 280px;
-    max-width: 90vw;
+	max-width: 90vw;
 	margin-inline: auto;
 	margin-top: 10px;
 	padding: 10px 15px;
@@ -3096,7 +3130,7 @@ body {
 .AccountScreen .deleteAccountChange button {
 	background-color: red;
 	width: 300px;
-    max-width: 90vw;
+	max-width: 90vw;
 	display: block;
 	margin-inline: auto;
 	margin-top: 20px;
