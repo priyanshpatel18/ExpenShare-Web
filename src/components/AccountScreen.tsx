@@ -86,23 +86,6 @@ export default function AccountScreen(): React.JSX.Element {
 					<p>{store.userData?.email || "email"}</p>
 				</div>
 
-				<form className="passwordChange" >
-					<h3>Change Password</h3>
-					<p>Leave empty if you don't want to change it.</p>
-					<div className="inputs">
-						<input
-							type="password"
-							placeholder="Password"
-							required
-						/>
-						<input
-							type="password"
-							placeholder="Confirm Password"
-							required
-						/>
-					</div>
-					<button type="submit">Change Password</button>
-				</form>
 
 				<div className="deleteAccountChange">
 					<button type="button">Delete Account</button>
