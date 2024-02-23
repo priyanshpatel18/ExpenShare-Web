@@ -33,6 +33,20 @@ export default function HomePage(): React.JSX.Element {
 	};
 
 	useEffect(() => {
+		async function checkAuth() {
+			await store.checkAuth(navigate);
+		}
+
+		checkAuth();
+	}, []);
+
+	// do not render content if useer is not logged in
+	if (!store.isLoggedIn) {
+		console.log("No entry, token invalid or not found...");
+		return <></>;
+	}
+	
+	useEffect(() => {
 		async function getUserData() {
 			await store.getUserData(navigate);
 		}
@@ -44,19 +58,6 @@ export default function HomePage(): React.JSX.Element {
 		getUserTransactions();
 	}, []);
 
-	useEffect(() => {
-		async function checkAuth() {
-			await store.checkAuth(navigate);
-		}
-
-		checkAuth();
-	});
-
-	// do not render content if useer is not logged in
-	if (!store.isLoggedIn) {
-		console.log("No entry, token invalid or not found...");
-		return <></>;
-	}
 
 	return (
 		<div className="MainPage">

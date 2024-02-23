@@ -38,7 +38,7 @@ export default function TransactionPage(): React.JSX.Element {
 		}
 
 		checkAuth();
-	})
+	}, [])
 
 	// do not render content if useer is not logged in
 	if (!store.isLoggedIn) {
