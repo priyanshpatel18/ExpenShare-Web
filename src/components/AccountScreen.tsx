@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
-import { updateUserFormData, ResetFormValues } from "../stores/store";
-import { useNavigate } from "react-router-dom";
-import { Store } from "../stores/store";
 import { useFormik } from "formik";
-import { updateUserFormValidation, ResetPasswordValidation } from "../helper/inputValidation";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { updateUserFormValidation } from "../helper/inputValidation";
+import { Store, updateUserFormData } from "../stores/store";
 // images
 import backButton from "../assets/backButton.png";
 import doneButton from "../assets/doneButton.png";
@@ -29,22 +28,6 @@ export default function AccountScreen(): React.JSX.Element {
 			store.updateUser(formData, navigate);
 		},
 	});
-
-	const formikUserPassword = useFormik<ResetFormValues>({
-		initialValues: {
-			password: "",
-			confirmPassword: "",
-		},
-		validate: ResetPasswordValidation,
-		validateOnBlur: false,
-		validateOnChange: false,
-		onSubmit: async (values, { resetForm }) => {
-			const flag = await store.handleChangePassword(values);
-			if (flag) {
-				resetForm();
-			}
-		},
-	});	
 
 	useEffect(() => {
 		formikUserData.setValues({ ...formikUserData.values, userName: store.userData?.userName || "" });
@@ -103,7 +86,7 @@ export default function AccountScreen(): React.JSX.Element {
 					<p>{store.userData?.email || "email"}</p>
 				</div>
 
-				<form className="passwordChange" onSubmit={formikUserPassword.handleSubmit}>
+				<form className="passwordChange" >
 					<h3>Change Password</h3>
 					<p>Leave empty if you don't want to change it.</p>
 					<div className="inputs">
@@ -111,13 +94,11 @@ export default function AccountScreen(): React.JSX.Element {
 							type="password"
 							placeholder="Password"
 							required
-							{...formikUserPassword.getFieldProps("password")}
 						/>
 						<input
 							type="password"
 							placeholder="Confirm Password"
 							required
-							{...formikUserPassword.getFieldProps("confirmPassword")}
 						/>
 					</div>
 					<button type="submit">Change Password</button>
