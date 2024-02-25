@@ -42,7 +42,7 @@ const SideBar = () => {
         }
         getUserObject();
         setUserObject(store.userData as userObject | null);
-    }, [store.userData]);
+    }, []);
 
     return (
         <div className="SideBar">
