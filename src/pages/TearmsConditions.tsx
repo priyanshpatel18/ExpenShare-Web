@@ -1,5 +1,3 @@
-import React from "react";
-
 const TearmsConditions = () => {
     return (
         <div className="terms-conditions">

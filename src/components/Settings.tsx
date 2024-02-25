@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import back from "../assets/backButton.png";
 import { useNavigate } from "react-router-dom";
-import { useStore } from "zustand";
+
 import { Store } from "../stores/store";
 
 const Settings = () => {
