@@ -21,25 +21,12 @@ function App(): React.JSX.Element {
         <main>
             <Routes>
                 <Route path="/registration" element={<RegistrationPage />} />
-                <Route
-                    path="/registerOtpVerificationPage"
-                    element={<RegisterOtpVerificationPage />}
-                />
+                <Route path="/registerOtpVerificationPage" element={<RegisterOtpVerificationPage />}/>
                 <Route path="/login" element={<LoginPage />} />
-                <Route
-                    path="/forgotPassword"
-                    element={<ForgotPasswordPage />}
-                />
-                <Route
-                    path="/passwordResetOtpVerificationPage"
-                    element={<PasswordResetOtpVerificationPage />}
-                />
+                <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+                <Route path="/passwordResetOtpVerificationPage" element={<PasswordResetOtpVerificationPage />}/>
                 <Route path="/Addtransactions" element={<AddTransaction />} />
-
-                <Route
-                    path="/resetPasswordPage"
-                    element={<ResetPasswordPage />}
-                />
+                <Route path="/resetPasswordPage" element={<ResetPasswordPage />} />
                 {/* Protected routes */}
                 <Route path="/" element={<HomePage />} />
                 <Route path="/transactions" element={<TransactionsPage />} />
