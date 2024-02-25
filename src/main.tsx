@@ -9,6 +9,7 @@ import "./index.css";
 
 axios.defaults.baseURL = "https://expen-share-web-server.vercel.app";
 // axios.defaults.baseURL = "http://localhost:8080";
+
 axios.defaults.withCredentials = true;
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
