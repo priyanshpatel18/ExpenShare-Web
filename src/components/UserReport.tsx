@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
-import  { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Store } from "../stores/store";
 import Chart from "chart.js/auto";
 import back from "../assets/backButton.png";
 import { useNavigate } from "react-router-dom";
+import { Amounttosort } from "./HomeScreen";
 const UserReport = () => {
     const chartRef = useRef<HTMLCanvasElement | null>(null);
     const income_chart = useRef<HTMLCanvasElement | null>(null);
@@ -118,7 +119,7 @@ const UserReport = () => {
                     afterDatasetDraw(chart) {
                         const { ctx } = chart;
                         ctx.save();
-                        const text = creditDatas[0];
+                        const text = Amounttosort(String(creditDatas[0]));
                         const x = chart1.getDatasetMeta(0).data[0].x;
                         const y = chart1.getDatasetMeta(0).data[0].y;
                         ctx.font = "bold 13px sans-serif";
@@ -143,7 +144,7 @@ const UserReport = () => {
                     {
                         label: "Data",
                         data: balance_data,
-                        backgroundColor: ["white", "rgba(55,212,159,255)"],
+                        backgroundColor: ["#e6e6e6", "rgba(55,212,159,255)"],
                     },
                 ],
             },
@@ -176,7 +177,7 @@ const UserReport = () => {
                     afterDatasetDraw(chart) {
                         const { ctx } = chart;
                         ctx.save();
-                        const text = creditDatas[1];
+                        const text = Amounttosort(String(creditDatas[1]));
                         const x = chart1.getDatasetMeta(0).data[0].x;
                         const y = chart1.getDatasetMeta(0).data[0].y;
                         ctx.font = "bold 13px sans-serif";
@@ -201,7 +202,7 @@ const UserReport = () => {
                     {
                         label: "Data",
                         data: expense_data,
-                        backgroundColor: ["white", "rgba(254,72,86,255)"],
+                        backgroundColor: ["#e6e6e6", "rgba(254,72,86,255)"],
                     },
                 ],
             },
@@ -214,7 +215,7 @@ const UserReport = () => {
                 plugins: {
                     title: {
                         display: true,
-                        text: "BALANCE",
+                        text: "EXPENSES",
                     },
                     legend: {
                         display: true,
@@ -234,7 +235,7 @@ const UserReport = () => {
                     afterDatasetDraw(chart) {
                         const { ctx } = chart;
                         ctx.save();
-                        const text = `${creditDatas[2]}`;
+                        const text = Amounttosort(String(creditDatas[2]));
                         const x = chart1.getDatasetMeta(0).data[0].x;
                         const y = chart1.getDatasetMeta(0).data[0].y;
                         ctx.font = "bold 13px sans-serif";

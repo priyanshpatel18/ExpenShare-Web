@@ -4,12 +4,12 @@ import { Store } from "../stores/store";
 // components
 import SideBar from "../components/SideBar";
 import HomeScreen from "../components/HomeScreen";
+// import { motion } from "framer-motion";
 
 export default function HomePage(): React.JSX.Element {
     const navigate = useNavigate();
     const store = Store();
-
-
+    // const constraintsRef: React.MutableRefObject<null> = useRef(null);
     useEffect(() => {
         async function fetchUserData() {
             await store.getUserData(navigate);

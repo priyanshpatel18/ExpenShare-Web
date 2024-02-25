@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import React, { MutableRefObject, useRef, useState } from "react";
 import categoriesImgs from "../pages/categories";
-import { Store } from "../stores/store";
-
+import { Store, TransactionType } from "../stores/store";
+import { Amounttosort } from "./HomeScreen";
+import back from "../assets/backButton.png";
 export default function TransactionScreen(): React.JSX.Element {
     const store = Store();
     const [Flag, setFlag] = useState("income");
@@ -47,6 +48,24 @@ export default function TransactionScreen(): React.JSX.Element {
 
         return { date: datePart, time: timePart };
     };
+    const [selectedTransaction, setSelectedTransaction] =
+        useState<TransactionType>();
+    const openTransactionPopup = (transaction: TransactionType) => {
+        // Set the selected transaction to display its popup
+        setSelectedTransaction(transaction);
+    };
+
+    const closeTransactionPopup = () => {
+        // Close the transaction popup
+        setSelectedTransaction(undefined);
+    };
+
+    const imgs = categoriesImgs.find((category) => {
+        return (
+            category.name.toLocaleLowerCase() ==
+            selectedTransaction?.category.toLocaleLowerCase()
+        );
+    });
 
     return (
         <motion.div
@@ -82,7 +101,11 @@ export default function TransactionScreen(): React.JSX.Element {
 
                         if (T.type == Flag)
                             return (
-                                <div className="transaction" key={index}>
+                                <div
+                                    className="transaction"
+                                    key={index}
+                                    onClick={() => openTransactionPopup(T)}
+                                >
                                     <div className="info">
                                         <div className="date">
                                             {
@@ -103,7 +126,9 @@ export default function TransactionScreen(): React.JSX.Element {
                                         <div className="img">
                                             <img src={img?.source} alt="" />
                                         </div>
-                                        <div className="transactiondetailinsec">{T.transactionTitle}</div>
+                                        <div className="transactiondetailinsec">
+                                            {T.transactionTitle}
+                                        </div>
                                         <div
                                             className={
                                                 T.type == "income"
@@ -113,13 +138,105 @@ export default function TransactionScreen(): React.JSX.Element {
                                         >
                                             {`${
                                                 T.type == "expense" ? "-" : "+"
-                                            }$${T.transactionAmount}`}
+                                            }₹${Amounttosort(
+                                                T.transactionAmount
+                                            )}`}
                                         </div>
                                     </div>
                                 </div>
                             );
                     })}
             </div>
+
+            {selectedTransaction && (
+                <div className="transaction-popup">
+                    <div className="transactionpopupnav">
+                        <img
+                            src={back}
+                            alt=""
+                            onClick={closeTransactionPopup}
+                        />
+                    </div>
+
+                    <div className="popup-content">
+                        <div className="Tpopupid">
+                            <div className="Tpopupid_title">
+                                <p>Transaction Id</p>
+                            </div>
+                            <div className="Tpopupid_value">
+                                {selectedTransaction._id}
+                            </div>
+                        </div>
+
+                        <div className="Tpopupcategory">
+                            <div className="Tpopupcategoryimage">
+                                <img src={imgs?.source} alt="" />
+                            </div>
+                            <div className="Tpopupcategory_otherdetails">
+                                <div className="Tpopupcategory_otherdetails_title">
+                                    Title
+                                </div>
+                                <div className="Tpopupcategory_otherdetails_value">
+                                    {selectedTransaction?.transactionTitle}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="TpopupAmmount">
+                            <div className="TpopupAmmount_title"> Amount</div>
+                            <div
+                                className={`${
+                                    selectedTransaction?.type === "expense"
+                                        ? "TpopupAmmount_value"
+                                        : "TpopupAmmount_value_green"
+                                }`}
+                            >
+                                ₹ {selectedTransaction.transactionAmount}
+                            </div>
+                        </div>
+                        <div className="TpopupNotes">
+                            <div className="TpopupNotes_title">Notes</div>
+                            <div className="TpopupNotes_value">
+                                {selectedTransaction?.notes
+                                    ? selectedTransaction.notes
+                                    : "-"}
+                            </div>
+                        </div>
+                        <div className="Tpopupdateandtime">
+                            <div className="Tpopupdateandtime_title">
+                                Transaction Date
+                            </div>
+                            <div className="Tpopupdateandtime_values">
+                                <div className="Tpopupdateandtime_date">
+                                    {
+                                        formatDateTimeString(
+                                            selectedTransaction.transactionDate
+                                        ).date
+                                    }
+                                </div>
+                                <div className="Tpopupdateandtime_time">
+                                    {
+                                        formatDateTimeString(
+                                            selectedTransaction.transactionDate
+                                        ).time
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div className="deletetransacrion">
+                            <button
+                                onClick={() =>
+                                    store.deleteTransaction(
+                                        selectedTransaction._id
+                                    )
+                                }
+                            >
+                                delete transaction
+                            </button>
+                        </div>
+                        {/* Add more details if needed */}
+                    </div>
+                </div>
+            )}
         </motion.div>
     );
 }
