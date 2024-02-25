@@ -4,14 +4,19 @@ import { Store } from "../stores/store";
 import { TransactionRequest } from "../stores/store";
 import { useFormik } from "formik";
 // images
+import savemoney from "../assets/savemoney.png";
+import savemoneyy from "../assets/saveimage.jpg";
 import addImageIcon from "../assets/addImageIcon.png";
 import leftarrow from "../assets/leftArrow.png";
 import categoriesWithAssets from "../pages/categories";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import incomeAssets from "../pages/income-categories";
 
 export default function AddTransaction(): React.JSX.Element {
     const [isEditing, setIsEditing] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+
     const store = Store();
     const navigate = useNavigate();
     const balance = store.userData?.totalBalance;
@@ -56,6 +61,8 @@ export default function AddTransaction(): React.JSX.Element {
 
     const myref_left: MutableRefObject<HTMLDivElement | null> = useRef(null);
     const myref_right: MutableRefObject<HTMLDivElement | null> = useRef(null);
+    const myref_circle: MutableRefObject<HTMLDivElement | null> = useRef(null);
+
     const myref_in_btn: Ref<HTMLButtonElement> = useRef(null);
     const myref_ex_btn: Ref<HTMLButtonElement> = useRef(null);
     const tsp_down_input: LegacyRef<HTMLInputElement> = useRef(null);
@@ -68,11 +75,13 @@ export default function AddTransaction(): React.JSX.Element {
             myref_left.current &&
             myref_right.current &&
             myref_ex_btn.current &&
-            tsp_down_input.current
+            tsp_down_input.current &&
+            myref_circle.current
         ) {
             formik.setValues({ ...formik.values, type: "income" });
             myref_in_btn.current.style.backgroundColor = "#2ABD42";
             myref_in_btn.current.style.color = "white";
+            myref_circle.current.style.backgroundColor = "rgb(42, 189, 66)";
             myref_left.current.style.backgroundColor = "#2ABD42";
             myref_right.current.style.backgroundColor = "#2ABD42";
             myref_second_part.current.style.backgroundColor = "#2ABD42";
@@ -88,13 +97,15 @@ export default function AddTransaction(): React.JSX.Element {
             myref_left.current &&
             myref_right.current &&
             myref_ex_btn.current &&
-            tsp_down_input.current
+            tsp_down_input.current &&
+            myref_circle.current
         ) {
             formik.setValues({ ...formik.values, type: "expense" });
             myref_in_btn.current.style.backgroundColor = "white";
             myref_in_btn.current.style.color = "black";
             myref_left.current.style.backgroundColor = "#FF4545";
             myref_right.current.style.backgroundColor = "#FF4545";
+            myref_circle.current.style.backgroundColor = "#FF4545";
             myref_second_part.current.style.backgroundColor = "#FF4545";
             myref_ex_btn.current.style.backgroundColor = "#FF4545";
             myref_ex_btn.current.style.color = "white";
@@ -103,9 +114,6 @@ export default function AddTransaction(): React.JSX.Element {
     };
 
     // filtering categoris
-    const filteredCategories = categoriesWithAssets.filter((category) =>
-        category.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
 
     const formik = useFormik<TransactionRequest>({
         initialValues: {
@@ -125,22 +133,6 @@ export default function AddTransaction(): React.JSX.Element {
             });
             console.log(values);
 
-            store.setTransactions([
-                {
-                    transactionAmount: values.transactionAmount,
-                    category: values.category,
-                    transactionTitle: values.transactionTitle,
-                    notes: values.notes,
-                    transactionDate: values.transactionDate,
-                    type: values.type,
-                    _id: "",
-                    publicId: "",
-                    invoiceUrl: "",
-                    createdBy: "",
-                },
-                ...(store.transactions || []),
-            ]);
-
             const formData = new FormData();
             formData.append("transactionAmount", values.transactionAmount);
             formData.append("category", values.category);
@@ -149,11 +141,70 @@ export default function AddTransaction(): React.JSX.Element {
             formData.append("transactionDate", values.transactionDate);
             formData.append("type", values.type);
             formData.append("invoiceUrl", values.invoiceUrl as File);
-            const res = await store.addTransaction(formData);
-            if (res) resetForm();
+            // const res = await store.addTransaction(formData);
+
+            if (
+                Number(balance) <
+                Number(values.transactionAmount && values.type == "expense")
+            ) {
+                toast.error("not efficient balance");
+                resetForm();
+            } else if (values.type == "income") {
+                await store.addTransaction(formData);
+                store.setTransactions([
+                    {
+                        transactionAmount: values.transactionAmount,
+                        category: values.category,
+                        transactionTitle: values.transactionTitle,
+                        notes: values.notes,
+                        transactionDate: values.transactionDate,
+                        type: values.type,
+                        _id: "",
+                        publicId: "",
+                        invoiceUrl: "",
+                        createdBy: "",
+                    },
+                    ...(store.transactions || []),
+                ]);
+                navigate("/");
+
+                resetForm();
+            } else {
+                await store.addTransaction(formData);
+                store.setTransactions([
+                    {
+                        transactionAmount: values.transactionAmount,
+                        category: values.category,
+                        transactionTitle: values.transactionTitle,
+                        notes: values.notes,
+                        transactionDate: values.transactionDate,
+                        type: values.type,
+                        _id: "",
+                        publicId: "",
+                        invoiceUrl: "",
+                        createdBy: "",
+                    },
+                    ...(store.transactions || []),
+                ]);
+                navigate("/");
+                resetForm();
+            }
+            // if (res) resetForm();
         },
     });
 
+    const sourceimage =
+        formik.values.type === "expense" ? categoriesWithAssets : incomeAssets;
+    const expensecat = categoriesWithAssets.filter((category) =>
+        category.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const incomecat = incomeAssets.filter((category) =>
+        category.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const filteredCategories =
+        formik.values.type === "expense" ? expensecat : incomecat;
     return (
         <div className="Addtransaction">
             <motion.div
@@ -214,8 +265,11 @@ export default function AddTransaction(): React.JSX.Element {
                                         formik.setValues({
                                             ...formik.values,
                                             category:
-                                                categoriesWithAssets[index]
-                                                    .name,
+                                                formik.values.type === "expense"
+                                                    ? categoriesWithAssets[
+                                                          index
+                                                      ].name
+                                                    : incomeAssets[index].name,
                                         });
                                     }}
                                 />
@@ -293,7 +347,7 @@ export default function AddTransaction(): React.JSX.Element {
                             value={formik.values.transactionAmount}
                             onChange={(e) => {
                                 formik.handleChange(e);
-                                const regex = /^[0-9.\b]*$/;
+                                const regex = /^[0-9]+(\.[0-9]+)?$/;
                                 if (regex.test(e.target.value))
                                     formik.setValues({
                                         ...formik.values,
@@ -303,6 +357,11 @@ export default function AddTransaction(): React.JSX.Element {
                         />
                     </div>
                 </div>
+
+                <div className="circal-01" ref={myref_circle}></div>
+                <img className="decorationimg" src={savemoney} alt="" />
+                <img className="decorationimg02" src={savemoneyy} alt="" />
+                <div className="circal-02"></div>
                 <div className="transaction-third-part">
                     <div className="ttp-details">
                         <motion.div
@@ -323,7 +382,7 @@ export default function AddTransaction(): React.JSX.Element {
                             <div className="ttpc-img">
                                 <img
                                     src={
-                                        categoriesWithAssets.find(
+                                        sourceimage.find(
                                             (cat) =>
                                                 cat.name ==
                                                 formik.values.category
