@@ -35,7 +35,7 @@ const SideBar = () => {
     const store = Store();
     const [userObject, setUserObject] = useState<userObject | null>();
     const navigate = useNavigate();
-
+    const [isEditing, setIsEditing] = useState(false);
     useEffect(() => {
         async function getUserObject() {
             await store.getUserData(navigate);
@@ -46,11 +46,26 @@ const SideBar = () => {
 
     return (
         <div className="SideBar">
+            <motion.div
+                animate={{
+                    display: isEditing ? "block" : "none",
+                    opacity: isEditing ? 1 : 0,
+                    scale: isEditing ? 1 : 0,
+                    width: isEditing ? "100vw" : 0,
+                }}
+                className="fullscreeniaemodel"
+                onClick={() => setIsEditing(!isEditing)}
+            >
+                <div>
+                    <img src={store.userData?.profilePicture || logo} alt="" />
+                </div>
+            </motion.div>
             <div className="userProfile">
                 <div className="img">
                     <img
                         src={userObject?.profilePicture || logo}
                         alt="Profile Picture"
+                        onClick={() => setIsEditing(!isEditing)}
                     />
                 </div>
                 <div className="userName">{userObject?.userName || "User"}</div>

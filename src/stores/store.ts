@@ -67,6 +67,26 @@ export interface updateUserFormData {
     profilePicture: File | null;
 }
 
+export interface GroupDocumentRequest {
+    _id: string;
+    groupName: string;
+    groupProfile?: File | null;
+    createdBy: UserObject | undefined;
+    members: UserObject[];
+    groupExpenses: TransactionType[];
+    totalExpense: number;
+    category: string;
+}
+export interface GroupDocument {
+    groupName: string;
+    groupProfile?: string;
+    createdBy: UserObject | undefined;
+    members: UserObject[];
+    groupExpenses: TransactionType[];
+    totalExpense: number;
+    category: string;
+}
+
 interface Store {
     isLoggedIn: boolean | null;
     // Loading
@@ -120,6 +140,12 @@ interface Store {
     deleteUser: (redirect: NavigateFunction) => void;
     //delete a transaction
     deleteTransaction: (transactionId: string) => Promise<boolean>;
+    //create a group
+    groups: GroupDocument[] | [];
+    setGroups: (groups: GroupDocument[]) => void;
+    createGroup: (formData: FormData, redirect: NavigateFunction) => void;
+    //
+    handleFetchGroups: () => void;
 }
 
 export const Store = create<Store>((set) => ({
@@ -296,10 +322,6 @@ export const Store = create<Store>((set) => ({
             .then((res) => {
                 if (userData == undefined)
                     set({ userData: res.data.userObject });
-                else {
-                    // Update user data with the response from the server
-                    set({ userData: res.data.userObject });
-                }
             })
             .catch((err) => {
                 redirect("/login");
@@ -348,6 +370,8 @@ export const Store = create<Store>((set) => ({
                             new Date(b.transactionDate).getTime() -
                             new Date(a.transactionDate).getTime()
                     );
+                    console.log(sortedTransactions);
+
                     set({ transactions: sortedTransactions });
                 })
                 .catch((err) => {
@@ -452,5 +476,30 @@ export const Store = create<Store>((set) => ({
                 redirect("/");
             });
         return flag;
+    },
+    groups: [],
+    setGroups: (groups: GroupDocument[]) => set({ groups }),
+    createGroup: async (formData, redirect) => {
+        await axios
+            .post("/group/create", formData)
+            .then(() => {
+                toast.success("group created");
+                redirect("/groups");
+            })
+            .catch((err) => {
+                if (err.response) {
+                    toast.error(err.response?.data?.message);
+                } else {
+                    toast.error("Internal server error");
+                }
+            })
+            .finally(() => {
+                redirect("/");
+            });
+    },
+    handleFetchGroups: async () => {
+        await axios.get("/group/getAll").then((res) => {
+            set({ groups: res.data.groups });
+        });
     },
 }));

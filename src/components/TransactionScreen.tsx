@@ -4,11 +4,14 @@ import categoriesImgs from "../pages/categories";
 import { Store, TransactionType } from "../stores/store";
 import { Amounttosort } from "./HomeScreen";
 import back from "../assets/backButton.png";
+import incomeAssets from "../pages/income-categories";
+import invoice from "../assets/invoice.png";
+import { redirect, useNavigate } from "react-router-dom";
 export default function TransactionScreen(): React.JSX.Element {
     const store = Store();
     const [Flag, setFlag] = useState("income");
     const buttonRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
-
+    const navigate = useNavigate();
     // function to change the transaction flag
     function toggleFlag() {
         if (Flag == "income") {
@@ -92,7 +95,13 @@ export default function TransactionScreen(): React.JSX.Element {
             <div className="transactions">
                 {store.transactions &&
                     store.transactions.map((T, index) => {
-                        const img = categoriesImgs.find((category) => {
+                        const img_expense = categoriesImgs.find((category) => {
+                            return (
+                                category.name.toLocaleLowerCase() ==
+                                T.category.toLocaleLowerCase()
+                            );
+                        });
+                        const img_income = incomeAssets.find((category) => {
                             return (
                                 category.name.toLocaleLowerCase() ==
                                 T.category.toLocaleLowerCase()
@@ -124,7 +133,14 @@ export default function TransactionScreen(): React.JSX.Element {
                                     </div>
                                     <div className="container">
                                         <div className="img">
-                                            <img src={img?.source} alt="" />
+                                            <img
+                                                src={
+                                                    img_expense
+                                                        ? img_expense.source
+                                                        : img_income?.source
+                                                }
+                                                alt=""
+                                            />
                                         </div>
                                         <div className="transactiondetailinsec">
                                             {T.transactionTitle}
@@ -196,9 +212,25 @@ export default function TransactionScreen(): React.JSX.Element {
                         <div className="TpopupNotes">
                             <div className="TpopupNotes_title">Notes</div>
                             <div className="TpopupNotes_value">
-                                {selectedTransaction?.notes
-                                    ? selectedTransaction.notes
-                                    : "-"}
+                                <div className="TpopupNotes_value_title">
+                                    {selectedTransaction?.notes
+                                        ? selectedTransaction.notes
+                                        : "-"}
+                                </div>
+                                <div>
+                                    {selectedTransaction.invoiceUrl ? (
+                                        <a
+                                            href={
+                                                selectedTransaction.invoiceUrl
+                                            }
+                                        >
+                                            {" "}
+                                            <img src={invoice} alt="" />
+                                        </a>
+                                    ) : (
+                                        ""
+                                    )}
+                                </div>
                             </div>
                         </div>
                         <div className="Tpopupdateandtime">
