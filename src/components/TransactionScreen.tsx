@@ -6,12 +6,12 @@ import { Amounttosort } from "./HomeScreen";
 import back from "../assets/backButton.png";
 import incomeAssets from "../pages/income-categories";
 import invoice from "../assets/invoice.png";
-import { redirect, useNavigate } from "react-router-dom";
+
 export default function TransactionScreen(): React.JSX.Element {
     const store = Store();
     const [Flag, setFlag] = useState("income");
     const buttonRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
-    const navigate = useNavigate();
+
     // function to change the transaction flag
     function toggleFlag() {
         if (Flag == "income") {

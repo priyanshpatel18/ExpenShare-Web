@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import GroupsPage from "./pages/GroupsPage";

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import group from "../assets/group.png";
+// import group from "../assets/group.png";
 import { useNavigate } from "react-router-dom";
 import { Store, GroupDocument } from "../stores/store";
 
