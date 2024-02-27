@@ -6,13 +6,19 @@ import { Amounttosort } from "./HomeScreen";
 import back from "../assets/backButton.png";
 import incomeAssets from "../pages/income-categories";
 import invoice from "../assets/invoice.png";
+import deleteicon from "../assets/deleteicon.png";
+import edit from "../assets/editpensil.png";
+// import { useNavigate } from "react-router-dom";
 
 export default function TransactionScreen(): React.JSX.Element {
     const store = Store();
+    // const navigate = useNavigate();
     const [Flag, setFlag] = useState("income");
     const buttonRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [istransactionedit, setistransactionedit] = useState(true);
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    // function to change the transaction flag
     function toggleFlag() {
         if (Flag == "income") {
             setFlag("expense");
@@ -51,8 +57,9 @@ export default function TransactionScreen(): React.JSX.Element {
 
         return { date: datePart, time: timePart };
     };
-    const [selectedTransaction, setSelectedTransaction] =
-        useState<TransactionType>();
+    const [selectedTransaction, setSelectedTransaction] = useState<
+        TransactionType | undefined
+    >();
     const openTransactionPopup = (transaction: TransactionType) => {
         // Set the selected transaction to display its popup
         setSelectedTransaction(transaction);
@@ -63,12 +70,69 @@ export default function TransactionScreen(): React.JSX.Element {
         setSelectedTransaction(undefined);
     };
 
-    const imgs = categoriesImgs.find((category) => {
+    const dataimage =
+        selectedTransaction?.type === "expense" ? categoriesImgs : incomeAssets;
+
+    const imgs = dataimage.find((category) => {
         return (
             category.name.toLocaleLowerCase() ==
             selectedTransaction?.category.toLocaleLowerCase()
         );
     });
+    function splitDate(timestamp: string): string {
+        const date = new Date(timestamp);
+        const year = date.getFullYear();
+        // Months are zero-based, so we add 1 to get the correct month
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const day = date.getDate().toString().padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+    }
+
+    function splitTime(timestamp: string): string {
+        const date = new Date(timestamp);
+        const hours = date.getHours().toString().padStart(2, "0");
+        const minutes = date.getMinutes().toString().padStart(2, "0");
+
+        return `${hours}:${minutes}`;
+    }
+
+    // const [date, setdate] = useState<string>(
+    //     selectedTransaction
+    //         ? splitDate(selectedTransaction.transactionDate)
+    //         : ""
+    // );
+    // const [time, settime] = useState<string>(
+    //     selectedTransaction
+    //         ? splitTime(selectedTransaction.transactionDate)
+    //         : ""
+    // );
+    // useEffect(() => {
+    //     if (selectedTransaction) {
+    //         setdate(splitDate(selectedTransaction.transactionDate));
+    //         settime(splitTime(selectedTransaction.transactionDate));
+    //     }
+    // }, [selectedTransaction]);
+
+    // useEffect(() => {
+    //     if (!selectedTransaction) return; // Return early if selectedTransaction is undefined
+
+    //     const updatedTransaction = {
+    //         ...(selectedTransaction || {}),
+    //         transactionDate: date
+    //             ? new Date(`${date}T${time}`).toISOString()
+    //             : "",
+    //     };
+    //     setSelectedTransaction(updatedTransaction);
+    //     console.log(selectedTransaction.transactionDate);
+    // }, []);
+
+    // const handlereq = async () => {
+    //     await store.updateTransaction(
+    //         selectedTransaction?._id,
+    //         selectedTransaction
+    //     );
+    // };
 
     return (
         <motion.div
@@ -82,6 +146,25 @@ export default function TransactionScreen(): React.JSX.Element {
             transition={{ type: "spring", damping: 30, stiffness: 100 }}
             className="TransactionScreen"
         >
+            <motion.div
+                animate={{
+                    x: 0,
+                    opacity: isEditing ? 1 : 0,
+                    scale: isEditing ? 1 : 0,
+                    width: isEditing ? "80vw" : 0,
+                    visibility: isEditing ? "visible" : "hidden",
+                    zIndex: isEditing ? 1111111111 : 0,
+                }}
+                className="fullscreeniaemodel"
+                onClick={() => setIsEditing(!isEditing)}
+            >
+                <div>
+                    <img
+                        src={selectedTransaction?.invoiceUrl}
+                        alt="Invoice Iamge"
+                    />
+                </div>
+            </motion.div>
             <div className="header">
                 <h2 className="title">Transactions</h2>
                 <div
@@ -170,7 +253,17 @@ export default function TransactionScreen(): React.JSX.Element {
                         <img
                             src={back}
                             alt=""
-                            onClick={closeTransactionPopup}
+                            onClick={() => {
+                                closeTransactionPopup();
+                                setistransactionedit(true);
+                            }}
+                        />
+                        <img
+                            src={edit}
+                            alt=""
+                            onClick={() => {
+                                setistransactionedit(!istransactionedit);
+                            }}
                         />
                     </div>
 
@@ -192,41 +285,72 @@ export default function TransactionScreen(): React.JSX.Element {
                                 <div className="Tpopupcategory_otherdetails_title">
                                     Title
                                 </div>
-                                <div className="Tpopupcategory_otherdetails_value">
-                                    {selectedTransaction?.transactionTitle}
-                                </div>
+
+                                <input
+                                    ref={inputRef}
+                                    type="text"
+                                    value={selectedTransaction.transactionTitle}
+                                    className="Tpopupcategory_otherdetails_value"
+                                    disabled={istransactionedit}
+                                    onChange={(e) =>
+                                        setSelectedTransaction({
+                                            ...(selectedTransaction || {}),
+                                            transactionTitle: e.target.value,
+                                        })
+                                    }
+                                />
                             </div>
                         </div>
                         <div className="TpopupAmmount">
                             <div className="TpopupAmmount_title"> Amount</div>
-                            <div
+
+                            <input
+                                type="text"
                                 className={`${
                                     selectedTransaction?.type === "expense"
                                         ? "TpopupAmmount_value"
                                         : "TpopupAmmount_value_green"
                                 }`}
-                            >
-                                ₹ {selectedTransaction.transactionAmount}
-                            </div>
+                                value={selectedTransaction.transactionAmount}
+                                disabled={istransactionedit}
+                                onChange={(e) =>
+                                    setSelectedTransaction({
+                                        ...(selectedTransaction || {}),
+                                        transactionAmount: e.target.value,
+                                    })
+                                }
+                            />
                         </div>
                         <div className="TpopupNotes">
                             <div className="TpopupNotes_title">Notes</div>
                             <div className="TpopupNotes_value">
-                                <div className="TpopupNotes_value_title">
-                                    {selectedTransaction?.notes
-                                        ? selectedTransaction.notes
-                                        : "-"}
-                                </div>
+                                <div>{}</div>
+
+                                <input
+                                    type="text"
+                                    className="TpopupNotes_value_title"
+                                    value={
+                                        selectedTransaction?.notes
+                                            ? selectedTransaction.notes
+                                            : "-"
+                                    }
+                                    disabled={istransactionedit}
+                                    onChange={(e) =>
+                                        setSelectedTransaction({
+                                            ...(selectedTransaction || {}),
+                                            notes: e.target.value,
+                                        })
+                                    }
+                                />
                                 <div>
                                     {selectedTransaction.invoiceUrl ? (
-                                        <a
-                                            href={
-                                                selectedTransaction.invoiceUrl
+                                        <img
+                                            src={invoice}
+                                            alt=""
+                                            onClick={() =>
+                                                setIsEditing(!isEditing)
                                             }
-                                        >
-                                            {" "}
-                                            <img src={invoice} alt="" />
-                                        </a>
+                                        />
                                     ) : (
                                         ""
                                     )}
@@ -238,33 +362,45 @@ export default function TransactionScreen(): React.JSX.Element {
                                 Transaction Date
                             </div>
                             <div className="Tpopupdateandtime_values">
-                                <div className="Tpopupdateandtime_date">
-                                    {
-                                        formatDateTimeString(
-                                            selectedTransaction.transactionDate
-                                        ).date
-                                    }
-                                </div>
-                                <div className="Tpopupdateandtime_time">
-                                    {
-                                        formatDateTimeString(
-                                            selectedTransaction.transactionDate
-                                        ).time
-                                    }
-                                </div>
+                                <input
+                                    className="Tpopupdateandtime_date"
+                                    type="date"
+                                    value={splitDate(
+                                        selectedTransaction.transactionDate
+                                    )}
+                                    disabled={istransactionedit}
+                                    // onChange={(e) => setdate(e.target.value)}
+                                />
+
+                                <input
+                                    type="time"
+                                    className="Tpopupdateandtime_time"
+                                    value={splitTime(
+                                        selectedTransaction.transactionDate
+                                    )}
+                                    disabled={istransactionedit}
+                                    // onChange={(e) => settime(e.target.value)}
+                                />
                             </div>
                         </div>
-                        <div className="deletetransacrion">
-                            <button
-                                onClick={() =>
-                                    store.deleteTransaction(
-                                        selectedTransaction._id
-                                    )
-                                }
-                            >
-                                delete transaction
-                            </button>
-                        </div>
+                        {!istransactionedit ? (
+                            <div className="deletetransacrion">
+                                <button>Submmit</button>
+                            </div>
+                        ) : (
+                            <div className="deletetransacrion">
+                                <img src={deleteicon} alt="" />
+                                <button
+                                    onClick={() =>
+                                        store.deleteTransaction(
+                                            selectedTransaction._id
+                                        )
+                                    }
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        )}
                         {/* Add more details if needed */}
                     </div>
                 </div>

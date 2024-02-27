@@ -138,6 +138,11 @@ interface Store {
     handleChangePassword: (formData: ResetFormValues) => Promise<boolean>;
     // delete user
     deleteUser: (redirect: NavigateFunction) => void;
+    //update a transaction
+    updateTransaction: (
+        transactionId: string,
+        formData: FormData
+    ) => Promise<boolean>;
     //delete a transaction
     deleteTransaction: (transactionId: string) => Promise<boolean>;
     //create a group
@@ -454,6 +459,27 @@ export const Store = create<Store>((set) => ({
                 return toast.error("Internal server error");
             })
             .finally(() => {});
+    },
+
+    updateTransaction: async (transactionId: string, formData: FormData) => {
+        let flag = false;
+        await axios
+            .put(`/transaction/edit/${transactionId}`, formData)
+            .then(() => {
+                toast.success("Transaction updated");
+                flag = true;
+            })
+            .catch((err) => {
+                if (err.response) {
+                    toast.error(err.response?.data?.message);
+                } else {
+                    toast.error("Internal server error");
+                }
+            })
+            .finally(() => {
+                // Handle any post-update actions or UI changes here
+            });
+        return flag;
     },
 
     deleteTransaction: async (transactionId: string) => {
