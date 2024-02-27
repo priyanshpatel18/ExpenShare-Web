@@ -37,6 +37,7 @@ export default function AddTransaction(): React.JSX.Element {
     const day = String(dateObject.getDate()).padStart(2, "0");
     const newDate = `${year}-${month}-${day}`;
     const [date, setDate] = useState(newDate);
+    console.log(date, time);
 
     // categoris page open close logic
     const categories_page_ref: MutableRefObject<HTMLDivElement | null> =
@@ -350,7 +351,7 @@ export default function AddTransaction(): React.JSX.Element {
                             inputMode="numeric"
                             className="tsp-down-input"
                             ref={tsp_down_input}
-                            maxLength={7}
+                            maxLength={8}
                             placeholder="0.00"
                             required
                             value={formik.values.transactionAmount}
