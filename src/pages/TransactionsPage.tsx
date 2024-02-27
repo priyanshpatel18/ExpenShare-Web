@@ -8,9 +8,9 @@ import TransactionScreen from "../components/TransactionScreen";
 
 export default function TransactionPage(): React.JSX.Element {
     const navigate = useNavigate();
-  
+
     const store = Store();
-   
+
     useEffect(() => {
         async function fetchUserData() {
             await store.getUserData(navigate);

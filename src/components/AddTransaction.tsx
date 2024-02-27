@@ -78,7 +78,11 @@ export default function AddTransaction(): React.JSX.Element {
             tsp_down_input.current &&
             myref_circle.current
         ) {
-            formik.setValues({ ...formik.values, type: "income" });
+            formik.setValues({
+                ...formik.values,
+                type: "income",
+                category: "Air Tickets",
+            });
             myref_in_btn.current.style.backgroundColor = "#2ABD42";
             myref_in_btn.current.style.color = "white";
             myref_circle.current.style.backgroundColor = "rgb(42, 189, 66)";
@@ -100,7 +104,11 @@ export default function AddTransaction(): React.JSX.Element {
             tsp_down_input.current &&
             myref_circle.current
         ) {
-            formik.setValues({ ...formik.values, type: "expense" });
+            formik.setValues({
+                ...formik.values,
+                type: "expense",
+                category: "Bonus",
+            });
             myref_in_btn.current.style.backgroundColor = "white";
             myref_in_btn.current.style.color = "black";
             myref_left.current.style.backgroundColor = "#FF4545";
@@ -193,8 +201,6 @@ export default function AddTransaction(): React.JSX.Element {
         },
     });
 
-    const sourceimage =
-        formik.values.type === "expense" ? categoriesWithAssets : incomeAssets;
     const expensecat = categoriesWithAssets.filter((category) =>
         category.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -202,6 +208,9 @@ export default function AddTransaction(): React.JSX.Element {
     const incomecat = incomeAssets.filter((category) =>
         category.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    const sourceimage =
+        formik.values.type === "expense" ? categoriesWithAssets : incomeAssets;
 
     const filteredCategories =
         formik.values.type === "expense" ? expensecat : incomecat;

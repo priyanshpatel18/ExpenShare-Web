@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 import profilepic from "../assets/profile.png";
 import Accounts from "../assets/account.png";
-import Export from "../assets/export.png";
+import Export from "../assets/exports.png";
 import Report from "../assets/report.png";
 import Settings from "../assets/settings.png";
 import Logout from "../assets/logout.png";

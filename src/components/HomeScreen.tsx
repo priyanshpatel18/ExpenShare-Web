@@ -11,6 +11,7 @@ import nothing from "../assets/wallet.png";
 import loading from "../assets/loadingimage.gif";
 import back from "../assets/backButton.png";
 import categoriesWithAssets from "../pages/categories";
+import incomeAssets from "../pages/income-categories";
 
 export const Amounttosort = (data: string) => {
     if (data.length === 5) {
@@ -31,7 +32,6 @@ function HomeScreen(): React.JSX.Element {
     const data_balance = store.userData?.totalBalance ?? 0;
     const data_income = store.userData?.totalIncome ?? 0;
     const data_expense = store.userData?.totalExpense ?? 0;
-    console.log(store.transactions);
 
     const ammount_ref: MutableRefObject<HTMLDivElement | null> = useRef(null);
 
@@ -230,6 +230,16 @@ function HomeScreen(): React.JSX.Element {
                                                         cat.name.toLocaleLowerCase() ==
                                                         T.category.toLocaleLowerCase()
                                                 )?.source
+                                                    ? categoriesWithAssets.find(
+                                                          (cat) =>
+                                                              cat.name.toLocaleLowerCase() ==
+                                                              T.category.toLocaleLowerCase()
+                                                      )?.source
+                                                    : incomeAssets.find(
+                                                          (cat) =>
+                                                              cat.name.toLocaleLowerCase() ==
+                                                              T.category.toLocaleLowerCase()
+                                                      )?.source
                                             }
                                             alt=""
                                         />

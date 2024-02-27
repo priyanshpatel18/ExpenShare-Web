@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
-import { Store } from "../stores/store";
+import { useEffect, useRef, useState } from "react";
+import { Store, TransactionType } from "../stores/store";
 import Chart from "chart.js/auto";
 import back from "../assets/backButton.png";
 import { useNavigate } from "react-router-dom";
@@ -10,10 +10,14 @@ const UserReport = () => {
     const income_chart = useRef<HTMLCanvasElement | null>(null);
     const balance_chart = useRef<HTMLCanvasElement | null>(null);
     const expense_chart = useRef<HTMLCanvasElement | null>(null);
+    // const [categoryData, setCategoryData] = useState<
+    //     { label: string; count: number }[]
+    // >([]);
+    const [transacriondata, settransactiondata] = useState<TransactionType[]>();
     const navigate = useNavigate();
     const store = Store();
-    const data = [25, 35, 20, 15, 5];
-    const labels = ["Label 1", "Label 2", "Label 3", "Label 4", "Label 5"];
+    // const data = [25, 35, 20, 15, 5];
+    // const labels = ["Label 1", "Label 2", "Label 3", "Label 4", "Label 5"];
     const incomee = store.userData?.totalIncome ?? 0;
     const expensee = store.userData?.totalExpense ?? 0;
     const balances = incomee - expensee;
@@ -21,6 +25,58 @@ const UserReport = () => {
     const expense_data = [balances, expensee];
     const balance_data = [expensee, balances];
     const creditDatas = [String(incomee), String(balances), String(expensee)];
+
+    useEffect(() => {
+        async function fetchUserData() {
+            await store.getUserData(navigate);
+            await store.getTransactions();
+        }
+        settransactiondata(store.transactions);
+        fetchUserData();
+        console.log("transac", store.transactions);
+    }, []);
+
+    const [categoryData, setCategoryData] = useState<
+        { label: string; count: number }[]
+    >([]);
+
+    const [chartData, setChartData] = useState<{
+        labels: string[];
+        incomeData: number[];
+        balanceData: number[];
+        expenseData: number[];
+    }>({ labels: [], incomeData: [], balanceData: [], expenseData: [] });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            // await store.getUserData(navigate);
+            // await store.getTransactions();
+
+            const categoryCounts: { [category: string]: number } = {};
+            transacriondata?.forEach((transaction: TransactionType) => {
+                const category = transaction.category;
+                categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+            });
+
+            const data = Object.entries(categoryCounts).map(
+                ([label, count]) => ({ label, count })
+            );
+            console.log("categorydata", data);
+            setCategoryData(data);
+        };
+
+        fetchData();
+    }, [transacriondata]);
+
+    useEffect(() => {
+        const labels = categoryData.map((category) => category.label);
+        const incomeData = [0, store.userData?.totalIncome ?? 0];
+        const expenseData = [store.userData?.totalExpense ?? 0, 0];
+        const balanceData = [expenseData[0], incomeData[1] - expenseData[0]];
+
+        setChartData({ labels, incomeData, balanceData, expenseData });
+    }, [categoryData, store.userData]);
+
     useEffect(() => {
         if (!chartRef.current) return;
         const ctx = chartRef.current.getContext("2d");
@@ -28,10 +84,11 @@ const UserReport = () => {
         const chart = new Chart(ctx, {
             type: "doughnut",
             data: {
+                labels: chartData.labels,
+
                 datasets: [
                     {
-                        label: "Data",
-                        data: data,
+                        data: categoryData.map((category) => category.count),
                         backgroundColor: [
                             "rgb(249,70,86)",
                             "rgb(47,117,92)",
@@ -253,7 +310,14 @@ const UserReport = () => {
             chart2.destroy();
             chart3.destroy(); // Clean up chart on unmount
         };
-    }, [data, income_data, labels]);
+    }, [
+        balance_data,
+        categoryData,
+        chartData.labels,
+        creditDatas,
+        expense_data,
+        income_data,
+    ]);
     return (
         <motion.div className="report-section">
             <motion.button
