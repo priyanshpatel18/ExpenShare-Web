@@ -1,16 +1,16 @@
 import React from "react";
 import SideBar from "../components/SideBar";
-import AddGroupScreen from "../components/AddGroupScreen";
+import AddGroupMemberScreen from "../components/AddGroupMemberScreen";
 
-export default function AddGroupPage(): React.JSX.Element {
+export default function AddGroupMemberPage(): React.JSX.Element {
 	return (
 		<div className="MainPage">
-			<div className="AddGroupPageSideBar">
+			<div className="AddGroupMemberPageSideBar">
 				<SideBar />
 			</div>
 
 			<div className="mainScreen">
-				<AddGroupScreen />
+				<AddGroupMemberScreen />
 			</div>
 		</div>
 	);

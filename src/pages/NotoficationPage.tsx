@@ -1,17 +1,17 @@
 import React from "react";
 import SideBar from "../components/SideBar";
-import AccountScreen from "../components/AccountScreen";
+import NotoficationScreen from "../components/NotoficationScreen";
 // imgaes
 
-export default function AccountPage(): React.JSX.Element {
+export default function NotoficationPage(): React.JSX.Element {
 	return (
 		<div className="MainPage">
 			<div className="AccountPageSideBar">
-				<SideBar/>
+				<SideBar />
 			</div>
 
 			<div className="mainScreen">
-				<AccountScreen />
+				<NotoficationScreen />
 			</div>
 		</div>
 	);
