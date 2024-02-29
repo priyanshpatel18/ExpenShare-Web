@@ -16,6 +16,9 @@ import AccountPage from "./pages/AccountPage";
 import Settings from "./components/Settings";
 import TearmsConditions from "./pages/TearmsConditions";
 import AddGroupPage from "./pages/AddGroupPage";
+import AddGroupMemberPage from "./pages/AddGroupMemberPage";
+import GroupHomePage from "./pages/GroupHomePage";
+import NotoficationPage from "./pages/NotoficationPage";
 
 function App(): React.JSX.Element {
     return (
@@ -41,6 +44,9 @@ function App(): React.JSX.Element {
 				<Route path="/profile/Settings" element={<Settings />} />
 				<Route path="/Tearms" element={<TearmsConditions />}></Route>
 				<Route path="/addGroup" element={<AddGroupPage />}></Route>
+				<Route path="/addGroupMember" element={<AddGroupMemberPage />}></Route>
+				<Route path="/groupHome" element={<GroupHomePage />}></Route>
+				<Route path="/notofication" element={<NotoficationPage />}></Route>
 			</Routes>
 		</main>
 	);

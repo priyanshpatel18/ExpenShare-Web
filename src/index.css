@@ -2662,6 +2662,7 @@ body {
     display: flex;
     padding-bottom: 15px;
     flex-basis: 30%;
+    position: relative;
 }
 
 .HomeScreen .transactions {
@@ -2691,7 +2692,20 @@ body {
     font-size: 1rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
+
+.HomeScreen .userDashbord .welcomeText .notification {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 35px;
+}
+
+.HomeScreen .userDashbord .welcomeText .notification img {
+    width: 100%;
+}
+
 .rightDashbord {
     display: flex;
     align-items: center;
@@ -4933,9 +4947,8 @@ body {
         #2faae3 0%,
         #c968ff 35%,
         #e680b1 75%,
-        #fb9475 100%
-    );
-    -webkit-background-clip: text;
+        #fb9475 100%);
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -4987,21 +5000,13 @@ body {
     padding: 15px;
 }
 
-.AddGroupScreen .backBtn,
-.AddGroupScreen .doneBtn {
-    width: 40px;
-    background-color: transparent;
-    border: none;
-    outline: none;
+.AddGroupScreen .backBtn {
+	width: 40px;
+	background-color: transparent;
+	border: none;
+	outline: none;
 }
-
-.AddGroupScreen .doneBtn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-}
-
-.AddGroupScreen .doneBtn img,
+ 
 .AddGroupScreen .backBtn img {
     width: 100%;
 }
@@ -5030,6 +5035,9 @@ body {
 .AddGroupScreen .addGroupForm .row1 {
     width: 100%;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
     justify-content: space-around;
 }
 
@@ -5072,10 +5080,15 @@ body {
 }
 
 .AddGroupScreen .addGroupForm .GroupName {
-    display: flex;
-    flex-direction: column;
-    font-weight: 500;
-    gap: 10px;
+	display: flex;
+	flex-direction: column;
+	font-weight: 500;
+	gap: 10px;
+    border: 2px solid var(--clr-01-primary-gray);
+    border-radius: 15px;
+    padding: 10px 15px;
+    width: 500px;
+    max-width: 90vw;
 }
 
 .AddGroupScreen .addGroupForm .GroupName label {
@@ -5083,15 +5096,105 @@ body {
 }
 
 .AddGroupScreen .addGroupForm .GroupName input {
-    border: 0;
-    outline: 0;
-    font-size: 1.5rem;
-    border-bottom: 2px solid black;
-    max-width: 50vw;
-    padding: 5px;
+    width: 100%;
+	border: 0;
+	outline: 0;
+	font-size: 1.5rem;
+	padding: 5px;
 }
 
-.AddGroupScreen .row2 {
+@media screen and (max-width: 820px) {
+	.AddGroupPageSideBar {
+		display: none;
+	}
+
+	.AddGroupScreen .body {
+		width: 90vw;
+	}
+}
+
+/* #=> Add Group Member Styles */
+
+.AddGroupMemberScreen {
+    width: 100%;
+    height: 100dvh;
+	/* min-height: 100vh;
+	max-height: 100dvh; */
+	display: flex;
+	flex-direction: column;
+	font-weight: 500;
+	position: relatiAddGroupMemberScreenve;
+}
+
+
+.GroupHomePageSideBar .SideBar {
+	height: 100vh;
+}
+
+.AddGroupScreen .header {
+	height: fit-content;
+}
+
+.AddGroupMemberScreen .body {
+	width: 90%;
+    height: calc(100dvh - 77px);
+	max-width: 700px;
+	margin-inline: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.AddGroupMemberScreen .header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 15px;
+}
+
+.AddGroupMemberScreen .backBtn {
+	width: 40px;
+	background-color: transparent;
+	border: none;
+	outline: none;
+}
+ 
+.AddGroupMemberScreen .backBtn img {
+	width: 100%;
+}
+
+.AddGroupMemberScreen .header .title {
+	font-size: 1.8rem;
+	padding-inline: 20px;
+	flex: 1;
+}
+
+.AddGroupMemberScreen .header img {
+	width: 100%;
+}
+
+
+.AddGroupMemberScreen .addGroupMemberForm {
+	width: 100%;
+    height: 100%;
+    max-height: 100%;
+	display: flex;
+    flex-direction: column;
+	/* align-items: center; */
+	/* justify-content: space-around; */
+	padding: 20px 0px;
+}
+
+.AddGroupMemberScreen .addGroupMemberForm .row1 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    justify-content: space-around;
+}
+
+.AddGroupMemberScreen .row2 {
     flex: 1;
     max-width: 100%;
     display: flex;
@@ -5100,17 +5203,17 @@ body {
     overflow: scroll;
 }
 
-.AddGroupScreen .row2::-webkit-scrollbar {
+.AddGroupMemberScreen .row2::-webkit-scrollbar {
     display: none;
 }
 
-.AddGroupScreen .serch {
+.AddGroupMemberScreen .serch{
     width: 100%;
     padding: 18px 0px;
     position: relative;
 }
 
-.AddGroupScreen .serch input {
+.AddGroupMemberScreen .serch input{
     width: 95%;
     display: block;
     margin-inline: auto;
@@ -5124,7 +5227,7 @@ body {
     box-shadow: var(--shdow-light);
 }
 
-.AddGroupScreen .serch .icon {
+.AddGroupMemberScreen .serch .icon {
     width: 25px;
     height: 100%;
     position: absolute;
@@ -5134,11 +5237,11 @@ body {
     align-items: center;
 }
 
-.AddGroupScreen .serch .icon img {
+.AddGroupMemberScreen .serch .icon img{
     width: 100%;
 }
 
-.AddGroupScreen .serchProfiles {
+.AddGroupMemberScreen .serchProfiles {
     padding-top: 15px;
     flex: 1;
     max-height: 60vh;
@@ -5149,20 +5252,30 @@ body {
     border: 2px solid black;
 }
 
-.AddGroupScreen .row2 .userProfile {
+.AddGroupMemberScreen .row2 .userProfile {
     width: 100%;
     max-width: 500px;
-    padding: 10px 20px;
-    margin-top: 10px;
-    border-radius: 10px;
-    background-color: var(--clr-03-primary-gray);
+    padding: 0px 10px;
+    margin-top: 15px;
+    /* border-radius: 10px; */
+    /* background-color: var(--clr-03-primary-gray); */
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
 }
 
-.AddGroupScreen .row2 .profileImg {
+.AddGroupMemberScreen .row2 .userProfile div{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.AddGroupMemberScreen .row2 .userProfile .details   {
+    font-size: 1.2rem;
+}
+
+.AddGroupMemberScreen .row2 .profileImg {
     width: 20vw;
     max-width: 60px;
     aspect-ratio: 1;
@@ -5170,17 +5283,27 @@ body {
     border: 2px solid rgb(139, 139, 139);
 }
 
-.AddGroupScreen .row2 .profileImg img {
+.AddGroupMemberScreen .row2 .profileImg img{ 
     display: block;
+    border-radius: 50%;
+    aspect-ratio: 1;
     width: 100%;
 }
 
-.AddGroupScreen .userProfile .tick {
+.AddGroupMemberScreen .userProfile .tickActive {
     width: 30px;
 }
 
-.AddGroupScreen .userProfile .tick img {
+.AddGroupMemberScreen .userProfile .tick img{
+    display: none;
+}
+
+.AddGroupMemberScreen .userProfile .tickActive img {
     width: 100%;
+}
+
+.AddGroupMemberScreen .addGroupMemberForm .btn {
+    margin-inline: auto;
 }
 
 @media screen and (max-width: 820px) {
@@ -5188,7 +5311,139 @@ body {
         display: none;
     }
 
-    .AddGroupScreen .body {
-        width: 90vw;
-    }
+	.AddGroupScreen .body {
+		width: 90vw;
+	}
 }
+
+@media screen and (max-width: 820px) {
+	.AddGroupMemberPageSideBar {
+		display: none;
+	}
+
+	.AddGroupMemberScreen .body {
+		width: 90vw;
+	}
+}
+
+/* #-=> Group Home Screen Page Style */
+
+.GroupHomeScreen {
+    width: 100%;
+    height: 100dvh;
+	/* min-height: 100vh;
+	max-height: 100dvh; */
+	display: flex;
+	flex-direction: column;
+	font-weight: 500;
+	position: relatiAddGroupMemberScreenve;
+}
+
+
+.AddGroupMemberPageSideBar .SideBar {
+	height: 100vh;
+}
+
+.GroupHomeScreen .header {
+	height: fit-content;
+}
+
+.GroupHomeScreen .body {
+	width: 90%;
+    height: calc(100dvh - 77px);
+	max-width: 700px;
+	margin-inline: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.GroupHomeScreen .header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 15px;
+}
+
+.GroupHomeScreen .backBtn {
+	width: 40px;
+	background-color: transparent;
+	border: none;
+	outline: none;
+}
+ 
+.GroupHomeScreen .backBtn img {
+	width: 100%;
+}
+
+.GroupHomeScreen .header .title {
+	font-size: 1.8rem;
+	padding-inline: 20px;
+	flex: 1;
+}
+
+.GroupHomeScreen .header img {
+	width: 100%;
+}
+
+.GroupHomeScreen .row1 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: space-around;
+}
+
+.GroupHomeScreen .GroupName {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    max-width: 60vw;
+}
+
+.GroupHomeScreen .GroupName h3 {
+    font-size: 1.5rem;
+    overflow-x: scroll;
+}
+
+.GroupHomeScreen .GroupName h3::-webkit-scrollbar {
+    display: none;
+}
+
+.GroupHomeScreen .row1 .profile {
+    width: 90px;
+}
+
+.GroupHomeScreen .row2 {
+    flex: 1;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: scroll;
+}
+
+.GroupHomeScreen .row2::-webkit-scrollbar {
+    display: none;
+}
+
+.GroupHomeScreen .body .addMemberBtn {
+    padding: 10px 15px;
+    margin: 20px 0px;
+    border: 2px solid var(--clr-02-primary-gray);
+    background-color: var(--clr-03-primary-gray);
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+@media screen and (max-width: 820px) {
+	.GroupHomePageSideBar {
+		display: none;
+	}
+
+	.GroupHomeScreen .body {
+		width: 90vw;
+	}
+}
+
