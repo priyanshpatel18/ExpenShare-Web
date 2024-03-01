@@ -7,7 +7,7 @@ let socket: Socket;
 export function initializeSocket(): Socket {
 	if (!socket) {
 		// Instantiate the socket only if it hasn't been initialized
-		socket = io("http://your_IP:8080", {
+		socket = io("http://localhost:8080", {
 			query: { token: getTokenFromCookie() },
 		});
 	}

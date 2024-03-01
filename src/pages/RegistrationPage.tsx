@@ -94,6 +94,8 @@ function RegistrationPage(): React.JSX.Element {
                             type="text"
                             field={formik.getFieldProps("userName")}
                             placeholder="Username"
+                            
+                            
                             required
                         />
                         <Input

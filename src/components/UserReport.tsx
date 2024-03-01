@@ -13,7 +13,7 @@ const UserReport = () => {
     // const [categoryData, setCategoryData] = useState<
     //     { label: string; count: number }[]
     // >([]);
-    const [transacriondata, settransactiondata] = useState<TransactionType[]>();
+    // const [transacriondata, settransactiondata] = useState<TransactionType[]>();
     const navigate = useNavigate();
     const store = Store();
     // const data = [25, 35, 20, 15, 5];
@@ -26,15 +26,15 @@ const UserReport = () => {
     const balance_data = [expensee, balances];
     const creditDatas = [String(incomee), String(balances), String(expensee)];
 
-    useEffect(() => {
-        async function fetchUserData() {
-            await store.getUserData(navigate);
-            await store.getTransactions();
-        }
-        settransactiondata(store.transactions);
-        fetchUserData();
-        console.log("transac", store.transactions);
-    }, []);
+    // useEffect(() => {
+    //     async function fetchUserData() {
+    //         await store.getUserData(navigate);
+    //         await store.getTransactions();
+    //     }
+    //     settransactiondata(store.transactions);
+    //     fetchUserData();
+    //     console.log("transac", store.transactions);
+    // }, []);
 
     const [categoryData, setCategoryData] = useState<
         { label: string; count: number }[]
@@ -49,11 +49,8 @@ const UserReport = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            // await store.getUserData(navigate);
-            // await store.getTransactions();
-
             const categoryCounts: { [category: string]: number } = {};
-            transacriondata?.forEach((transaction: TransactionType) => {
+            store.transactions?.forEach((transaction: TransactionType) => {
                 const category = transaction.category;
                 categoryCounts[category] = (categoryCounts[category] || 0) + 1;
             });
@@ -66,7 +63,7 @@ const UserReport = () => {
         };
 
         fetchData();
-    }, [transacriondata]);
+    }, []);
 
     useEffect(() => {
         const labels = categoryData.map((category) => category.label);

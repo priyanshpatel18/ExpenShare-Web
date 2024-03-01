@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Store } from "../stores/store";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 // imges
 import addBtn from "../assets/addButton.png";
@@ -14,35 +14,35 @@ import transactive from "../assets/transactionSelected.png";
 import personal from "../assets/user.png";
 import personalactive from "../assets/userSelected.png";
 
-interface userObject {
-    email: string;
-    expenses: string[];
-    incomes: string[];
-    password: string;
-    profilePicture: string;
-    publicId: string;
-    totalBalance: number;
-    totalExpense: number;
-    totalIncome: number;
-    userName: string;
-    __v: number;
-    _id: string;
-}
+// interface userObject {
+//     email: string;
+//     expenses: string[];
+//     incomes: string[];
+//     password: string;
+//     profilePicture: string;
+//     publicId: string;
+//     totalBalance: number;
+//     totalExpense: number;
+//     totalIncome: number;
+//     userName: string;
+//     __v: number;
+//     _id: string;
+// }
 
 const SideBar = () => {
     const { pathname } = useLocation();
 
     const store = Store();
-    const [userObject, setUserObject] = useState<userObject | null>();
+    // const [userObject, setUserObject] = useState<userObject | null>();
     const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false);
-    useEffect(() => {
-        async function getUserObject() {
-            await store.getUserData(navigate);
-        }
-        getUserObject();
-        setUserObject(store.userData as userObject | null);
-    }, []);
+    // useEffect(() => {
+    //     async function getUserObject() {
+    //         await store.getUserData(navigate);
+    //     }
+    //     getUserObject();
+    //     setUserObject(store.userData as userObject | null);
+    // }, []);
 
     return (
         <div className="SideBar">
@@ -61,14 +61,24 @@ const SideBar = () => {
                 </div>
             </motion.div>
             <div className="userProfile">
-                <div className="img">
+                <div
+                    className={`${
+                        store.userData == undefined ? "img_s" : "img"
+                    }`}
+                >
                     <img
-                        src={userObject?.profilePicture || logo}
+                        src={store.userData?.profilePicture || logo}
                         alt="Profile Picture"
                         onClick={() => setIsEditing(!isEditing)}
                     />
                 </div>
-                <div className="userName">{userObject?.userName || "User"}</div>
+                <div
+                    className={`${
+                        store.userData == undefined ? "userName_s" : "userName"
+                    }`}
+                >
+                    {store.userData?.userName || "User"}
+                </div>
             </div>
             <nav className="navigation">
                 <motion.div
@@ -78,7 +88,13 @@ const SideBar = () => {
                     transition={{ type: "spring", stiffness: 200, damping: 17 }}
                     onClick={() => navigate("/")}
                 >
-                    <div>
+                    <div
+                        className={`${
+                            store.userData == undefined
+                                ? "nav_cont_s"
+                                : "nav_cont"
+                        }`}
+                    >
                         <motion.div className="img">
                             {pathname === "/" ? (
                                 <img src={homeactive} alt="" />
@@ -87,7 +103,15 @@ const SideBar = () => {
                             )}
                         </motion.div>
                         <motion.div className="text">
-                            <p className={pathname === "/" ? "active" : ""}>
+                            <p
+                                className={
+                                    pathname === "/"
+                                        ? store.userData === undefined
+                                            ? "active_s"
+                                            : "active"
+                                        : ""
+                                }
+                            >
                                 Home
                             </p>
                         </motion.div>
@@ -101,7 +125,13 @@ const SideBar = () => {
                     transition={{ type: "spring", stiffness: 200, damping: 17 }}
                     onClick={() => navigate("/transactions")}
                 >
-                    <div className="">
+                    <div
+                        className={`${
+                            store.userData == undefined
+                                ? "nav_cont_s"
+                                : "nav_cont"
+                        }`}
+                    >
                         <motion.div className="img">
                             {pathname === "/transactions" ? (
                                 <img src={transactive} alt="" />
@@ -111,9 +141,13 @@ const SideBar = () => {
                         </motion.div>
                         <motion.div className="text">
                             <p
-                                className={`${
-                                    pathname === "/transactions" ? "active" : ""
-                                }`}
+                                className={
+                                    pathname === "/transactions"
+                                        ? store.userData === undefined
+                                            ? "active_s"
+                                            : "active"
+                                        : ""
+                                }
                             >
                                 Transactions
                             </p>
@@ -141,7 +175,13 @@ const SideBar = () => {
                     transition={{ type: "spring", stiffness: 200, damping: 17 }}
                     onClick={() => navigate("/groups")}
                 >
-                    <div className="">
+                    <div
+                        className={`${
+                            store.userData == undefined
+                                ? "nav_cont_s"
+                                : "nav_cont"
+                        }`}
+                    >
                         <motion.div className="img">
                             {pathname === "/groups" ? (
                                 <img src={Groupsactive} alt="" />
@@ -151,9 +191,13 @@ const SideBar = () => {
                         </motion.div>
                         <motion.div className="text">
                             <p
-                                className={`${
-                                    pathname === "/groups" ? "active" : ""
-                                }`}
+                                className={
+                                    pathname === "/groups"
+                                        ? store.userData === undefined
+                                            ? "active_s"
+                                            : "active"
+                                        : ""
+                                }
                             >
                                 Groups
                             </p>
@@ -168,7 +212,13 @@ const SideBar = () => {
                     transition={{ type: "spring", stiffness: 200, damping: 17 }}
                     onClick={() => navigate("/Profile")}
                 >
-                    <div className="">
+                    <div
+                        className={`${
+                            store.userData == undefined
+                                ? "nav_cont_s"
+                                : "nav_cont"
+                        }`}
+                    >
                         <motion.div className="img">
                             {pathname === "/Profile" ? (
                                 <img src={personalactive} alt="" />
@@ -178,9 +228,13 @@ const SideBar = () => {
                         </motion.div>
                         <motion.div className="text">
                             <p
-                                className={`${
-                                    pathname === "/Profile" ? "active" : ""
-                                }`}
+                                className={
+                                    pathname === "/Profile"
+                                        ? store.userData === undefined
+                                            ? "active_s"
+                                            : "active"
+                                        : ""
+                                }
                             >
                                 Profile
                             </p>

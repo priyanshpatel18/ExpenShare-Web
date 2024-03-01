@@ -1,30 +1,29 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Store } from "../stores/store";
+
 // components
 import SideBar from "../components/SideBar";
 import HomeScreen from "../components/HomeScreen";
+import { Store } from "../stores/store";
+import { useNavigate } from "react-router-dom";
 // import { motion } from "framer-motion";
 
 export default function HomePage(): React.JSX.Element {
-    const navigate = useNavigate();
     const store = Store();
-    // const constraintsRef: React.MutableRefObject<null> = useRef(null);
+    const navigate = useNavigate();
+    // do not render content if useer is not logged in
+    // if (!store.userData) {
+    //     console.log("No entry, token invalid or not found...");
+    //     return <></>;
+    // }
     useEffect(() => {
-        async function fetchUserData() {
+        async function getUserData() {
             await store.getUserData(navigate);
+            await store.handleFetchGroups();
             await store.getTransactions();
         }
 
-        fetchUserData();
+        getUserData();
     }, []);
-
-    // do not render content if useer is not logged in
-    if (!store.userData) {
-        console.log("No entry, token invalid or not found...");
-        return <></>;
-    }
-
     return (
         <div className="MainPage">
             <SideBar />
