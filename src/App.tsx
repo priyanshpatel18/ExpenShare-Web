@@ -1,4 +1,9 @@
 import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import { Store, GroupDocument } from "./stores/store";
+import { initializeSocket } from "./utils/socket"; 
+// page imports
 import SplashScreen from "./components/SplashScreen";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import GroupsPage from "./pages/GroupsPage";
@@ -20,8 +25,77 @@ import AddGroupMemberPage from "./pages/AddGroupMemberPage";
 import GroupHomePage from "./pages/GroupHomePage";
 import NotoficationPage from "./pages/NotoficationPage";
 
+interface SocketResponse {
+	message: string;
+	requestId: string;
+	groupName: string;
+	groupId: string;
+}
+
+// initialize the socket
+const socket = initializeSocket();
+
 function App(): React.JSX.Element {
-    return (
+	const store = Store();
+
+	useEffect(() => {
+		socket.emit("login");
+
+		socket.on("authError", (error) => {
+			console.error("Authentication error:", error.message);
+		});
+
+		socket.on("requestReceived", (object: SocketResponse) => {
+			toast.success(object.message);
+
+			console.log("Object : ", object);
+			
+
+			const newNotification = {
+				requestId: object.requestId,
+				groupId: object.groupId,
+				groupName: object.groupName,
+			};
+
+			console.log(newNotification);
+
+			store.setNotifications([...store.notifications, newNotification]);
+		});
+
+		socket.on("updateGroup", (data: { group: GroupDocument }) => {
+			const { group } = data;
+
+			const oldGroups = store.groups;
+
+			const indexToUpdate = oldGroups.findIndex((oldGroup) => oldGroup._id === group._id);
+
+			if (indexToUpdate !== -1) {
+				// If the group exists in the store, update it
+				const updatedGroups = [...oldGroups];
+				updatedGroups[indexToUpdate] = group;
+				store.setGroups(updatedGroups);
+			} else {
+				const updatedGroups = [...oldGroups, group];
+				store.setGroups(updatedGroups);
+			}
+		});
+
+		socket.on("removedMember", (data: { groupId: string; message: string }) => {
+			const { message, groupId } = data;
+
+			const updatedGroups = store.groups.filter((group) => group._id !== groupId);
+			store.setGroups(updatedGroups);
+			toast.success(message);
+		});
+
+		return () => {
+			socket.off("requestReceived");
+			socket.off("updateGroup");
+			socket.off("removedMember");
+		};
+	}, [socket, store.isLoggedIn]);
+
+	return (
 		<main>
 			<Routes>
 				<Route path="/registration" element={<RegistrationPage />} />
@@ -42,11 +116,11 @@ function App(): React.JSX.Element {
 				<Route path="/profile/Report" element={<UserReport />} />
 				<Route path="/profile/account" element={<AccountPage />} />
 				<Route path="/profile/Settings" element={<Settings />} />
-				<Route path="/Tearms" element={<TearmsConditions />}></Route>
-				<Route path="/addGroup" element={<AddGroupPage />}></Route>
-				<Route path="/addGroupMember" element={<AddGroupMemberPage />}></Route>
-				<Route path="/groupHome" element={<GroupHomePage />}></Route>
-				<Route path="/notofication" element={<NotoficationPage />}></Route>
+				<Route path="/Tearms" element={<TearmsConditions />} />
+				<Route path="/addGroup" element={<AddGroupPage />} />
+				<Route path="/addGroupMember" element={<AddGroupMemberPage />} />
+				<Route path="/groupHome" element={<GroupHomePage />} />
+				<Route path="/notofication" element={<NotoficationPage />} />
 			</Routes>
 		</main>
 	);

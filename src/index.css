@@ -5447,3 +5447,49 @@ body {
 	}
 }
 
+/* #=> Notification page styles */
+
+.notifications .notification {
+    width: 600px;
+    height: fit-content;
+    max-width: 90vw;
+    padding: 10px 5px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.notifications .notification .profile {
+    width: 50px;
+    min-width: 50px;
+    height: fit-content;
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+
+.notifications .notification .message {
+    padding: 0px 15px;
+}
+
+.notifications .notification .message span{
+    font-weight: 600;
+}
+
+.notifications .notification .buttons {
+    display: flex;  
+    justify-content: flex-end;
+}
+
+.notifications .notification .buttons button{
+    width: 25px;
+    border: none;
+    background-color: transparent;
+    margin-inline: 5px;
+}
+
+.notifications .notification .buttons img{
+    width: 100%;
+    display: block;
+}

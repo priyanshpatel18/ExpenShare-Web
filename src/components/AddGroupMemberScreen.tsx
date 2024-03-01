@@ -1,28 +1,91 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Store, UserObject } from "../stores/store";
+import { socket } from "../utils/socket";
+import toast from "react-hot-toast";
 //  Images
 import backButton from "../assets/backButton.png";
 import profile from "../assets/profile.png";
 import greenTick from "../assets/greenTick.png";
 import searchIcon from "../assets/searchIcon.png";
-import { Store } from "../stores/store";
 
 export default function AddGroupMemberScreen(): React.JSX.Element {
 	const navigate = useNavigate();
 	const store = Store();
 
-	const [filter, setFilter] = useState("");
- 
+	const [textInput, setTextInput] = useState<string>("");
+	const [selectedUsers, setSelectedUsers] = useState<UserObject[]>([]);
+	const [filteredUsers, setFilteredUsers] = useState<UserObject[]>([]);
+
 	useEffect(() => {
-		async function getAllUsers( ) {
+		async function getAllUsers() {
 			await store.getAllUsers();
 		}
 
 		getAllUsers();
-	}, [])
+	}, []);
 
-	console.log(store.allUsers);
+	useEffect(() => {
+		socket.on("requestSent", (message: string) => {
+			toast.success(message);
+		});
+
+		socket.on("filteredUsers", (users: UserObject[]) => {
+			const filtered = users.filter(
+				(user) =>
+					!selectedUsers.find((selectedUser) => selectedUser.userName === user.userName) &&
+					user.userName !== store.userData?.userName &&
+					!store.activeGroup?.members.some((member) => member.userName === user.userName),
+			);
+
+			const merged = [...selectedUsers, ...filtered];
+			setFilteredUsers(merged);
+		});
+
+		return () => {
+			socket.off("filteredUsers");
+			socket.off("requestSent");
+		};
+	}, [selectedUsers]);
+
+	function handleChange(e: string) {
+		setTextInput(e);
+		if (e.trim() !== "") {
+			socket.emit("getUsers", e.toLowerCase());
+		} else {
+			setFilteredUsers(selectedUsers);
+		}
+	}
+
+	async function handleSendRequest() {		
+		const data = {
+			selectedUsers: selectedUsers.map((user) => user.userName),
+			groupId: store.activeGroup?._id,
+			groupName: store.activeGroup?.groupName,
+		};
+
+		socket.emit("sendRequest", data);
+		navigate("/groupHome");
+	}
+
+	function handleSelectUser(user: UserObject) {
+		// Check if the user is already in selectedUsers
+		const isSelected = selectedUsers.some((selectedUser) => selectedUser.userName === user.userName);
+
+		if (isSelected) {
+			// If selected, remove the user from selectedUsers
+			const updatedSelectedUsers = selectedUsers.filter(
+				(selectedUser) => selectedUser.userName !== user.userName,
+			);
+			setSelectedUsers(updatedSelectedUsers);
+		} else {
+			// If not selected, add the user to selectedUsers
+			setSelectedUsers((prevSelectedUsers) => [...prevSelectedUsers, user]);
+		}
+	}
 	
+	console.log("Selected Users : ", selectedUsers);
+
 	return (
 		<div className="AddGroupMemberScreen">
 			<div className="header">
@@ -34,48 +97,41 @@ export default function AddGroupMemberScreen(): React.JSX.Element {
 			</div>
 
 			<div className="body">
-				<form className="addGroupMemberForm">
+				<form className="addGroupMemberForm" onSubmit={handleSendRequest}>
 					<div className="serch">
-						<input type="text" placeholder="Serch For Friends" onChange={(e) => setFilter(e.target.value)}/>
+						<input
+							type="text"
+							placeholder="Serch For Friends"
+							value={textInput}
+							onChange={(e) => handleChange(e.target.value)}
+						/>
 						<div className="icon">
 							<img src={searchIcon} alt="searchIcon" />
 						</div>
 					</div>
 
 					<div className="addGroupMembers row2">
-						{store.allUsers.map((user, index) => {
-
-							if (
-								!(user.email.includes(filter) || user.userName.includes(filter)) ||
-								filter == ""
-							)
-								return;
-
+						{filteredUsers.map((user, index) => {
 							return (
-								<div key={index} className="userProfile" >
+								<div
+									key={index}
+									className="userProfile"
+									onClick={() => handleSelectUser(user)}
+								>
 									<div>
 										<div className="profileImg">
 											<img src={user.profilePicture || profile} alt="user profile" />
 										</div>
 										<div className="details">{user.userName}</div>
 									</div>
-									<div className="tick">
-										<img src={greenTick} alt="greenTick" />
+									<div className="tickActive">
+										{selectedUsers.includes(user) && (
+											<img src={greenTick} alt="greenTick" />
+										)}
 									</div>
 								</div>
 							);
 						})}
-						<div className="userProfile">
-							<div>
-								<div className="profileImg">
-									<img src={profile} alt="" />
-								</div>
-								<div className="details">User Name</div>
-							</div>
-							<div className="tickActive">
-								<img src={greenTick} alt="greenTick" />
-							</div>
-						</div>
 					</div>
 					<button type="submit" className="btn">
 						send request

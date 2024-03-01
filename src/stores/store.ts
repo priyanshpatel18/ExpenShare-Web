@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { NavigateFunction, redirect } from "react-router-dom";
 import { create } from "zustand";
+import { socket } from "../utils/socket";
 
 export interface TransactionType {
 	category: string;
@@ -78,13 +79,20 @@ export interface GroupDocumentRequest {
 	category: string;
 }
 export interface GroupDocument {
+	_id: string;
 	groupName: string;
-	groupProfile?: string;
+	groupProfile?: string | undefined;
 	createdBy: UserObject | undefined;
 	members: UserObject[];
 	groupExpenses: TransactionType[];
 	totalExpense: number;
 	category: string;
+}
+
+export interface Notification {
+	requestId: string;
+	groupId: string;
+	groupName: string;
 }
 
 interface Store {
@@ -107,6 +115,9 @@ interface Store {
 	// active group
 	activeGroup: GroupDocument | undefined;
 	setActiveGroup: (group: GroupDocument) => void;
+	// notifications
+	notifications: Notification[];
+	setNotifications: (notification: Notification[]) => void;
 	// Login
 	handleLogin: (formData: LoginFormValues, redirect: NavigateFunction) => void;
 	// Reset Password
@@ -143,8 +154,14 @@ interface Store {
 	createGroup: (formData: FormData, redirect: NavigateFunction) => void;
 	// fetch groups
 	handleFetchGroups: () => void;
+	// get user notifications
+	getNotifications: () => void;
 	// get all the users
 	getAllUsers: () => void;
+	// Handle Request
+	handleRequest: (type: string, requestId: string, groupId: string, navigation: NavigateFunction) => void;
+	// Handle Remove Member
+	handleRemoveMember: (memberEmail: string, groupId: string, navigation: NavigateFunction) => void;
 }
 
 export const Store = create<Store>((set) => ({
@@ -168,6 +185,9 @@ export const Store = create<Store>((set) => ({
 	},
 
 	allUsers: [],
+
+	notifications: [],
+	setNotifications: (notifications) => set({ notifications }),
 
 	sendEmailVerificationMail: async (formData, redirect) => {
 		// set({ isLoading: true });
@@ -317,10 +337,12 @@ export const Store = create<Store>((set) => ({
 			await axios
 				.get("/user/getUser")
 				.then((res) => {
+					set({ isLoggedIn: true });
 					console.log("userData : ", res.data.userObject);
 					set({ userData: res.data.userObject });
 				})
 				.catch((err) => {
+					set({ isLoggedIn: false });
 					redirect("/login");
 					if (err.response) return toast.error(err.response?.data?.message);
 					return toast.error("Internal server error");
@@ -522,5 +544,61 @@ export const Store = create<Store>((set) => ({
 			.catch((error) => {
 				console.log(error);
 			});
+	},
+
+	getNotifications: async () => {		
+		axios
+			.get("/user/notifications")
+			.then((res) => {
+				console.log("Notifications : ", res.data?.notifications);
+				set({ notifications: res.data?.notifications });
+			})
+			.catch((err) => {
+				if (axios.isAxiosError(err)) {
+					toast.error(err.response?.data.message);
+				} else {
+					console.error(err);
+				}
+			});
+	},
+	
+	handleRequest: async (type, requestId, groupId, redirect) => {
+		axios
+			.post("/user/handleRequest", { requestId, type })
+			.then(() => {
+				if (type === "accept") {
+					socket.emit("acceptRequest", { groupId: groupId });
+					redirect("/groups");
+				}
+				set((prevState) => ({
+					notifications: prevState.notifications.filter(
+						(notification) => notification.requestId !== requestId,
+					),
+				}));
+				toast.success(type === "accept" ? "Request Accepted" : "Request Rejected");
+			})
+			.catch((err) => {
+				if (axios.isAxiosError(err)) {
+					toast.error(err.response?.data.message);
+				} else {
+					console.error(err);
+				}
+			});
+	},
+
+	handleRemoveMember: async (memberEmail, groupId) => {
+		axios
+			.post("/group/removeMember", { memberEmail, groupId })
+			.then(() => {
+				socket.emit("removeMember", { groupId: groupId });
+			})
+			.catch((err) => {
+				if (axios.isAxiosError(err)) {
+					toast.error(err.response?.data.message);
+				} else {
+					console.error(err);
+				}
+			})
+			.finally(() => {});
 	},
 }));
