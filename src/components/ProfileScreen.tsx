@@ -62,7 +62,10 @@ export default function ProfileScreen(): React.JSX.Element {
                     <div className="logout-options">
                         <button
                             className="yes"
-                            onClick={() => store.logoutUser(navigate)}
+                            onClick={() => {
+                                store.logoutUser(navigate);
+                                store.setUserData(undefined);
+                            }}
                         >
                             Yes
                         </button>

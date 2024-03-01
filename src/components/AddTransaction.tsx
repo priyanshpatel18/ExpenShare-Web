@@ -82,8 +82,9 @@ export default function AddTransaction(): React.JSX.Element {
             formik.setValues({
                 ...formik.values,
                 type: "income",
-                category: "Air Tickets",
+                category: incomeAssets[0].name,
             });
+
             myref_in_btn.current.style.backgroundColor = "#2ABD42";
             myref_in_btn.current.style.color = "white";
             myref_circle.current.style.backgroundColor = "rgb(42, 189, 66)";
@@ -108,8 +109,9 @@ export default function AddTransaction(): React.JSX.Element {
             formik.setValues({
                 ...formik.values,
                 type: "expense",
-                category: "Bonus",
+                category: categoriesWithAssets[0].name,
             });
+
             myref_in_btn.current.style.backgroundColor = "white";
             myref_in_btn.current.style.color = "black";
             myref_left.current.style.backgroundColor = "#FF4545";
@@ -123,11 +125,18 @@ export default function AddTransaction(): React.JSX.Element {
     };
 
     // filtering categoris
+    // console.log(isclick ? categoriesWithAssets[0].name : incomeAssets[0].name);
 
+    // const initialimage = isclick
+    //     ? categoriesWithAssets[0].name
+    //     : incomeAssets[0].name;
+    // console.log("====================================");
+    // console.log(isclick ? categoriesWithAssets[0].name : incomeAssets[0].name);
+    // console.log("====================================");
     const formik = useFormik<TransactionRequest>({
         initialValues: {
             transactionAmount: "",
-            category: "Air Tickets",
+            category: categoriesWithAssets[0].name,
             transactionTitle: "",
             notes: "",
             transactionDate: new Date().toISOString(),
@@ -201,6 +210,7 @@ export default function AddTransaction(): React.JSX.Element {
             // if (res) resetForm();
         },
     });
+    // console.log(formik.values.category);
 
     const expensecat = categoriesWithAssets.filter((category) =>
         category.name.toLowerCase().includes(searchQuery.toLowerCase())

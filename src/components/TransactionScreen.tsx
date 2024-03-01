@@ -1,22 +1,25 @@
 import { motion } from "framer-motion";
 import React, { MutableRefObject, useRef, useState } from "react";
 import categoriesImgs from "../pages/categories";
-import { Store, TransactionType } from "../stores/store";
+import { Store, TransactionRequest1, TransactionType } from "../stores/store";
 import { Amounttosort } from "./HomeScreen";
 import back from "../assets/backButton.png";
 import incomeAssets from "../pages/income-categories";
 import invoice from "../assets/invoice.png";
 import deleteicon from "../assets/deleteicon.png";
 import edit from "../assets/editpensil.png";
+import { useNavigate } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 
 export default function TransactionScreen(): React.JSX.Element {
     const store = Store();
     // const navigate = useNavigate();
     const [Flag, setFlag] = useState("income");
+    const navigate = useNavigate();
     const buttonRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
     const [isEditing, setIsEditing] = useState(false);
     const [istransactionedit, setistransactionedit] = useState(true);
+    const [confirmationpopup, setconfirmationpopup] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
     function toggleFlag() {
@@ -60,6 +63,7 @@ export default function TransactionScreen(): React.JSX.Element {
     const [selectedTransaction, setSelectedTransaction] = useState<
         TransactionType | undefined
     >();
+    const [confirmation, setconfirmation] = useState(false);
     const openTransactionPopup = (transaction: TransactionType) => {
         // Set the selected transaction to display its popup
         setSelectedTransaction(transaction);
@@ -127,12 +131,35 @@ export default function TransactionScreen(): React.JSX.Element {
     //     console.log(selectedTransaction.transactionDate);
     // }, []);
 
-    // const handlereq = async () => {
-    //     await store.updateTransaction(
-    //         selectedTransaction?._id,
-    //         selectedTransaction
-    //     );
-    // };
+    const handlereq = async () => {
+        // Check if there is a selected transaction
+        if (!selectedTransaction) {
+            console.error("No transaction selected for update");
+            return;
+        }
+
+        try {
+            // Convert the selected transaction object to FormData
+            const formData: TransactionRequest1 = {
+                transactionAmount: selectedTransaction.transactionAmount,
+
+                category: selectedTransaction.category,
+                transactionTitle: selectedTransaction.transactionTitle,
+                notes: selectedTransaction.notes,
+                transactionDate: selectedTransaction.transactionDate,
+                type: selectedTransaction.type,
+            };
+
+            // Call the store's updateTransaction method with FormData
+            await store.updateTransaction(selectedTransaction._id, formData);
+            console.log("Transaction updated successfully");
+
+            // Optionally, perform any additional actions upon successful update
+        } catch (error) {
+            console.error("Error updating transaction:", error);
+            // Handle error, such as displaying an error message
+        }
+    };
 
     return (
         <motion.div
@@ -151,7 +178,7 @@ export default function TransactionScreen(): React.JSX.Element {
                     x: 0,
                     opacity: isEditing ? 1 : 0,
                     scale: isEditing ? 1 : 0,
-                    width: isEditing ? "80vw" : 0,
+                    width: isEditing ? "100vw" : 0,
                     visibility: isEditing ? "visible" : "hidden",
                     zIndex: isEditing ? 1111111111 : 0,
                 }}
@@ -249,13 +276,64 @@ export default function TransactionScreen(): React.JSX.Element {
 
             {selectedTransaction && (
                 <div className="transaction-popup">
+                    {confirmationpopup ? (
+                        <motion.div
+                            transition={{
+                                type: "tween",
+                                damping: 30,
+                                stiffness: 30,
+                            }}
+                            animate={{
+                                x: 0,
+                                opacity: confirmation ? 1 : 0.7,
+                                scale: confirmation ? 1 : 0.7,
+                                rotate: 0,
+                                visibility: confirmation ? "visible" : "hidden",
+                            }}
+                            className="logout-section"
+                        >
+                            <div className="logoutcontainer">
+                                <div className="logout-confirmation">
+                                    <h3>Are you sure to save changes?</h3>
+                                </div>
+                                <div className="logout-options">
+                                    <button
+                                        className="yes"
+                                        onClick={() => {
+                                            closeTransactionPopup();
+                                            setistransactionedit(true);
+                                            setconfirmation(!confirmation);
+                                            handlereq();
+                                            setconfirmationpopup(false);
+                                        }}
+                                    >
+                                        Yes
+                                    </button>
+                                    <button
+                                        className="no"
+                                        onClick={() => {
+                                            navigate("/");
+                                            setconfirmation(!confirmation);
+                                        }}
+                                    >
+                                        No
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    ) : (
+                        ""
+                    )}
                     <div className="transactionpopupnav">
                         <img
                             src={back}
                             alt=""
                             onClick={() => {
-                                closeTransactionPopup();
+                                !confirmationpopup
+                                    ? closeTransactionPopup()
+                                    : "";
                                 setistransactionedit(true);
+                                setconfirmation(!confirmation);
                             }}
                         />
                         <img
@@ -263,6 +341,7 @@ export default function TransactionScreen(): React.JSX.Element {
                             alt=""
                             onClick={() => {
                                 setistransactionedit(!istransactionedit);
+                                setconfirmationpopup(true);
                             }}
                         />
                     </div>
@@ -302,30 +381,38 @@ export default function TransactionScreen(): React.JSX.Element {
                             </div>
                         </div>
                         <div className="TpopupAmmount">
-                            <div className="TpopupAmmount_title"> Amount</div>
-
-                            <input
-                                type="text"
+                            <div className="TpopupAmmount_title">Amount</div>
+                            <div
                                 className={`${
                                     selectedTransaction?.type === "expense"
-                                        ? "TpopupAmmount_value"
-                                        : "TpopupAmmount_value_green"
+                                        ? "Rupeessymbol"
+                                        : "Rupeessymbol_green"
                                 }`}
-                                value={selectedTransaction.transactionAmount}
-                                disabled={istransactionedit}
-                                onChange={(e) =>
-                                    setSelectedTransaction({
-                                        ...(selectedTransaction || {}),
-                                        transactionAmount: e.target.value,
-                                    })
-                                }
-                            />
+                            >
+                                <h1> ₹</h1>
+                                <input
+                                    type="number"
+                                    className={`${
+                                        selectedTransaction?.type === "expense"
+                                            ? "TpopupAmmount_value"
+                                            : "TpopupAmmount_value_green"
+                                    }`}
+                                    value={
+                                        selectedTransaction.transactionAmount
+                                    }
+                                    disabled={istransactionedit}
+                                    onChange={(e) =>
+                                        setSelectedTransaction({
+                                            ...(selectedTransaction || {}),
+                                            transactionAmount: e.target.value,
+                                        })
+                                    }
+                                />
+                            </div>
                         </div>
                         <div className="TpopupNotes">
                             <div className="TpopupNotes_title">Notes</div>
                             <div className="TpopupNotes_value">
-                                <div>{}</div>
-
                                 <input
                                     type="text"
                                     className="TpopupNotes_value_title"
@@ -342,7 +429,7 @@ export default function TransactionScreen(): React.JSX.Element {
                                         })
                                     }
                                 />
-                                <div>
+                                <div className="invoice_url">
                                     {selectedTransaction.invoiceUrl ? (
                                         <img
                                             src={invoice}
@@ -385,7 +472,7 @@ export default function TransactionScreen(): React.JSX.Element {
                         </div>
                         {!istransactionedit ? (
                             <div className="deletetransacrion">
-                                <button>Submmit</button>
+                                <button onClick={handlereq}>Submmit</button>
                             </div>
                         ) : (
                             <div className="deletetransacrion">

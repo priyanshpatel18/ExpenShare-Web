@@ -1,12 +1,8 @@
-import { Route, Routes } from "react-router-dom";
-import { useEffect } from "react";
-import toast from "react-hot-toast";
-import { Store, GroupDocument } from "./stores/store";
-import { initializeSocket } from "./utils/socket"; 
-// page imports
+import { Route, Routes, useNavigate } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import GroupsPage from "./pages/GroupsPage";
+import { initializeSocket } from "./utils/socket";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import PasswordResetOtpVerificationPage from "./pages/PasswordResetOtpVerificationPage";
@@ -22,108 +18,145 @@ import Settings from "./components/Settings";
 import TearmsConditions from "./pages/TearmsConditions";
 import AddGroupPage from "./pages/AddGroupPage";
 import AddGroupMemberPage from "./pages/AddGroupMemberPage";
-import GroupHomePage from "./pages/GroupHomePage";
+// import GroupHomePage from "./pages/GroupHomePage";
 import NotoficationPage from "./pages/NotoficationPage";
+import { useEffect } from "react";
+import { GroupDocument, Store } from "./stores/store";
+import DynamicgroupPage from "./pages/DynamicgroupPage";
+import toast from "react-hot-toast";
 
 interface SocketResponse {
-	message: string;
-	requestId: string;
-	groupName: string;
-	groupId: string;
+    message: string;
+    requestId: string;
+    groupName: string;
+    groupId: string;
 }
 
 // initialize the socket
 const socket = initializeSocket();
 
 function App(): React.JSX.Element {
-	const store = Store();
+    const navigate = useNavigate();
 
-	useEffect(() => {
-		socket.emit("login");
+    const store = Store();
 
-		socket.on("authError", (error) => {
-			console.error("Authentication error:", error.message);
-		});
+    useEffect(() => {
+        socket.emit("login");
 
-		socket.on("requestReceived", (object: SocketResponse) => {
-			toast.success(object.message);
+        socket.on("authError", (error) => {
+            console.error("Authentication error:", error.message);
+        });
 
-			console.log("Object : ", object);
-			
+        socket.on("requestReceived", (object: SocketResponse) => {
+            toast.success(object.message);
 
-			const newNotification = {
-				requestId: object.requestId,
-				groupId: object.groupId,
-				groupName: object.groupName,
-			};
+            console.log("Object : ", object);
 
-			console.log(newNotification);
+            const newNotification = {
+                requestId: object.requestId,
+                groupId: object.groupId,
+                groupName: object.groupName,
+            };
 
-			store.setNotifications([...store.notifications, newNotification]);
-		});
+            console.log(newNotification);
 
-		socket.on("updateGroup", (data: { group: GroupDocument }) => {
-			const { group } = data;
+            store.setNotifications([...store.notifications, newNotification]);
+        });
 
-			const oldGroups = store.groups;
+        socket.on("updateGroup", (data: { group: GroupDocument }) => {
+            const { group } = data;
 
-			const indexToUpdate = oldGroups.findIndex((oldGroup) => oldGroup._id === group._id);
+            const oldGroups = store.groups;
 
-			if (indexToUpdate !== -1) {
-				// If the group exists in the store, update it
-				const updatedGroups = [...oldGroups];
-				updatedGroups[indexToUpdate] = group;
-				store.setGroups(updatedGroups);
-			} else {
-				const updatedGroups = [...oldGroups, group];
-				store.setGroups(updatedGroups);
-			}
-		});
+            const indexToUpdate = oldGroups.findIndex(
+                (oldGroup) => oldGroup._id === group._id
+            );
 
-		socket.on("removedMember", (data: { groupId: string; message: string }) => {
-			const { message, groupId } = data;
+            if (indexToUpdate !== -1) {
+                // If the group exists in the store, update it
+                const updatedGroups = [...oldGroups];
+                updatedGroups[indexToUpdate] = group;
+                store.setGroups(updatedGroups);
+            } else {
+                const updatedGroups = [...oldGroups, group];
+                store.setGroups(updatedGroups);
+            }
+        });
 
-			const updatedGroups = store.groups.filter((group) => group._id !== groupId);
-			store.setGroups(updatedGroups);
-			toast.success(message);
-		});
+        socket.on(
+            "removedMember",
+            (data: { groupId: string; message: string }) => {
+                const { message, groupId } = data;
 
-		return () => {
-			socket.off("requestReceived");
-			socket.off("updateGroup");
-			socket.off("removedMember");
-		};
-	}, [socket, store.isLoggedIn]);
+                const updatedGroups = store.groups.filter(
+                    (group) => group._id !== groupId
+                );
+                store.setGroups(updatedGroups);
+                toast.success(message);
+            }
+        );
 
-	return (
-		<main>
-			<Routes>
-				<Route path="/registration" element={<RegistrationPage />} />
-				<Route path="/registerOtpVerificationPage" element={<RegisterOtpVerificationPage />} />
-				<Route path="/login" element={<LoginPage />} />
-				<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
-				<Route
-					path="/passwordResetOtpVerificationPage"
-					element={<PasswordResetOtpVerificationPage />}
-				/>
-				<Route path="/Addtransactions" element={<AddTransaction />} />
-				<Route path="/resetPasswordPage" element={<ResetPasswordPage />} />
-				{/* Protected routes */}
-				<Route path="/" element={<HomePage />} />
-				<Route path="/transactions" element={<TransactionsPage />} />
-				<Route path="/groups" element={<GroupsPage />} />
-				<Route path="/profile" element={<ProfilePage />} />
-				<Route path="/profile/Report" element={<UserReport />} />
-				<Route path="/profile/account" element={<AccountPage />} />
-				<Route path="/profile/Settings" element={<Settings />} />
-				<Route path="/Tearms" element={<TearmsConditions />} />
-				<Route path="/addGroup" element={<AddGroupPage />} />
-				<Route path="/addGroupMember" element={<AddGroupMemberPage />} />
-				<Route path="/groupHome" element={<GroupHomePage />} />
-				<Route path="/notofication" element={<NotoficationPage />} />
-			</Routes>
-		</main>
-	);
+        return () => {
+            socket.off("requestReceived");
+            socket.off("updateGroup");
+            socket.off("removedMember");
+        };
+    }, [socket, store.isLoggedIn]);
+    useEffect(() => {
+        async function getUserData() {
+            await store.getUserData(navigate);
+            await store.handleFetchGroups();
+            await store.getTransactions();
+        }
+
+        getUserData();
+    }, []);
+    return (
+        <main>
+            <Routes>
+                <Route path="/registration" element={<RegistrationPage />} />
+                <Route
+                    path="/registerOtpVerificationPage"
+                    element={<RegisterOtpVerificationPage />}
+                />
+                <Route path="/login" element={<LoginPage />} />
+                <Route
+                    path="/forgotPassword"
+                    element={<ForgotPasswordPage />}
+                />
+                <Route
+                    path="/passwordResetOtpVerificationPage"
+                    element={<PasswordResetOtpVerificationPage />}
+                />
+                <Route path="/Addtransactions" element={<AddTransaction />} />
+                <Route
+                    path="/resetPasswordPage"
+                    element={<ResetPasswordPage />}
+                />
+                {/* Protected routes */}
+                <Route path="/" element={<HomePage />} />
+                <Route path="/transactions" element={<TransactionsPage />} />
+                <Route path="/groups" element={<GroupsPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/profile/Report" element={<UserReport />} />
+                <Route path="/profile/account" element={<AccountPage />} />
+                <Route path="/profile/Settings" element={<Settings />} />
+                <Route path="/Tearms" element={<TearmsConditions />}></Route>
+                <Route path="/addGroup" element={<AddGroupPage />}></Route>
+                <Route
+                    path="/groups/:groupId/addGroupMember"
+                    element={<AddGroupMemberPage />}
+                ></Route>
+                {/* <Route path="/groupHome" element={<GroupHomePage />}></Route> */}
+                <Route path="/groups/:groupId" element={<DynamicgroupPage />} />{" "}
+                {/* Dynamic route */}
+                <Route
+                    path="/notofication"
+                    element={<NotoficationPage />}
+                ></Route>
+            </Routes>
+        </main>
+    );
 }
 
 export default SplashScreen(App);
