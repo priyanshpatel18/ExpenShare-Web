@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Store, UserObject } from "../stores/store";
 import { socket } from "../utils/socket";
 import toast from "react-hot-toast";
@@ -12,7 +12,7 @@ import searchIcon from "../assets/searchIcon.png";
 export default function AddGroupMemberScreen(): React.JSX.Element {
     const navigate = useNavigate();
     const store = Store();
-
+    const { groupId } = useParams<{ groupId?: string }>();
     const [textInput, setTextInput] = useState<string>("");
     const [selectedUsers, setSelectedUsers] = useState<UserObject[]>([]);
     const [filteredUsers, setFilteredUsers] = useState<UserObject[]>([]);
@@ -102,7 +102,7 @@ export default function AddGroupMemberScreen(): React.JSX.Element {
                 <button
                     className="backBtn"
                     type="button"
-                    onClick={() => navigate("/groupHome")}
+                    onClick={() => navigate(`/groups/${groupId}`)}
                 >
                     <img src={backButton} alt="backButton" />
                 </button>

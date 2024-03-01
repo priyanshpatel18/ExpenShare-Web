@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Store } from "../stores/store";
+import { Groupmember, Store } from "../stores/store";
 //  Images
+import deletes from "../assets/deleteicon.png";
 import backButton from "../assets/backButton.png";
 import group from "../assets/group.png";
+import axios from "axios";
+import toast from "react-hot-toast";
+import addmember from "../assets/addMember.png";
 
 export default function GroupHomeScreen(): React.JSX.Element {
     const navigate = useNavigate();
     const store = Store();
     const { groupId } = useParams<{ groupId?: string }>();
+    const [members, setMembers] = useState<Groupmember[]>([]);
     const [screen, setscreen] = useState({
         transation: true,
         members: false,
@@ -16,6 +21,34 @@ export default function GroupHomeScreen(): React.JSX.Element {
         balances: false,
         totals: false,
     });
+    // Dependency added to execute when members state changes
+    const fetchMembers = async () => {
+        try {
+            const membersData = await Promise.all(
+                store.selectedgroup[0]?.members.map(async (memberId) => {
+                    const response = await axios.get(
+                        `/user/membersdetail/${memberId}`
+                    );
+                    return response.data;
+                })
+            );
+            setMembers(membersData);
+        } catch (err) {
+            if (axios.isAxiosError(err)) {
+                toast.error(err.response?.data.message);
+            } else {
+                console.error(err);
+            }
+        }
+    };
+    useEffect(() => {
+        // Fetch member details for each member in the group
+
+        fetchMembers();
+    }, []);
+
+    console.log(members);
+
     return (
         <div className="GroupHomeScreen">
             <div className="header">
@@ -60,6 +93,15 @@ export default function GroupHomeScreen(): React.JSX.Element {
                             {store.selectedgroup[0]?.groupName || group}
                         </h3>
                     </div>
+                    <div className="addmemberimage">
+                        <img
+                            src={addmember}
+                            alt=""
+                            onClick={() =>
+                                navigate(`/groups/${groupId}/addGroupMember`)
+                            }
+                        />
+                    </div>
                 </div>
                 <div
                     className={`${
@@ -83,15 +125,16 @@ export default function GroupHomeScreen(): React.JSX.Element {
                         </button>
                         <button
                             className={screen.members ? "selectedbtn" : ""}
-                            onClick={() =>
+                            onClick={() => {
                                 setscreen(() => ({
                                     transation: false,
                                     members: true,
                                     settleup: false,
                                     balances: false,
                                     totals: false,
-                                }))
-                            }
+                                }));
+                                fetchMembers();
+                            }}
                         >
                             Members
                         </button>
@@ -147,19 +190,62 @@ export default function GroupHomeScreen(): React.JSX.Element {
                     {screen.transation ? (
                         <div>transaction</div>
                     ) : screen.members ? (
-                        <div>
-                            members{" "}
-                            <button
-                                type="button"
-                                className="addMemberBtn"
-                                onClick={() =>
-                                    navigate(
-                                        `/groups/${groupId}/addGroupMember`
-                                    )
-                                }
-                            >
-                                Add Group Members
-                            </button>
+                        <div className="memberssccreen">
+                            <div className="memberscontainer">
+                                {members.length == 0 ? (
+                                    <>
+                                        <div className="membercont_s">
+                                            <div className="memberprofilepic"></div>
+                                            <div className="memberusername"></div>
+                                        </div>{" "}
+                                        <div className="membercont_s">
+                                            <div className="memberprofilepic"></div>
+                                            <div className="memberusername"></div>
+                                        </div>{" "}
+                                        <div className="membercont_s">
+                                            <div className="memberprofilepic"></div>
+                                            <div className="memberusername"></div>
+                                        </div>
+                                        <div className="membercont_s">
+                                            <div className="memberprofilepic"></div>
+                                            <div className="memberusername"></div>
+                                        </div>
+                                        <div className="membercont_s">
+                                            <div className="memberprofilepic"></div>
+                                            <div className="memberusername"></div>
+                                        </div>
+                                    </>
+                                ) : (
+                                    members.map((e: Groupmember, index) => (
+                                        <div key={index} className="membercont">
+                                            <div className="memberprofilepic">
+                                                <img
+                                                    src={e.profilePicture}
+                                                    alt="member"
+                                                />
+                                            </div>
+                                            <div className="memberusername">
+                                                {e.userName}
+                                            </div>
+                                            <div className="deletemember">
+                                                <img
+                                                    src={deletes}
+                                                    alt=""
+                                                    onClick={async () =>
+                                                        await store.handleRemoveMember(
+                                                            e.email,
+                                                            store
+                                                                .selectedgroup[0]
+                                                                ._id,
+                                                            navigate
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
                         </div>
                     ) : screen.settleup ? (
                         <div>settleup</div>

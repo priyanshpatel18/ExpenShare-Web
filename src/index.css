@@ -364,6 +364,7 @@ body {
     width: 100%;
     border-radius: 50%;
     aspect-ratio: 1;
+    object-fit: contain;
     cursor: pointer;
     display: block;
 }
@@ -5843,6 +5844,61 @@ body {
     ::-webkit-scrollbar {
         width: 10px; /* Change width as needed */
     }
+
+    .memberssccreen {
+        width: 100%;
+        height: 100%;
+    }
+
+    .memberscontainer {
+        width: 100%;
+        height: 100%;
+    }
+    .membercont {
+        width: 100%;
+        background-color: #e4e4e4;
+        display: flex;
+        align-items: center;
+        height: 80px;
+        /* padding: 30px; */
+        border-radius: 10px;
+        margin: 3px;
+        padding-left: 30px;
+    }
+
+    .membercont:hover {
+        transition: all 0.2s ease-in-out;
+        scale: 1;
+        background-color: #f3f1f1;
+    }
+    .membercont_s {
+        width: 100%;
+        background-color: #e4e4e4;
+        display: flex;
+        align-items: center;
+        height: 80px;
+        /* padding: 30px; */
+        margin: 3px;
+        border-radius: 10px;
+        padding-left: 30px;
+        animation: skeleton-loading 1s linear infinite alternate;
+    }
+    .membercont .memberprofilepic {
+        width: 70px;
+        border-radius: 50%;
+        height: 70px;
+        object-fit: contain;
+        overflow: hidden;
+        display: flex;
+    }
+    .membercont .memberprofilepic img {
+        object-fit: contain;
+        width: 70px;
+    }
+    .memberusername {
+        padding-left: 30px;
+        font-family: "Montserrat", sans-serif;
+    }
 }
 
 /* #=> Notification page styles */
@@ -5898,7 +5954,7 @@ body {
     }
     .GroupHomeScreen .row2_s {
         width: 100%;
-
+        color: transparent;
         height: 100%;
         animation: skeleton-loading 1s linear infinite alternate;
     }
@@ -5995,5 +6051,104 @@ body {
     }
     ::-webkit-scrollbar {
         width: 10px; /* Change width as needed */
+    }
+
+    /* members rendering */
+
+    .memberssccreen {
+        width: 100%;
+        height: 100%;
+    }
+
+    .memberscontainer {
+        width: 100%;
+        height: 100%;
+    }
+    .membercont {
+        width: 100%;
+        background-color: #e4e4e4;
+        display: flex;
+        align-items: center;
+        height: 80px;
+        /* padding: 30px; */
+        border-radius: 10px;
+        margin: 3px;
+        padding-left: 30px;
+    }
+
+    .membercont:hover {
+        transition: all 0.2s ease-in-out;
+        scale: 1;
+        background-color: #f3f1f1;
+    }
+    .membercont_s {
+        width: 100%;
+        background-color: #e4e4e4;
+        display: flex;
+        align-items: center;
+        height: 80px;
+        /* padding: 30px; */
+        margin: 3px;
+        border-radius: 10px;
+        padding-left: 30px;
+        animation: skeleton-loading 1s linear infinite alternate;
+    }
+    .membercont .memberprofilepic {
+        width: 70px;
+        border-radius: 50%;
+        height: 70px;
+        object-fit: contain;
+        overflow: hidden;
+        display: flex;
+    }
+    .membercont .memberprofilepic img {
+        object-fit: contain;
+        width: 70px;
+    }
+    .memberusername {
+        padding-left: 30px;
+        font-family: "Montserrat", sans-serif;
+
+        width: 90%;
+    }
+    .deletemember {
+        width: 10%;
+        background-color: rgb(255, 59, 59);
+        height: 100%;
+        border-bottom-left-radius: 20px;
+        border-top-left-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .deletemember img {
+        width: 50px;
+    }
+    @keyframes tilt-shaking {
+        0% {
+            transform: rotate(0deg);
+        }
+        25% {
+            transform: rotate(5deg);
+        }
+        50% {
+            transform: rotate(0eg);
+        }
+        75% {
+            transform: rotate(-5deg);
+        }
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+    .notificationimage {
+        animation: tilt-shaking 0.3s ease-in-out infinite;
+    }
+    .addmemberimage img {
+        width: 50px;
+    }
+    .addmemberimage {
+        background-color: #f1f1f1;
+        border-radius: 50%;
     }
 }

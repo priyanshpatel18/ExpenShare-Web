@@ -104,6 +104,17 @@ export interface Notification {
     groupName: string;
 }
 
+export interface Groupmember {
+    userName: string;
+    email: string;
+    profilePicture: string;
+    expenses: string;
+}
+
+export interface Groupmembers {
+    members: Groupmember[] | undefined;
+}
+
 interface Store {
     isLoggedIn: boolean | null;
 
