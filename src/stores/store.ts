@@ -112,7 +112,7 @@ interface Store {
 
     // User Data
     userData: UserObject | undefined;
-    setUserData: (userData: UserObject) => void;
+    setUserData: (userData: UserObject | undefined) => void;
     // Transactions
     transactions: TransactionType[] | undefined;
     setTransactions: (transactions: TransactionType[] | undefined) => void;
@@ -201,7 +201,6 @@ interface Store {
 }
 
 export const Store = create<Store>((set) => ({
-    
     // isLoading: false,
     // setIsLoading: (state) => set({ isLoading: state }),
 
