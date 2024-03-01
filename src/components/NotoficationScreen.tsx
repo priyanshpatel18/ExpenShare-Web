@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 //  Images
+import accept from "../assets/accept.png";
 import backButton from "../assets/backButton.png";
-import greenTick from "../assets/greenTick.png";
-import profile from "../assets/profile.png";
+import group from "../assets/defaultGroup.png";
+import reject from "../assets/reject.png";
+import { Store } from "../stores/store";
 
 export default function NotoficationScreen(): React.JSX.Element {
 	const navigate = useNavigate();
+	const store = Store();
+
+	useEffect(() => {
+		store.getNotifications();
+	}, []);
 
 	return (
 		<div className="AddGroupMemberScreen">
@@ -20,40 +27,48 @@ export default function NotoficationScreen(): React.JSX.Element {
 
 			<div className="body">
 				<form className="addGroupMemberForm">
-					<div className="addGroupMembers row2">
-						<div className="userProfile">
-							<div>
-								<div className="profileImg">
-									<img src={profile} alt="" />
+					<div className="notifications row2">
+						{store.notifications.map((notificaion, index) => {
+							return (
+								<div key={index} className="notification">
+									<div className="profile">
+										<img src={group} alt="Group profile" />
+									</div>
+									<div className="message">
+										You've been invited to join <span>{notificaion.groupName}</span>
+									</div>
+
+									<div className="buttons">
+										<button
+											type="button"
+											onClick={() =>
+												store.handleRequest(
+													"accept",
+													notificaion.requestId,
+													notificaion.groupId,
+													navigate,
+												)
+											}
+										>
+											<img src={accept} alt="accept" />
+										</button>
+										<button
+											type="button"
+											onClick={() =>
+												store.handleRequest(
+													"reject",
+													notificaion.requestId,
+													notificaion.groupId,
+													navigate,
+												)
+											}
+										>
+											<img src={reject} alt="reject" />
+										</button>
+									</div>
 								</div>
-								<div className="details">User Name</div>
-							</div>
-							<div className="tickActive">
-								<img src={greenTick} alt="greenTick" />
-							</div>
-						</div>
-						<div className="userProfile">
-							<div>
-								<div className="profileImg">
-									<img src={profile} alt="" />
-								</div>
-								<div className="details">User Name</div>
-							</div>
-							<div className="tick">
-								<img src={greenTick} alt="greenTick" />
-							</div>
-						</div>
-						<div className="userProfile">
-							<div>
-								<div className="profileImg">
-									<img src={profile} alt="" />
-								</div>
-								<div className="details">User Name</div>
-							</div>
-							<div className="tick">
-								<img src={greenTick} alt="greenTick" />
-							</div>
-						</div>
+							);
+						})}
 					</div>
 				</form>
 			</div>
