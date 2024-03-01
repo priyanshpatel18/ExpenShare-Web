@@ -187,8 +187,13 @@ function HomeScreen(): React.JSX.Element {
                         </div>
                         <img
                             src={notification}
-                            width={50}
+                            width={40}
                             alt=""
+                            className={
+                                store.notifications.length === 0
+                                    ? ""
+                                    : "notificationimage"
+                            }
                             onClick={() => navigate("/notofication")}
                         />
                     </div>
