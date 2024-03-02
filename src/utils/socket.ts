@@ -1,13 +1,12 @@
 import { io, Socket } from "socket.io-client";
 
-// Declare socket as a variable
 let socket: Socket;
 
 // Export a function to initialize the socket with a token
 export function initializeSocket(): Socket {
 	if (!socket) {
 		// Instantiate the socket only if it hasn't been initialized
-		socket = io("http://localhost:8080", {
+		socket = io("http://:8080", {
 			query: { token: getTokenFromCookie() },
 		});
 	}
