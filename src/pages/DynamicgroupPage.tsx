@@ -9,6 +9,7 @@ const DynamicgroupPage = () => {
     // const [groupData, setGroupData] = useState<GroupDocument | null>(null); // State to hold the fetched group data
     const navigate = useNavigate();
     const store = Store();
+    
     useEffect(() => {
         async function getUserData() {
             await store.getUserData(navigate);
@@ -19,8 +20,6 @@ const DynamicgroupPage = () => {
 
         getUserData();
     }, []);
-
-    console.log(store.selectedgroup);
 
     return (
         <div className="MainPage">

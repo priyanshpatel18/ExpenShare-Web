@@ -238,7 +238,7 @@ export default function AddTransaction(): React.JSX.Element {
                 className="fullscreeniaemodel"
                 onClick={() => setIsEditing(!isEditing)}
             >
-                <div>
+                <div className="container">
                     <img
                         src={
                             formik.values.invoiceUrl

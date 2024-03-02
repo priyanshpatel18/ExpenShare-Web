@@ -10,6 +10,7 @@ export default function GroupsScreen(): React.JSX.Element {
     const handleGroupClick = (groupId: string) => {
         navigate(`/groups/${groupId}`); // Navigate to the dynamic route with group ID
     };
+    
     return (
         <div className="GroupsScreen">
             <div className="header">

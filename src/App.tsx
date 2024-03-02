@@ -18,6 +18,7 @@ import Settings from "./components/Settings";
 import TearmsConditions from "./pages/TearmsConditions";
 import AddGroupPage from "./pages/AddGroupPage";
 import AddGroupMemberPage from "./pages/AddGroupMemberPage";
+import AddGroupTransaction from "./components/AddGroupTransaction"
 // import GroupHomePage from "./pages/GroupHomePage";
 import NotoficationPage from "./pages/NotoficationPage";
 import { useEffect } from "react";
@@ -39,7 +40,7 @@ function App(): React.JSX.Element {
     const navigate = useNavigate();
 
     const store = Store();
-
+    
     useEffect(() => {
         socket.emit("login");
 
@@ -58,7 +59,7 @@ function App(): React.JSX.Element {
                 groupName: object.groupName,
             };
 
-            console.log(newNotification);
+            console.log("New Notification : ", newNotification);
 
             store.setNotifications([...store.notifications, newNotification]);
         });
@@ -96,12 +97,17 @@ function App(): React.JSX.Element {
             }
         );
 
+        socket.on("newTransaction", (message) => {
+			toast.success(message);
+		});
+
         return () => {
             socket.off("requestReceived");
             socket.off("updateGroup");
             socket.off("removedMember");
         };
     }, [socket, store.isLoggedIn]);
+
     useEffect(() => {
         async function getUserData() {
             await store.getUserData(navigate);
@@ -111,52 +117,39 @@ function App(): React.JSX.Element {
 
         getUserData();
     }, []);
+    
     return (
-        <main>
-            <Routes>
-                <Route path="/registration" element={<RegistrationPage />} />
-                <Route
-                    path="/registerOtpVerificationPage"
-                    element={<RegisterOtpVerificationPage />}
-                />
-                <Route path="/login" element={<LoginPage />} />
-                <Route
-                    path="/forgotPassword"
-                    element={<ForgotPasswordPage />}
-                />
-                <Route
-                    path="/passwordResetOtpVerificationPage"
-                    element={<PasswordResetOtpVerificationPage />}
-                />
-                <Route path="/Addtransactions" element={<AddTransaction />} />
-                <Route
-                    path="/resetPasswordPage"
-                    element={<ResetPasswordPage />}
-                />
-                {/* Protected routes */}
-                <Route path="/" element={<HomePage />} />
-                <Route path="/transactions" element={<TransactionsPage />} />
-                <Route path="/groups" element={<GroupsPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/profile/Report" element={<UserReport />} />
-                <Route path="/profile/account" element={<AccountPage />} />
-                <Route path="/profile/Settings" element={<Settings />} />
-                <Route path="/Tearms" element={<TearmsConditions />}></Route>
-                <Route path="/addGroup" element={<AddGroupPage />}></Route>
-                <Route
-                    path="/groups/:groupId/addGroupMember"
-                    element={<AddGroupMemberPage />}
-                ></Route>
-                {/* <Route path="/groupHome" element={<GroupHomePage />}></Route> */}
-                <Route path="/groups/:groupId" element={<DynamicgroupPage />} />{" "}
-                {/* Dynamic route */}
-                <Route
-                    path="/notofication"
-                    element={<NotoficationPage />}
-                ></Route>
-            </Routes>
-        </main>
-    );
+		<main>
+			<Routes>
+				<Route path="/registration" element={<RegistrationPage />} />
+				<Route path="/registerOtpVerificationPage" element={<RegisterOtpVerificationPage />} />
+				<Route path="/login" element={<LoginPage />} />
+				<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+				<Route
+					path="/passwordResetOtpVerificationPage"
+					element={<PasswordResetOtpVerificationPage />}
+				/>
+				<Route path="/Addtransactions" element={<AddTransaction />} />
+				<Route path="/resetPasswordPage" element={<ResetPasswordPage />} />
+				{/* Protected routes */}
+				<Route path="/" element={<HomePage />} />
+				<Route path="/transactions" element={<TransactionsPage />} />
+				<Route path="/groups" element={<GroupsPage />} />
+				<Route path="/profile" element={<ProfilePage />} />
+				<Route path="/profile/Report" element={<UserReport />} />
+				<Route path="/profile/account" element={<AccountPage />} />
+				<Route path="/profile/Settings" element={<Settings />} />
+				<Route path="/Tearms" element={<TearmsConditions />}></Route>
+				<Route path="/addGroup" element={<AddGroupPage />}></Route>
+				<Route path="/groups/:groupId/addGroupMember" element={<AddGroupMemberPage />}></Route>
+				{/* <Route path="/groupHome" element={<GroupHomePage />}></Route> */}
+				<Route path="/groups/:groupId" element={<DynamicgroupPage />} />{" "}
+				<Route path="/groups/:groupId/addGroupTransaction" element={<AddGroupTransaction />}></Route>
+				{/* Dynamic route */}
+				<Route path="/notofication" element={<NotoficationPage />}></Route>
+			</Routes>
+		</main>
+	);
 }
 
 export default SplashScreen(App);
