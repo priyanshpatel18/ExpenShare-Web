@@ -128,8 +128,8 @@ interface Store {
     transactions: TransactionType[] | undefined;
     setTransactions: (transactions: TransactionType[] | undefined) => void;
     // groups
-    selectedgroup: GroupDocument[] | [];
-    setselectedGroup: (groups: GroupDocument[] | []) => void;
+    selectedgroup: GroupDocument | undefined;
+    setselectedGroup: (groups: GroupDocument | undefined) => void;
     groups: GroupDocument[] | [];
     setGroups: (groups: GroupDocument[]) => void;
     // all users
@@ -222,8 +222,8 @@ export const Store = create<Store>((set) => ({
 
     userData: undefined,
     setUserData: (userData) => set({ userData }),
-    selectedgroup: [],
-    setselectedGroup: (selectedgroup: GroupDocument[]) =>
+    selectedgroup: undefined,
+    setselectedGroup: (selectedgroup: GroupDocument | undefined) =>
         set({ selectedgroup }),
     groups: [],
     setGroups: (groups: GroupDocument[]) => set({ groups }),
