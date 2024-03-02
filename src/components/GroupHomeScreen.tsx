@@ -24,8 +24,9 @@ export default function GroupHomeScreen(): React.JSX.Element {
     // Dependency added to execute when members state changes
     const fetchMembers = async () => {
         try {
+            if (!store.selectedgroup) return;
             const membersData = await Promise.all(
-                store.selectedgroup[0]?.members.map(async (memberId) => {
+                store.selectedgroup?.members.map(async (memberId) => {
                     const response = await axios.get(
                         `/user/membersdetail/${memberId}`
                     );
@@ -57,7 +58,7 @@ export default function GroupHomeScreen(): React.JSX.Element {
                     type="button"
                     onClick={() => {
                         navigate("/groups");
-                        store.setselectedGroup([]);
+                        store.setselectedGroup(undefined);
                     }}
                 >
                     <img src={backButton} alt="backButton" />
@@ -70,27 +71,27 @@ export default function GroupHomeScreen(): React.JSX.Element {
                 <div className="row1">
                     <div
                         className={`${
-                            store.selectedgroup.length == 0
+                            store.selectedgroup === undefined
                                 ? "profile_s"
                                 : "profile"
                         }`}
                     >
                         <img
-                            src={store.selectedgroup[0]?.groupProfile || group}
+                            src={store.selectedgroup?.groupProfile || group}
                             alt="avatar"
                             className="profileImg"
                         />
                     </div>
                     <div
                         className={`${
-                            store.selectedgroup.length == 0
+                            store.selectedgroup === undefined
                                 ? "GroupName_s"
                                 : "GroupName"
                         }`}
                     >
                         <p>Group Name</p>
                         <h3 id="GroupName">
-                            {store.selectedgroup[0]?.groupName || group}
+                            {store.selectedgroup?.groupName || group}
                         </h3>
                     </div>
                     <div className="addmemberimage">
@@ -105,7 +106,7 @@ export default function GroupHomeScreen(): React.JSX.Element {
                 </div>
                 <div
                     className={`${
-                        store.selectedgroup.length == 0 ? "slider_s" : "slider"
+                        store.selectedgroup == undefined ? "slider_s" : "slider"
                     }`}
                 >
                     <div>
@@ -184,7 +185,7 @@ export default function GroupHomeScreen(): React.JSX.Element {
                 </div>
                 <div
                     className={`${
-                        store.selectedgroup.length == 0 ? "row2_s" : "row2"
+                        store.selectedgroup === undefined ? "row2_s" : "row2"
                     }`}
                 >
                     {screen.transation ? (
@@ -231,15 +232,18 @@ export default function GroupHomeScreen(): React.JSX.Element {
                                                 <img
                                                     src={deletes}
                                                     alt=""
-                                                    onClick={async () =>
+                                                    onClick={async () => {
+                                                        if (
+                                                            !store.selectedgroup
+                                                        )
+                                                            return;
                                                         await store.handleRemoveMember(
                                                             e.email,
-                                                            store
-                                                                .selectedgroup[0]
-                                                                ._id,
+                                                            store.selectedgroup
+                                                                ?._id,
                                                             navigate
-                                                        )
-                                                    }
+                                                        );
+                                                    }}
                                                 />
                                             </div>
                                         </div>

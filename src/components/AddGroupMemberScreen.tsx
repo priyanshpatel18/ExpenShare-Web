@@ -38,7 +38,7 @@ export default function AddGroupMemberScreen(): React.JSX.Element {
                             selectedUser.userName === user.userName
                     ) &&
                     user.userName !== store.userData?.userName &&
-                    !store.selectedgroup[0]?.members.some(
+                    !store.selectedgroup?.members.some(
                         (member) => member.userName === user.userName
                     )
             );
@@ -65,8 +65,8 @@ export default function AddGroupMemberScreen(): React.JSX.Element {
     async function handleSendRequest() {
         const data = {
             selectedUsers: selectedUsers.map((user) => user.userName),
-            groupId: store.selectedgroup[0]?._id,
-            groupName: store.selectedgroup[0]?.groupName,
+            groupId: store.selectedgroup?._id,
+            groupName: store.selectedgroup?.groupName,
         };
 
         socket.emit("sendRequest", data);
