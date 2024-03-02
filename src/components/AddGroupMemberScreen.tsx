@@ -15,7 +15,7 @@ export default function AddGroupMemberScreen(): React.JSX.Element {
     const store = Store();
     const [textInput, setTextInput] = useState<string>("");
     const [selectedUsers, setSelectedUsers] = useState<UserObject[]>([]);
-    const [filteredUsers, setFilteredUsers] = useState<UserObject[]>([]);
+    const [filteredUsers, setFilteredUsers] = useState<UserObject[]>([]);    
 
     useEffect(() => {
         async function getAllUsers() {
@@ -100,7 +100,7 @@ export default function AddGroupMemberScreen(): React.JSX.Element {
     return (
 		<div className="AddGroupMemberScreen">
 			<div className="header">
-				<button className="backBtn" type="button" onClick={() => navigate(`/groups/:${groupId}`)}>
+				<button className="backBtn" type="button" onClick={() => navigate(`/groups/${groupId}`)}>
 					<img src={backButton} alt="backButton" />
 				</button>
 
