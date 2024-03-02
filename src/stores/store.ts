@@ -89,14 +89,17 @@ export interface GroupDocumentRequest {
 	category: string;
 }
 export interface GroupDocument {
-	_id: string;
-	groupName: string;
-	groupProfile?: string | undefined;
-	createdBy: UserObject | undefined;
-	members: string[];
-	groupExpenses: TransactionType[];
-	totalExpense: number;
+	balances: number[];
 	category: string;
+	createdBy: string;
+	groupName: string;
+	groupProfile: string;
+	groupTransactions: string[];
+	members: string[];
+	publicId: string;
+	totalExpense: number | null;
+	__v: number;
+	_id: string;
 }
 
 export interface Notification {
@@ -115,14 +118,24 @@ export interface GroupTransactionRequest {
 }
 
 export interface Groupmember {
-    userName: string;
-    email: string;
-    profilePicture: string;
-    expenses: string;
+	userName: string;
+	email: string;
+	profilePicture: string;
+	expenses: string;
 }
 
 export interface Groupmembers {
-    members: Groupmember[] | undefined;
+	members: Groupmember[] | undefined;
+}
+
+export interface GroupTransaction {
+	_id: string,
+	groupId: string,
+	paidBy: string,
+	splitAmoung: string[],
+	category: string,
+	transactionTitle: string,
+	transactionDate: string,
 }
 
 interface Store {
@@ -150,6 +163,9 @@ interface Store {
 	// notifications
 	notifications: Notification[];
 	setNotifications: (notification: Notification[]) => void;
+	// selected gtoup transactions
+	selectedGroupTransactions: GroupTransaction[];
+	setselectedGroupTransactions: (transactions: GroupTransaction[]) => void;
 	// Login
 	handleLogin: (formData: LoginFormValues, redirect: NavigateFunction) => void;
 	// Reset Password
@@ -197,6 +213,8 @@ interface Store {
 	handleRemoveMember: (memberEmail: string, groupId: string, navigation: NavigateFunction) => void;
 	// add group transaction
 	addGroupTransaction: (formData: GroupTransactionRequest) => Promise<boolean>;
+	// get the selcted group transactions
+	getSelectedGroupTransactions: () => void;
 }
 
 export const Store = create<Store>((set) => ({
@@ -226,6 +244,9 @@ export const Store = create<Store>((set) => ({
 
 	notifications: [],
 	setNotifications: (notifications) => set({ notifications }),
+
+	selectedGroupTransactions: [],
+	setselectedGroupTransactions: (transactions) => set({ selectedGroupTransactions: transactions }),
 
 	sendEmailVerificationMail: async (formData, redirect) => {
 		// set({ isLoading: true });
@@ -375,7 +396,7 @@ export const Store = create<Store>((set) => ({
 			await axios
 				.get("/user/getUser")
 				.then((res) => {
-					console.log("userData : ", res.data.userObject);
+					console.log("userData fetched");
 					set({ userData: res.data.userObject });
 				})
 				.catch((err) => {
@@ -569,6 +590,7 @@ export const Store = create<Store>((set) => ({
 	handleFetchGroups: async () => {
 		await axios.get("/group/getAll").then((res) => {
 			set({ groups: res.data.groups });
+			console.log("Group fetched : ", res.data.groups);
 		});
 	},
 
@@ -666,5 +688,30 @@ export const Store = create<Store>((set) => ({
 				// set({ isLoading: false });
 			});
 		return flag;
-	}
+	},
+
+	getSelectedGroupTransactions: async () => {
+		const { selectedgroup } = Store.getState();
+
+    if (!selectedgroup || !selectedgroup.groupTransactions) return;
+		
+		try {
+			console.log("RUN");
+			const Transactions = await Promise.all(
+				selectedgroup?.groupTransactions?.map(async (id) => {
+					const response = await axios.get(`/group/getTransaction/${id}`);					
+					return response.data;
+				}),
+			);
+
+			console.log("Group Transactions Data : ", Transactions);
+			
+		} catch (err) {
+			if (axios.isAxiosError(err)) {
+				toast.error(err.response?.data.message);
+			} else {
+				console.error(err);
+			}
+		}
+	},
 }));

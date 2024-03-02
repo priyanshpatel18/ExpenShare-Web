@@ -48,11 +48,12 @@ export default function GroupHomeScreen(): React.JSX.Element {
 
     useEffect(() => {
         // Fetch member details for each member in the group
-        console.log("selected Group : ", store.selectedgroup);
-
         fetchMembers();
-    }, []);
-
+		store.getSelectedGroupTransactions();
+    }, [store.selectedgroup]);
+	
+	// console.log("selected Group : ", store.selectedgroup);
+	// console.log("selected Group Transactions : ", store.selectedGroupTransactions);
 
     return (
 		<div className="GroupHomeScreen">
