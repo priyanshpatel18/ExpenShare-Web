@@ -1,10 +1,8 @@
-import axios from "axios";
 import { useFormik } from "formik";
 import { motion } from "framer-motion";
-import { LegacyRef, MutableRefObject, useEffect, useRef, useState } from "react";
-import toast from "react-hot-toast";
+import { LegacyRef, MutableRefObject, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { GroupMember, GroupTransactionRequest, Groupmember, Store } from "../stores/store";
+import { GroupMember, GroupTransactionRequest, Store } from "../stores/store";
 // images
 import greenTick from "../assets/greenTick.png";
 import leftarrow from "../assets/leftArrow.png";
@@ -14,7 +12,6 @@ import categoriesWithAssets from "../pages/categories";
 
 export default function AddGroupTransaction(): React.JSX.Element {
 	const { groupId } = useParams<{ groupId?: string }>();
-	const [members, setMembers] = useState<Groupmember[]>([]);
 	const [isEditing, setIsEditing] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
 
@@ -93,29 +90,6 @@ export default function AddGroupTransaction(): React.JSX.Element {
 	const sourceimage = categoriesWithAssets;
 	const filteredCategories = expensecat;
 
-	// Dependency added to execute when members state changes
-	// const fetchMembers = async () => {
-	// 	try {
-	// 		if (!store.selectedgroup) return;
-	// 		const membersData = await Promise.all(
-	// 			store.selectedgroup?.members.map(async (memberId) => {
-	// 				const response = await axios.get(`/user/membersdetail/${memberId}`);
-	// 				return response.data;
-	// 			}),
-	// 		);
-
-	// 		setMembers(membersData);
-	// 		console.log("Group members : ", membersData);
-			
-	// 	} catch (err) {
-	// 		if (axios.isAxiosError(err)) {
-	// 			toast.error(err.response?.data.message);
-	// 		} else {
-	// 			console.error(err);
-	// 		}
-	// 	}
-	// };
-
 	function handleSelectUser(user: GroupMember) {
 		// Check if the user is already in formik.values.splitAmong
 		const isSelected = formik.values.splitAmong.some(
@@ -139,10 +113,6 @@ export default function AddGroupTransaction(): React.JSX.Element {
 			}));
 		}
 	}
-
-	// useEffect(() => {
-	// 	console.log("selected Group : ", store.selectedgroup);
-	// }, []);
 
 	return (
 		<div className="Addtransaction AddGroupTransaction">

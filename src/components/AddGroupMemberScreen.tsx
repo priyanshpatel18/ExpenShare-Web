@@ -40,7 +40,7 @@ export default function AddGroupMemberScreen(): React.JSX.Element {
                     user.userName !== store.userData?.userName 
                     &&
                     !store.selectedgroup?.members.some(
-                        (member) => member === user.userName
+                        (member) => member.userName === user.userName
                     )
             );
 
