@@ -1,7 +1,7 @@
 import React from "react";
 import addButton from "../assets/addButton.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { Store } from "../stores/store";
+import { Store, UserObject } from "../stores/store";
 import categoriesImgs from "../pages/categories";
 
 export default function GroupTransactionScreen(): React.JSX.Element {
@@ -18,8 +18,11 @@ export default function GroupTransactionScreen(): React.JSX.Element {
 					return category.name.toLocaleLowerCase() == expense.category.toLocaleLowerCase();
 				});
 
-				const borrowd = (expense.transactionAmount / (expense.splitAmong.length)).toFixed(2);
-				const lent = (expense.transactionAmount - (expense.transactionAmount / (expense.splitAmong.length))).toFixed(2);
+				const borrowd = (expense.transactionAmount / expense.splitAmong.length).toFixed(2);
+				const lent = (
+					expense.transactionAmount -
+					expense.transactionAmount / expense.splitAmong.length
+				).toFixed(2);
 
 				return (
 					<div key={index} className="transaction">
@@ -41,19 +44,33 @@ export default function GroupTransactionScreen(): React.JSX.Element {
 								paid {expense?.transactionAmount}
 							</p>
 						</div>
-						<div className="amount" style={expense.paidBy?.userName == store.userData?.userName ? {color: "green"} : {color: "red"}}>
-							<div>
-								{expense?.paidBy?.userName == store.userData?.userName ? "You lent" : "You borrowd"}
+						{expense.splitAmong.some(
+							(member: UserObject) => member.userName == store.userData?.userName,
+						) ? (
+							<div
+								className="amount"
+								style={
+									expense.paidBy?.userName == store.userData?.userName
+										? { color: "green" }
+										: { color: "red" }
+								}
+							>
+								<div>
+									{expense?.paidBy?.userName == store.userData?.userName
+										? "You lent"
+										: "You borrowd"}
+								</div>
+								<div>
+									{expense.paidBy?.userName == store.userData?.userName ? lent : borrowd}
+								</div>
 							</div>
-							<div>
-								{expense.paidBy?.userName == store.userData?.userName
-									? lent : borrowd}
-							</div>
-						</div>
+						) : (
+							<div className="amount amountNull">-</div>
+						)}
 					</div>
 				);
 			})}
-			
+
 			<div
 				className="addTransactionBtn"
 				onClick={() => navigate(`/groups/${groupId}/addGroupTransaction`)}

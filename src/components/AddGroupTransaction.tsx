@@ -9,6 +9,7 @@ import leftarrow from "../assets/leftArrow.png";
 import savemoneyy from "../assets/saveimage.jpg";
 import savemoney from "../assets/savemoney.png";
 import categoriesWithAssets from "../pages/categories";
+import toast from "react-hot-toast";
 
 export default function AddGroupTransaction(): React.JSX.Element {
 	const { groupId } = useParams<{ groupId?: string }>();
@@ -77,8 +78,13 @@ export default function AddGroupTransaction(): React.JSX.Element {
 				transactionDate: transactionDate,
 			});
 
+			if (values.splitAmong.length == 0) {
+				toast.error("Select Split")
+				return
+			}
+			
 			console.log("submited values : ", values);
-			const res = await store.addGroupTransaction(values);
+			const res = await store.addGroupTransaction(values, store.selectedgroup?._id as string);
 			if (res) resetForm();
 		},
 	});

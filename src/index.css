@@ -6333,6 +6333,12 @@ body {
     padding-right: 5px;
 }
 
+.GroupTransactionScreen .transaction .amountNull {
+    font-size: 3rem;
+    line-height: 1rem;
+    font-weight: 100;
+}
+
 .GroupTransactionScreen .transaction h3 {
     font-size: 1.1rem;
     overflow-y: scroll;

@@ -51,15 +51,11 @@ function App(): React.JSX.Element {
         socket.on("requestReceived", (object: SocketResponse) => {
             toast.success(object.message);
 
-            console.log("Object : ", object);
-
             const newNotification = {
                 requestId: object.requestId,
                 groupId: object.groupId,
                 groupName: object.groupName,
             };
-
-            console.log("New Notification : ", newNotification);
 
             store.setNotifications([...store.notifications, newNotification]);
         });
@@ -82,6 +78,7 @@ function App(): React.JSX.Element {
                 const updatedGroups = [...oldGroups, group];
                 store.setGroups(updatedGroups);
             }
+            
         });
 
         socket.on(
