@@ -175,7 +175,7 @@ interface Store {
 	setNotifications: (notification: Notification[]) => void;
 
 	// selected gtoup transactions
-	
+
 	selectedGroupTransactions: GroupTransaction[];
 	setselectedGroupTransactions: (transactions: GroupTransaction[]) => void;
 
@@ -202,54 +202,54 @@ interface Store {
 
 	// Get Transactions
 	getTransactions: () => void;
-	
+
 	// Email Verification
 	verifyEmail: (formData: OTPFormValues, redirect: NavigateFunction) => void;
-	
+
 	// OTP Verification
 	verifyOtp: (formData: OTPFormValues, redirect: NavigateFunction) => void;
-	
+
 	// user log out
 	logoutUser: (redirect: NavigateFunction) => void;
-	
+
 	// update user, profile pic and username
 	updateUser: (formData: FormData, redirect: NavigateFunction) => void;
-	
+
 	// Reset Password
 	handleChangePassword: (formData: ResetFormValues) => Promise<boolean>;
-	
+
 	// delete user
 	deleteUser: (redirect: NavigateFunction) => void;
-	
+
 	//update a transaction
 	updateTransaction: (transactionId: string, formData: TransactionRequest1) => Promise<boolean>;
-	
+
 	//delete a transaction
 	deleteTransaction: (transactionId: string) => Promise<boolean>;
-	
+
 	//create a group
 	createGroup: (formData: FormData, redirect: NavigateFunction) => void;
-	
+
 	// fetch groups
 	handleFetchGroups: () => void;
-	
+
 	// get user notifications
 	getNotifications: () => void;
-	
+
 	handleFetchselectedGroups: (params: string | undefined) => void;
-	
+
 	// get all the users
 	getAllUsers: () => void;
-	
+
 	// Handle Request
 	handleRequest: (type: string, requestId: string, groupId: string, navigation: NavigateFunction) => void;
-	
+
 	// Handle Remove Member
 	handleRemoveMember: (memberEmail: string, groupId: string, navigation: NavigateFunction) => void;
-	
+
 	// add group transaction
-	addGroupTransaction: (formData: GroupTransactionRequest) => Promise<boolean>;
-	
+	addGroupTransaction: (formData: GroupTransactionRequest, groupId: string) => Promise<boolean>;
+
 	// get the selcted group transactions
 	getSelectedGroupTransactions: () => void;
 }
@@ -706,11 +706,12 @@ export const Store = create<Store>((set) => ({
 			.finally(() => {});
 	},
 
-	addGroupTransaction: async (formData) => {
+	addGroupTransaction: async (formData, groupId) => {
 		let flag = false;
 		await axios
 			.post("group/addGroupTransaction", formData)
 			.then(() => {
+				socket.emit("addTransaction", { groupId: groupId });
 				toast.success("Transaction added");
 				flag = true;
 				return true;
