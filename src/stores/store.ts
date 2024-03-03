@@ -88,17 +88,20 @@ export interface GroupDocumentRequest {
 	totalExpense: number;
 	category: string;
 }
+
+export interface GroupMember {
+	email: string;
+	profilePicture: string;
+	userId: string;
+	userName: string;
+}
+
 export interface GroupDocument {
-	balances: number[];
-	category: string;
-	createdBy: string;
+	balances: any[]; // You may replace 'any' with the actual type of your balances
+	groupExpenses: any[]; // You may replace 'any' with the actual type of your group expenses
 	groupName: string;
 	groupProfile: string;
-	groupTransactions: string[];
-	members: string[];
-	publicId: string;
-	totalExpense: number | null;
-	__v: number;
+	members: GroupMember[];
 	_id: string;
 }
 
@@ -110,7 +113,8 @@ export interface Notification {
 
 export interface GroupTransactionRequest {
 	groupId: string;
-	splitAmong: Groupmember[];
+	splitAmong: string[]
+	paidBy: string;
 	category: string;
 	transactionTitle: string;
 	transactionAmount: string;
@@ -147,72 +151,105 @@ interface Store {
 	// User Data
 	userData: UserObject | undefined;
 	setUserData: (userData: UserObject | undefined) => void;
+
 	// Transactions
 	transactions: TransactionType[] | undefined;
 	setTransactions: (transactions: TransactionType[] | undefined) => void;
+
 	// groups
 	selectedgroup: GroupDocument | undefined;
 	setselectedGroup: (groups: GroupDocument | undefined) => void;
+
 	groups: GroupDocument[] | [];
 	setGroups: (groups: GroupDocument[]) => void;
+
 	// all users
 	allUsers: UserObject[];
+
 	// active group
 	activeGroup: GroupDocument | undefined;
 	setActiveGroup: (group: GroupDocument) => void;
+
 	// notifications
 	notifications: Notification[];
 	setNotifications: (notification: Notification[]) => void;
+
 	// selected gtoup transactions
+	
 	selectedGroupTransactions: GroupTransaction[];
 	setselectedGroupTransactions: (transactions: GroupTransaction[]) => void;
+
 	// Login
 	handleLogin: (formData: LoginFormValues, redirect: NavigateFunction) => void;
+
 	// Reset Password
 	handleResetPasswrord: (formData: ResetFormValues, redirect: NavigateFunction) => void;
+
 	// Forgot Password Email
 	sendRecoveryMail: (formData: ForgotFormValues, redirect: NavigateFunction) => void;
+
 	// Register
 	handleRegister: (redirect: NavigateFunction) => void;
+
 	// Email Verification Mail
 	sendEmailVerificationMail: (FormData: FormData, redirect: NavigateFunction) => void;
+
 	// Post Transactions
 	addTransaction: (formData: FormData) => Promise<boolean>;
+
 	// Get User
 	getUserData: (redirect: NavigateFunction) => void;
+
 	// Get Transactions
 	getTransactions: () => void;
+	
 	// Email Verification
 	verifyEmail: (formData: OTPFormValues, redirect: NavigateFunction) => void;
+	
 	// OTP Verification
 	verifyOtp: (formData: OTPFormValues, redirect: NavigateFunction) => void;
+	
 	// user log out
 	logoutUser: (redirect: NavigateFunction) => void;
+	
 	// update user, profile pic and username
 	updateUser: (formData: FormData, redirect: NavigateFunction) => void;
+	
 	// Reset Password
 	handleChangePassword: (formData: ResetFormValues) => Promise<boolean>;
+	
 	// delete user
 	deleteUser: (redirect: NavigateFunction) => void;
+	
 	//update a transaction
 	updateTransaction: (transactionId: string, formData: TransactionRequest1) => Promise<boolean>;
+	
 	//delete a transaction
 	deleteTransaction: (transactionId: string) => Promise<boolean>;
+	
 	//create a group
 	createGroup: (formData: FormData, redirect: NavigateFunction) => void;
+	
 	// fetch groups
 	handleFetchGroups: () => void;
+	
 	// get user notifications
 	getNotifications: () => void;
+	
 	handleFetchselectedGroups: (params: string | undefined) => void;
+	
 	// get all the users
 	getAllUsers: () => void;
+	
 	// Handle Request
 	handleRequest: (type: string, requestId: string, groupId: string, navigation: NavigateFunction) => void;
+	
 	// Handle Remove Member
 	handleRemoveMember: (memberEmail: string, groupId: string, navigation: NavigateFunction) => void;
+	
 	// add group transaction
 	addGroupTransaction: (formData: GroupTransactionRequest) => Promise<boolean>;
+	
 	// get the selcted group transactions
 	getSelectedGroupTransactions: () => void;
 }
@@ -320,6 +357,7 @@ export const Store = create<Store>((set) => ({
 			.then((res) => {
 				toast.success(res.data?.message);
 				set({ isLoggedIn: true });
+				socket.emit("login");
 				redirect("/");
 			})
 			.catch((err) => {
@@ -596,6 +634,7 @@ export const Store = create<Store>((set) => ({
 
 	handleFetchselectedGroups: async (params: string | undefined) => {
 		await axios.get(`/group/${params}`).then((res) => {
+			console.log("selected Group : ", res.data );
 			set({ selectedgroup: res.data });
 		});
 	},
@@ -691,27 +730,27 @@ export const Store = create<Store>((set) => ({
 	},
 
 	getSelectedGroupTransactions: async () => {
-		const { selectedgroup } = Store.getState();
+	// 	const { selectedgroup } = Store.getState();
 
-    if (!selectedgroup || !selectedgroup.groupTransactions) return;
+    // if (!selectedgroup || !selectedgroup.groupExpenses) return;
 		
-		try {
-			console.log("RUN");
-			const Transactions = await Promise.all(
-				selectedgroup?.groupTransactions?.map(async (id) => {
-					const response = await axios.get(`/group/getTransaction/${id}`);					
-					return response.data;
-				}),
-			);
+	// 	try {
+	// 		console.log("RUN");
+	// 		const Transactions = await Promise.all(
+	// 			selectedgroup?.groupTransactions?.map(async (id) => {
+	// 				const response = await axios.get(`/group/getTransaction/${id}`);					
+	// 				return response.data;
+	// 			}),
+	// 		);
 
-			console.log("Group Transactions Data : ", Transactions);
+	// 		console.log("Group Transactions Data : ", Transactions);
 			
-		} catch (err) {
-			if (axios.isAxiosError(err)) {
-				toast.error(err.response?.data.message);
-			} else {
-				console.error(err);
-			}
-		}
+	// 	} catch (err) {
+	// 		if (axios.isAxiosError(err)) {
+	// 			toast.error(err.response?.data.message);
+	// 		} else {
+	// 			console.error(err);
+	// 		}
+	// 	}
 	},
 }));

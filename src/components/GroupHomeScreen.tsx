@@ -48,7 +48,7 @@ export default function GroupHomeScreen(): React.JSX.Element {
 
     useEffect(() => {
         // Fetch member details for each member in the group
-        fetchMembers();
+        // fetchMembers();
 		store.getSelectedGroupTransactions();
     }, [store.selectedgroup]);
 	

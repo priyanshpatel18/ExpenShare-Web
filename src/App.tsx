@@ -38,8 +38,8 @@ const socket = initializeSocket();
 
 function App(): React.JSX.Element {
     const navigate = useNavigate();
-
     const store = Store();
+    const email = store.userData?.email;
     
     useEffect(() => {
         socket.emit("login");
@@ -106,7 +106,7 @@ function App(): React.JSX.Element {
             socket.off("updateGroup");
             socket.off("removedMember");
         };
-    }, [socket, store.isLoggedIn]);
+    }, [socket, email]);
 
     useEffect(() => {
         async function getUserData() {
