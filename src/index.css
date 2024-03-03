@@ -604,9 +604,9 @@ body {
     padding: 24px;
     /* color: ; */
 }
-.transaction p {
+/* .transaction p {
     padding: 24px;
-}
+} */
 .group p {
     padding: 24px;
 }
@@ -5714,11 +5714,13 @@ body {
 
 .GroupHomeScreen .row2 {
     flex: 1;
-    max-width: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     overflow: scroll;
+    position: relative;
 }
 
 .GroupHomeScreen .row2::-webkit-scrollbar {
@@ -5741,7 +5743,7 @@ body {
     }
 
     .GroupHomeScreen .body {
-        width: 90vw;
+        width: 95vw;
     }
 
     .GroupHomeScreen .row2 {
@@ -5756,9 +5758,8 @@ body {
 
     .GroupHomeScreen .slider {
         width: 100%;
-
         justify-content: space-between;
-        padding: 17px;
+        padding: 13px;
         overflow: auto;
     }
 
@@ -6144,22 +6145,30 @@ body {
     .notificationimage {
         animation: tilt-shaking 0.3s ease-in-out infinite;
     }
-    .addmemberimage img {
-        width: 50px;
-    }
-    .addmemberimage {
-        background-color: #f1f1f1;
-        border-radius: 50%;
-    }
 }
 
+.addmemberimage img {
+    width: 50px;
+}
+.addmemberimage {
+    background-color: #f1f1f1;
+    border-radius: 50%;
+}
 /* #=> Group Transaction Screen Styles*/
 
 .GroupTransactionScreen {
-    border: 2px solid black;
     width: 100%;
     height: 100%;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    margin-bottom: 100px;
+    padding: 0px;
+}
+
+.GroupTransactionScreen::-webkit-scrollbar{
+    display: none;
 }
 
 .addTransactionBtn {
@@ -6267,3 +6276,73 @@ body {
         max-width: 85vw;
     }
 }       
+
+/* #=> Group Transacttion Screen styles */
+
+.GroupTransactionScreen .transaction {
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 10px;
+    padding-bottom: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.GroupTransactionScreen .transaction .date {
+    flex-basis: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-weight: 700;
+}
+
+.GroupTransactionScreen .transaction .catImage {
+    flex-basis: 14%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+}
+
+.GroupTransactionScreen .transaction .catImage .imgContainer{
+    width: 100%;
+    max-width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--clr-02-primary-gray);
+}
+
+.GroupTransactionScreen .transaction .catImage img {
+    width: 60%;
+}
+
+.GroupTransactionScreen .transaction .amount {
+    flex-basis: 28%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 5px;
+    padding-right: 5px;
+}
+
+.GroupTransactionScreen .transaction h3 {
+    font-size: 1.1rem;
+    overflow-y: scroll;
+}
+
+.GroupTransactionScreen .transaction .title {
+    flex: 1;
+    padding-left: 8px;
+}
+
+.GroupTransactionScreen .transaction .title p{
+    font-weight: 400;
+}

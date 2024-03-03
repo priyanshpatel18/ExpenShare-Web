@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { LegacyRef, MutableRefObject, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
-import { GroupTransactionRequest, Groupmember, Store } from "../stores/store";
+import { GroupMember, GroupTransactionRequest, Groupmember, Store } from "../stores/store";
 // images
 import greenTick from "../assets/greenTick.png";
 import leftarrow from "../assets/leftArrow.png";
@@ -17,9 +17,6 @@ export default function AddGroupTransaction(): React.JSX.Element {
 	const [members, setMembers] = useState<Groupmember[]>([]);
 	const [isEditing, setIsEditing] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
-
-	console.log(groupId);
-	
 
 	const store = Store();
 	const navigate = useNavigate();
@@ -68,7 +65,8 @@ export default function AddGroupTransaction(): React.JSX.Element {
 
 	const formik = useFormik<GroupTransactionRequest>({
 		initialValues: {
-			groupId: groupId?.replace(":", "") as string,
+			groupId: groupId as string,
+			paidBy: "",
 			splitAmong: [],
 			category: categoriesWithAssets[0].name,
 			transactionAmount: "",
@@ -82,7 +80,7 @@ export default function AddGroupTransaction(): React.JSX.Element {
 				transactionDate: transactionDate,
 			});
 
-			console.log(values);
+			console.log("submited values : ", values);
 			const res = await store.addGroupTransaction(values);
 			if (res) resetForm();
 		},
@@ -96,38 +94,38 @@ export default function AddGroupTransaction(): React.JSX.Element {
 	const filteredCategories = expensecat;
 
 	// Dependency added to execute when members state changes
-	const fetchMembers = async () => {
-		try {
-			if (!store.selectedgroup) return;
-			const membersData = await Promise.all(
-				store.selectedgroup?.members.map(async (memberId) => {
-					const response = await axios.get(`/user/membersdetail/${memberId}`);
-					return response.data;
-				}),
-			);
+	// const fetchMembers = async () => {
+	// 	try {
+	// 		if (!store.selectedgroup) return;
+	// 		const membersData = await Promise.all(
+	// 			store.selectedgroup?.members.map(async (memberId) => {
+	// 				const response = await axios.get(`/user/membersdetail/${memberId}`);
+	// 				return response.data;
+	// 			}),
+	// 		);
 
-			setMembers(membersData);
-			console.log("Group members : ", membersData);
+	// 		setMembers(membersData);
+	// 		console.log("Group members : ", membersData);
 			
-		} catch (err) {
-			if (axios.isAxiosError(err)) {
-				toast.error(err.response?.data.message);
-			} else {
-				console.error(err);
-			}
-		}
-	};
+	// 	} catch (err) {
+	// 		if (axios.isAxiosError(err)) {
+	// 			toast.error(err.response?.data.message);
+	// 		} else {
+	// 			console.error(err);
+	// 		}
+	// 	}
+	// };
 
-	function handleSelectUser(user: Groupmember) {
+	function handleSelectUser(user: GroupMember) {
 		// Check if the user is already in formik.values.splitAmong
 		const isSelected = formik.values.splitAmong.some(
-			(selectedUser) => selectedUser.userName === user.userName,
+			(selectedUser) => selectedUser === user?.userId,
 		);
 
 		if (isSelected) {
 			// If selected, remove the user from formik.values.splitAmong
 			const updatedSelectedUsers = formik.values.splitAmong.filter(
-				(selectedUser) => selectedUser.userName !== user.userName,
+				(selectedUser) => selectedUser !== user.userId,
 			);
 			formik.setValues({
 				...formik.values,
@@ -137,17 +135,14 @@ export default function AddGroupTransaction(): React.JSX.Element {
 			// If not selected, add the user to formik.values.splitAmong
 			formik.setValues((prevValues) => ({
 				...prevValues,
-				splitAmong: [...prevValues.splitAmong, user],
+				splitAmong: [...prevValues.splitAmong, user.userId],
 			}));
 		}
 	}
 
-	useEffect(() => {
-		// Fetch member details for each member in the group
-		console.log("selected Group : ", store.selectedgroup);
-
-		fetchMembers();
-	}, []);
+	// useEffect(() => {
+	// 	console.log("selected Group : ", store.selectedgroup);
+	// }, []);
 
 	return (
 		<div className="Addtransaction AddGroupTransaction">
@@ -163,15 +158,23 @@ export default function AddGroupTransaction(): React.JSX.Element {
 				// onClick={() => setIsEditing(!isEditing)}
 			>
 				<div className="selectSplit">
-					<button type="button" className="selectAllBtn">
+					<button
+						type="button"
+						className="selectAllBtn"
+						onClick={() => {
+							formik.setFieldValue("splitAmong", [
+								...(store.selectedgroup?.members ?? []).map((member) => member.userId),
+							]);
+						}}
+					>
 						Select All
 					</button>
 					<div className="memberList">
-						{members.map((member, index) => {
+						{store.selectedgroup?.members.map((member, index) => {
 							return (
 								<div className="member" key={index} onClick={() => handleSelectUser(member)}>
 									<div className="checkBox">
-										{formik.values.splitAmong.includes(member) && (
+										{formik.values.splitAmong.includes(member.userId) && (
 											<img src={greenTick} alt="tick" />
 										)}
 									</div>
@@ -181,7 +184,13 @@ export default function AddGroupTransaction(): React.JSX.Element {
 						})}
 					</div>
 					<div className="buttons">
-						<button type="button" className="cancel" onClick={() => setIsEditing(!isEditing)}>
+						<button
+							type="button"
+							className="cancel"
+							onClick={() => {
+								formik.setFieldValue("splitAmong", []);
+							}}
+						>
 							Cancel
 						</button>
 						<button type="button" className="ok" onClick={() => setIsEditing(!isEditing)}>
@@ -231,11 +240,7 @@ export default function AddGroupTransaction(): React.JSX.Element {
 				</div>
 
 				<div className="transaction-first-part">
-					<div
-						className="tfp-left"
-						ref={myref_left}
-						onClick={() => navigate(`/groups/:${groupId}`)}
-					>
+					<div className="tfp-left" ref={myref_left} onClick={() => navigate(`/groups/${groupId}`)}>
 						<div className="img-layer-01">
 							<div className="img-layer-02">
 								<img src={leftarrow} alt="" />
