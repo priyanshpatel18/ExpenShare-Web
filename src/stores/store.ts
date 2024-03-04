@@ -714,7 +714,7 @@ export const Store = create<Store>((set) => ({
 				socket.emit("addTransaction", { groupId: groupId });
 				toast.success("Transaction added");
 				flag = true;
-				return true;
+				return true;	
 			})
 			.catch((err) => {
 				if (err.response) {

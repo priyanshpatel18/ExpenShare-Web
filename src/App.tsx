@@ -18,7 +18,7 @@ import Settings from "./components/Settings";
 import TearmsConditions from "./pages/TearmsConditions";
 import AddGroupPage from "./pages/AddGroupPage";
 import AddGroupMemberPage from "./pages/AddGroupMemberPage";
-import AddGroupTransaction from "./components/AddGroupTransaction"
+import AddGroupTransaction from "./components/AddGroupTransaction";
 // import GroupHomePage from "./pages/GroupHomePage";
 import NotoficationPage from "./pages/NotoficationPage";
 import { useEffect } from "react";
@@ -27,95 +27,88 @@ import DynamicgroupPage from "./pages/DynamicgroupPage";
 import toast from "react-hot-toast";
 
 interface SocketResponse {
-    message: string;
-    requestId: string;
-    groupName: string;
-    groupId: string;
+	message: string;
+	requestId: string;
+	groupName: string;
+	groupId: string;
 }
 
 // initialize the socket
 const socket = initializeSocket();
 
 function App(): React.JSX.Element {
-    const navigate = useNavigate();
-    const store = Store();
-    const email = store.userData?.email;
-    
-    useEffect(() => {
-        socket.emit("login");
+	const navigate = useNavigate();
+	const store = Store();
+	const email = store.userData?.email;
 
-        socket.on("authError", (error) => {
-            console.error("Authentication error:", error.message);
-        });
+	useEffect(() => {
+		socket.emit("login");
 
-        socket.on("requestReceived", (object: SocketResponse) => {
-            toast.success(object.message);
+		socket.on("requestReceived", (object: SocketResponse) => {
+			toast.success(object.message);
 
-            const newNotification = {
-                requestId: object.requestId,
-                groupId: object.groupId,
-                groupName: object.groupName,
-            };
+			const newNotification = {
+				requestId: object.requestId,
+				groupId: object.groupId,
+				groupName: object.groupName,
+			};
 
-            store.setNotifications([...store.notifications, newNotification]);
-        });
+			store.setNotifications([...store.notifications, newNotification]);
+		});
 
-        socket.on("updateGroup", (data: { group: GroupDocument }) => {
-            const { group } = data;
+		socket.on("removedMember", (data: { groupId: string; message: string }) => {
+			const { message, groupId } = data;
 
-            const oldGroups = store.groups;
-
-            const indexToUpdate = oldGroups.findIndex(
-                (oldGroup) => oldGroup._id === group._id
-            );
-
-            if (indexToUpdate !== -1) {
-                // If the group exists in the store, update it
-                const updatedGroups = [...oldGroups];
-                updatedGroups[indexToUpdate] = group;
-                store.setGroups(updatedGroups);
-            } else {
-                const updatedGroups = [...oldGroups, group];
-                store.setGroups(updatedGroups);
-            }
-            
-        });
-
-        socket.on(
-            "removedMember",
-            (data: { groupId: string; message: string }) => {
-                const { message, groupId } = data;
-
-                const updatedGroups = store.groups.filter(
-                    (group) => group._id !== groupId
-                );
-                store.setGroups(updatedGroups);
-                toast.success(message);
-            }
-        );
-
-        socket.on("newTransaction", (message) => {
+			const updatedGroups = store.groups.filter((group) => group._id !== groupId);
+			store.setGroups(updatedGroups);
 			toast.success(message);
 		});
 
-        return () => {
-            socket.off("requestReceived");
-            socket.off("updateGroup");
-            socket.off("removedMember");
-        };
-    }, [socket, email]);
+		socket.on("newTransaction", (message) => {
+			toast.success(message);
+		});
 
-    useEffect(() => {
-        async function getUserData() {
-            await store.getUserData(navigate);
-            await store.handleFetchGroups();
-            await store.getTransactions();
-        }
+		return () => {
+			socket.off("requestReceived");
+			socket.off("updateGroup");
+			socket.off("removedMember");
+			socket.off("newTransaction");
+		};
+	}, [socket, email]);
 
-        getUserData();
-    }, []);
-    
-    return (
+	useEffect(() => {
+		socket.on("updateGroup", ({ group }) => {
+			const oldGroups: GroupDocument[] = Store.getState().groups;
+
+			const indexToUpdate = oldGroups.findIndex((oldGroup) => oldGroup._id === group._id);
+
+            console.log("updated Group: ", group);
+            
+
+			if (indexToUpdate !== -1) {
+				// Update the group if it exists
+				oldGroups[indexToUpdate] = group;
+				if (store.selectedgroup?._id === group._id) {
+					store.setselectedGroup(group);
+				}
+			} else {
+				oldGroups.push(group);
+			}
+			store.setGroups(oldGroups);
+		});
+	}, [socket, store.selectedgroup]);
+
+	useEffect(() => {
+		async function getUserData() {
+			await store.getUserData(navigate);
+			await store.handleFetchGroups();
+			await store.getTransactions();
+		}
+
+		getUserData();
+	}, []);
+
+	return (
 		<main>
 			<Routes>
 				<Route path="/registration" element={<RegistrationPage />} />

@@ -168,7 +168,11 @@ export default function AddTransaction(): React.JSX.Element {
                 toast.error("not efficient balance");
                 resetForm();
             } else if (values.type == "income") {
-                await store.addTransaction(formData);
+                const flag = await store.addTransaction(formData);
+                if (flag) {
+                    store.setUserData(undefined)
+                    store.getUserData(navigate);
+                }
                 store.setTransactions([
                     {
                         transactionAmount: values.transactionAmount,
@@ -188,7 +192,11 @@ export default function AddTransaction(): React.JSX.Element {
 
                 resetForm();
             } else {
-                await store.addTransaction(formData);
+                 const flag = await store.addTransaction(formData);
+					if (flag) {
+						store.setUserData(undefined);
+						store.getUserData(navigate);
+					}
                 store.setTransactions([
                     {
                         transactionAmount: values.transactionAmount,

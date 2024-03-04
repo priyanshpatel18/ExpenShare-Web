@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Groupmember, Store } from "../stores/store";
 //  Images
-import deletes from "../assets/deleteicon.png";
-import backButton from "../assets/backButton.png";
-import group from "../assets/group.png";
 import axios from "axios";
 import toast from "react-hot-toast";
 import addmember from "../assets/addMember.png";
+import backButton from "../assets/backButton.png";
+import deletes from "../assets/deleteicon.png";
+import group from "../assets/group.png";
 // components
 import GroupTransactionScreen from "../components/GroupTransactionScreen";
 
@@ -25,35 +25,26 @@ export default function GroupHomeScreen(): React.JSX.Element {
     });
 
     // Dependency added to execute when members state changes
-    const fetchMembers = async () => {
-        try {
-            if (!store.selectedgroup) return;
-            const membersData = await Promise.all(
-                store.selectedgroup?.members.map(async (memberId) => {
-                    const response = await axios.get(
-                        `/user/membersdetail/${memberId}`
-                    );
-                    return response.data;
-                })
-            );
-            setMembers(membersData);
-        } catch (err) {
-            if (axios.isAxiosError(err)) {
-                toast.error(err.response?.data.message);
-            } else {
-                console.error(err);
-            }
-        }
-    };
-
-    useEffect(() => {
-        // Fetch member details for each member in the group
-        // fetchMembers();
-		store.getSelectedGroupTransactions();
-    }, [store.selectedgroup]);
-	
-	// console.log("selected Group : ", store.selectedgroup);
-	// console.log("selected Group Transactions : ", store.selectedGroupTransactions);
+    // const fetchMembers = async () => {
+    //     try {
+    //         if (!store.selectedgroup) return;
+    //         const membersData = await Promise.all(
+    //             store.selectedgroup?.members.map(async (memberId) => {
+    //                 const response = await axios.get(
+    //                     `/user/membersdetail/${memberId}`
+    //                 );
+    //                 return response.data;
+    //             })
+    //         );
+    //         setMembers(membersData);
+    //     } catch (err) {
+    //         if (axios.isAxiosError(err)) {
+    //             toast.error(err.response?.data.message);
+    //         } else {
+    //             console.error(err);
+    //         }
+    //     }
+    // };
 
     return (
 		<div className="GroupHomeScreen">
@@ -119,7 +110,7 @@ export default function GroupHomeScreen(): React.JSX.Element {
 									balances: false,
 									totals: false,
 								}));
-								fetchMembers();
+								// fetchMembers();
 							}}
 						>
 							Members
