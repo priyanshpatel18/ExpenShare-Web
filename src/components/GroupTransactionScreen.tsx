@@ -44,8 +44,8 @@ export default function GroupTransactionScreen(): React.JSX.Element {
 								paid {expense?.transactionAmount}
 							</p>
 						</div>
-						{expense.splitAmong.some(
-							(member: UserObject) => member.userName == store.userData?.userName,
+						{expense.splitAmong?.some(
+							(member: UserObject) => member?.userName == store.userData?.userName,
 						) ? (
 							<div
 								className="amount"
