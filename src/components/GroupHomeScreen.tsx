@@ -25,26 +25,26 @@ export default function GroupHomeScreen(): React.JSX.Element {
     });
 
     // Dependency added to execute when members state changes
-    // const fetchMembers = async () => {
-    //     try {
-    //         if (!store.selectedgroup) return;
-    //         const membersData = await Promise.all(
-    //             store.selectedgroup?.members.map(async (memberId) => {
-    //                 const response = await axios.get(
-    //                     `/user/membersdetail/${memberId}`
-    //                 );
-    //                 return response.data;
-    //             })
-    //         );
-    //         setMembers(membersData);
-    //     } catch (err) {
-    //         if (axios.isAxiosError(err)) {
-    //             toast.error(err.response?.data.message);
-    //         } else {
-    //             console.error(err);
-    //         }
-    //     }
-    // };
+    const fetchMembers = async () => {
+        try {
+            if (!store.selectedgroup) return;
+            const membersData = await Promise.all(
+                store.selectedgroup?.members.map(async (memberId) => {
+                    const response = await axios.get(
+                        `/user/membersdetail/${memberId}`
+                    );
+                    return response.data;
+                })
+            );
+            setMembers(membersData);
+        } catch (err) {
+            if (axios.isAxiosError(err)) {
+                toast.error(err.response?.data.message);
+            } else {
+                console.error(err);
+            }
+        }
+    };
 
     return (
 		<div className="GroupHomeScreen">
@@ -110,7 +110,7 @@ export default function GroupHomeScreen(): React.JSX.Element {
 									balances: false,
 									totals: false,
 								}));
-								// fetchMembers();
+								fetchMembers();
 							}}
 						>
 							Members
