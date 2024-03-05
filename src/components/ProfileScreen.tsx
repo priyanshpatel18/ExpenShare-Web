@@ -114,6 +114,7 @@ export default function ProfileScreen(): React.JSX.Element {
                             damping: 17,
                         }}
                         className="Export"
+                        onClick={() => navigate("/profile/Export")}
                     >
                         <div className="Export-icon">
                             <img src={Export} alt="" />

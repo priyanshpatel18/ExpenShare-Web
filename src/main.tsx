@@ -8,7 +8,7 @@ import App from "./App.js";
 import "./index.css";
 
 // axios.defaults.baseURL = "https://expen-share-web-server.vercel.app";
-axios.defaults.baseURL = "http://192.168.43.242:8080";
+axios.defaults.baseURL = "http://localhost:8080";
 
 axios.defaults.withCredentials = true;
 

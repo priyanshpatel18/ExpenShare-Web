@@ -185,17 +185,19 @@ function HomeScreen(): React.JSX.Element {
                             <h2>Welcome,</h2>
                             <div>{store.userData?.userName || "User"}</div>
                         </div>
-                        <img
-                            src={notification}
-                            width={40}
-                            alt=""
-                            className={
-                                store.notifications.length === 0
-                                    ? ""
-                                    : "notificationimage"
-                            }
-                            onClick={() => navigate("/notofication")}
-                        />
+                        <div className="notificationbell_mobile">
+                            <img
+                                src={notification}
+                                width={40}
+                                alt=""
+                                className={
+                                    store.notifications.length === 0
+                                        ? ""
+                                        : "notificationimage"
+                                }
+                                onClick={() => navigate("/notofication")}
+                            />
+                        </div>
                     </div>
 
                     <motion.div
@@ -250,6 +252,19 @@ function HomeScreen(): React.JSX.Element {
                 </div>
 
                 <motion.div className="rightDashbord">
+                    <div className="notificationbell">
+                        <img
+                            src={notification}
+                            width={40}
+                            alt=""
+                            className={
+                                store.notifications.length === 0
+                                    ? ""
+                                    : "notificationimage"
+                            }
+                            onClick={() => navigate("/notofication")}
+                        />
+                    </div>
                     <motion.div
                         whileHover={{ scale: 1 }}
                         whileTap={{ scale: 0.9 }}

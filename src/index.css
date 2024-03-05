@@ -2749,6 +2749,7 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
 }
 
 .HomeScreen .userDashbord .welcomeText {
@@ -2779,6 +2780,13 @@ body {
     color: transparent;
     border-radius: 10px;
 }
+.notificationbell {
+    display: flex;
+    justify-content: end;
+    align-items: flex-end;
+    width: 100%;
+    padding-right: 50px;
+}
 .rightDashbord {
     display: flex;
     align-items: center;
@@ -2786,6 +2794,7 @@ body {
     width: 100%;
     height: 100%;
 }
+
 .HomeScreen .userDashbord .welcomeText .profilePic {
     display: none;
 }
@@ -3149,6 +3158,25 @@ body {
 }
 
 /* incomes/expenses inner components styles */
+@media screen and (max-width: 820px) {
+    .notificationbell_mobile {
+        display: flex;
+    }
+    .notificationbell_mobile img {
+        display: flex;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+    }
+    .leftDashbord_part {
+        display: flex;
+    }
+}
+@media screen and (min-width: 820px) {
+    .notificationbell_mobile {
+        display: none;
+    }
+}
 
 @media screen and (max-width: 820px) {
     /* # - main page & inner two components styles */
@@ -3766,6 +3794,7 @@ body {
     .fullscreeniaemodel div img {
         width: 100%;
         border-radius: 20px;
+        scale: 0.5;
     }
 
     /* chart */
@@ -5819,7 +5848,7 @@ body {
     }
 
     .GroupHomeScreen .slider .selectedbtn {
-        width: 27%;
+        width: 17%;
         margin: 7px;
         padding: 10px;
         border-radius: 10px;
@@ -6167,7 +6196,7 @@ body {
     padding: 0px;
 }
 
-.GroupTransactionScreen::-webkit-scrollbar{
+.GroupTransactionScreen::-webkit-scrollbar {
     display: none;
 }
 
@@ -6242,7 +6271,6 @@ body {
 
 .AddGroupTransaction .selectSplit .memberList {
     margin: 20px 0px;
-
 }
 
 .AddGroupTransaction .selectSplit .member {
@@ -6261,7 +6289,7 @@ body {
     aspect-ratio: 1;
 }
 
-.AddGroupTransaction .selectSplit .member .checkBox img{
+.AddGroupTransaction .selectSplit .member .checkBox img {
     width: 100%;
     display: block;
 }
@@ -6275,7 +6303,7 @@ body {
         width: 350px;
         max-width: 85vw;
     }
-}       
+}
 
 /* #=> Group Transacttion Screen styles */
 
@@ -6308,7 +6336,7 @@ body {
     padding: 5px;
 }
 
-.GroupTransactionScreen .transaction .catImage .imgContainer{
+.GroupTransactionScreen .transaction .catImage .imgContainer {
     width: 100%;
     max-width: 50px;
     aspect-ratio: 1;
@@ -6349,6 +6377,183 @@ body {
     padding-left: 8px;
 }
 
-.GroupTransactionScreen .transaction .title p{
+.GroupTransactionScreen .transaction .title p {
     font-weight: 400;
+}
+
+@media screen and (max-width: 820px) {
+    /* .BalanceScreen {
+        width: 100%;
+        height: 100%;
+    }
+    .userBalancesecond div img {
+        width: 100%;
+        border-radius: 50%;
+        aspect-ratio: 1;
+        object-fit: contain;
+        cursor: pointer;
+        display: block;
+    } */
+    .userBalancesecond {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid;
+    }
+    .userbalancethird {
+        display: flex;
+        align-items: center;
+    }
+
+    .userBalanceContainer {
+        width: 100%;
+        height: 100%;
+        border-bottom-color: #ccc;
+        border-bottom-width: 1;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    .userBalance {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        justify-content: space-between;
+    }
+    .profilePicture {
+        height: 40px;
+        width: 40px;
+        border-radius: 30px;
+        border-color: #222;
+        border-width: 2px;
+    }
+    .balanceText {
+        color: "#222";
+        font-size: 13px;
+        max-width: 102%;
+        width: 135%;
+        display: flex;
+        margin-left: 10px;
+    }
+    .balanceText p {
+        padding-left: 4px;
+        display: flex;
+        gap: 2px;
+    }
+    .dropDownIcon {
+        width: 25px;
+        height: 25px;
+    }
+    .balanceContainer {
+        margin-top: 10px;
+        width: 100%;
+    }
+    .dropDownUser {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10;
+        margin-left: 30px;
+        margin-bottom: 10px;
+    }
+    .dropDownProfile {
+        height: 30px;
+        width: 30px;
+        border-radius: 20px;
+        border-color: #222;
+        border-width: 1.5px;
+    }
+    .dropDownText {
+        color: #777;
+        max-width: 70%;
+        display: flex;
+        font-size: 10px;
+    }
+    /* .userBalancesecond .profilepic {
+        width: 90px;
+    } */
+}
+
+@media screen and (min-width: 820px) {
+    .userBalancesecond {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid;
+    }
+    .userbalancethird {
+        display: flex;
+        align-items: center;
+    }
+
+    .userBalanceContainer {
+        width: 100%;
+        height: 100%;
+        border-bottom-color: #ccc;
+        border-bottom-width: 1;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    .userBalance {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        justify-content: space-between;
+    }
+    .profilePicture {
+        height: 40px;
+        width: 40px;
+        border-radius: 30px;
+        border-color: #222;
+        border-width: 2px;
+    }
+    .balanceText {
+        color: "#222";
+        font-size: 13px;
+        max-width: 102%;
+        width: 135%;
+        display: flex;
+        margin-left: 10px;
+    }
+    .balanceText p {
+        padding-left: 4px;
+        display: flex;
+        gap: 2px;
+    }
+    .dropDownIcon {
+        width: 25px;
+        height: 25px;
+    }
+    .balanceContainer {
+        margin-top: 10px;
+        width: 100%;
+    }
+    .dropDownUser {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10;
+        margin-left: 30px;
+        margin-bottom: 10px;
+    }
+    .dropDownProfile {
+        height: 30px;
+        width: 30px;
+        border-radius: 20px;
+        border-color: #222;
+        border-width: 1.5px;
+    }
+    .dropDownText {
+        color: #777;
+        max-width: 70%;
+        display: flex;
+        font-size: 10px;
+    }
 }
