@@ -773,6 +773,7 @@ export const Store = create<Store>((set) => ({
             .finally(() => {});
     },
 
+<<<<<<< HEAD
     addGroupTransaction: async (formData, groupId) => {
         let flag = false;
         await axios
@@ -796,6 +797,31 @@ export const Store = create<Store>((set) => ({
             });
         return flag;
     },
+=======
+	addGroupTransaction: async (formData, groupId) => {
+		let flag = false;
+		await axios
+			.post("group/addGroupTransaction", formData)
+			.then(() => {
+				socket.emit("addTransaction", { groupId: groupId });
+				toast.success("Transaction added");
+				flag = true;
+				return true;	
+			})
+			.catch((err) => {
+				if (err.response) {
+					toast.error(err.response?.data?.message);
+					return false;
+				}
+				toast.error("Internal server error");
+				return false;
+			})
+			.finally(() => {
+				// set({ isLoading: false });
+			});
+		return flag;
+	},
+>>>>>>> 2e3fc6db603557d3ec7bd8a878fd48cb82000eac
 
     getSelectedGroupTransactions: async () => {
         // 	const { selectedgroup } = Store.getState();

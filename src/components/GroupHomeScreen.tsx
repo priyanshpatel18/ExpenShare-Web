@@ -1,16 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+<<<<<<< HEAD
 import { GroupUser, Store } from "../stores/store";
 //  imgs
 import deletes from "../assets/deleteicon.png";
 import backButton from "../assets/backButton.png";
 import group from "../assets/group.png";
+=======
+import { Groupmember, Store } from "../stores/store";
+//  Images
+>>>>>>> 2e3fc6db603557d3ec7bd8a878fd48cb82000eac
 import axios from "axios";
 import droupup from "../assets/dropUp.png";
 import toast from "react-hot-toast";
 
 import defaultuser from "../assets/profile.png";
 import addmember from "../assets/addMember.png";
+import backButton from "../assets/backButton.png";
+import deletes from "../assets/deleteicon.png";
+import group from "../assets/group.png";
 // components
 import GroupTransactionScreen from "../components/GroupTransactionScreen";
 
@@ -49,6 +57,7 @@ export default function GroupHomeScreen(): React.JSX.Element {
     //     }
     // };
 
+<<<<<<< HEAD
     useEffect(() => {
         // Fetch member details for each member in the group
         // fetchMembers();
@@ -73,6 +82,8 @@ export default function GroupHomeScreen(): React.JSX.Element {
     // console.log("selected Group : ", store.selectedgroup);
     // console.log("selected Group Transactions : ", store.selectedGroupTransactions);
 
+=======
+>>>>>>> 2e3fc6db603557d3ec7bd8a878fd48cb82000eac
     return (
         <div className="GroupHomeScreen">
             <div className="header">
